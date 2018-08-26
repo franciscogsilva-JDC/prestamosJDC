@@ -13,7 +13,7 @@ return [
     |Push notifications firebase server key
     |-------------------------------
     |*/
-    'push_notifications_key' => 'AAAAx28mwe0:APA91bFe_FxgGPGD3vP9YCXVV_2ZHLxqtav--q14MKlTusmFrFc54Fj13NPTrF8JHy0tc9udpUt2lfnDDKXgqEH23A1y4ERGA-os0pojr-_YAQs6P-hUb0LpMhuQ17DmBRKIuNvpYfkZm5ZYI2dQOk75cO5pRVbiBg',
+    'push_notifications_key' => 'AAAAP4fWpxI:APA91bHzG9IenmfLImuVHYnRpVy0Jtg43Y1QrSi5AR6bv0b66HUTi0g-klegYb2flmjzH3sq0_k7uaGplSF97ujYqtts4OK67-BbTI7vqvNqom5E_8DeUC6KJb0tpfk9lHIa2fKZjAEZ',
 
     /*
     |-----------------------------------------
