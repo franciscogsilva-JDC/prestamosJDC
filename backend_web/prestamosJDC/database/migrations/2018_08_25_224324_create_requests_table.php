@@ -24,8 +24,8 @@ class CreateRequestsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->integer('responsable_id')->unsigned();
-            $table->foreign('responsable_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('responsible_id')->unsigned();
+            $table->foreign('responsible_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->integer('request_type_id')->unsigned();
             $table->foreign('request_type_id')->references('id')->on('request_types');

@@ -22,11 +22,11 @@ class CreateAuthorizationsTable extends Migration
             $table->integer('authorization_status_id')->unsigned();
             $table->foreign('authorization_status_id')->references('id')->on('authorization_statuses')->onDelete('cascade');
 
-            $table->integer('approved_by_id')->unsigned()->nullable();
-            $table->foreign('approved_by_id')->references('id')->on('users');
+            $table->integer('approved_by')->unsigned()->nullable();
+            $table->foreign('approved_by')->references('id')->on('users');
 
-            $table->integer('received_by_id')->unsigned()->nullable();
-            $table->foreign('received_by_id')->references('id')->on('users');
+            $table->integer('received_by')->unsigned()->nullable();
+            $table->foreign('received_by')->references('id')->on('users');
 
             $table->softDeletes();
             $table->timestamps();
