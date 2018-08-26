@@ -18,8 +18,8 @@ class CreateHeadquartersTable extends Migration
             $table->string('name');
             $table->string('address');
 
-            $table->integer('city_id')->unsigned();
-            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
+            $table->integer('town_id')->unsigned();
+            $table->foreign('town_id')->references('id')->on('towns')->onDelete('cascade');
             
             $table->softDeletes();
             $table->timestamps();

@@ -40,6 +40,9 @@ class CreateUsersTable extends Migration
             $table->integer('gender_id')->unsigned();
             $table->foreign('gender_id')->references('id')->on('genders');
 
+            $table->integer('town_id')->unsigned()->nullable();
+            $table->foreign('town_id')->references('id')->on('towns')->onDelete('cascade');
+
             $table->string('confirmation_code')->nullable();
             $table->timestamp('confirmed_at')->nullable();
             $table->timestamp('logged_at')->nullable();
