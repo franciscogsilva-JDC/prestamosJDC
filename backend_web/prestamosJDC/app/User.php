@@ -90,4 +90,8 @@ class User extends Authenticatable
         $this->logged_at = Carbon::now();
         $this->save();
     }
+
+    public function isAdmin(){
+        return $this->type->name === 'Administrador';
+    }
 }
