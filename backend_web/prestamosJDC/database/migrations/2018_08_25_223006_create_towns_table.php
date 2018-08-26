@@ -15,10 +15,12 @@ class CreateCitiesTable extends Migration
     {
         Schema::create('towns', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
 
             $table->integer('departament_id')->unsigned();
             $table->foreign('departament_id')->references('id')->on('departaments')->onDelete('cascade');
+            
+            $table->integer('code')->nullable();
+            $table->string('name');
 
             $table->timestamps();
         });
