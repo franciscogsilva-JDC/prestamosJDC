@@ -22,7 +22,7 @@ class ProgramController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        $programs = Program::search(
+        $programs = Program::withTrashed()->search(
             $request->name,
             $request->program_type_id,
             $request->dependency_id,
@@ -151,18 +151,28 @@ class ProgramController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id){
-        //
+    public function destroy($id, $type=false){
+        $program = $this->validateProgram($id);
+        if($program->deleted_at){
+            $program->restore();
+            $message = 'Habilitado';
+        }else{
+            $program->delete();
+            $message = 'Inhabilitado';
+        }
+        if(!$type){
+            return redirect()->route('programs.index')
+                ->with('session_msg', 'El programa se ha '.$message.' correctamente');
+        }             
     }
     
     public function destroyMulti(Request $request){
         if(isset($request->items_to_delete)){
             foreach ($request->items_to_delete as $item) {
-                $this->destroy(Program::find($item), true);
-            }
-            
+                $this->destroy($item, true);
+            }            
             return redirect()->route('programs.index')
-                ->with('session_msg', 'Los programas, se han inhabilitado correctamente');
+                ->with('session_msg', 'Los programas, se han Habilitado/Inhabilitado correctamente');
         }else{            
             return redirect()->route('programs.index');
         }
@@ -191,7 +201,7 @@ class ProgramController extends Controller
 
     private function validateProgram($id){
         try {
-            $program = Program::findOrFail($id);            
+            $program = Program::withTrashed()->findOrFail($id);            
         }catch (ModelNotFoundException $e){
             $errors = collect(['El programa con ID '.$id.' no se encuentra.']);
             return back()

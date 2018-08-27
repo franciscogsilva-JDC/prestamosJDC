@@ -71,7 +71,7 @@
 						<div class="row row-delete-all">							
 							<div class="btn red darken-3 right" id="multipleDelete" onclick="multiDelete()">Inhabilitar Varios</div>							
 							<div class="btn red darken-3 right cancel_multipleDelete" id="cancel_multipleDelete" onclick="cancel_multipleDelete()" style="display: none;"><i class="material-icons">clear</i></div>
-							{!! Form::submit('Inhabilitar', ['class' => 'btn red darken-3 right', 'onclick' => 'return confirm("¿Desea borrar las publicaciones seleccionadas?")', 'id' => 'multiDeleteAction', 'style' => 'display: none;']) !!}	
+							{!! Form::submit('Inhabilitar', ['class' => 'btn red darken-3 right', 'onclick' => 'return confirm("¿Desea Habilitar/Inhabilitar los programas seleccionados? Si un programa se encuentra INHABILITADO, pasará a estar HABILITADO con este método")', 'id' => 'multiDeleteAction', 'style' => 'display: none;']) !!}	
 						</div>
 			     		<table class="highlight striped">
 							<thead>
@@ -102,10 +102,10 @@
 												<br>
 											@endif
 										</td>
-										<td id="td-sector" class="center-align">
+										<td id="td-sector">
 											@if($program->deleted_at)
-												<span class="badge red badge-status-factory center-text">Inhabilitado</span>
-												<p>{{ ucwords($program->deleted_at->format('F d\\, Y')) }}</p>
+												<span class="badge red badge-status-factory center-align">Inhabilitado</span><br>
+												<p class="date-deleted-at">{{ ucwords($program->deleted_at->format('F d\\, Y')) }}</p>
 											@else
 												<span class="badge green badge-status-factory center-text">Activo</span>
 											@endif
@@ -116,7 +116,11 @@
 	      										<label for="input_{{$program->id}}"></label>
 											</div>
 		                					{!! Form::close() !!}
-											<a href="{{ route('programs.destroy', $program->id) }}" onclick="return confirm('¿Desea Inhabilitar el programa?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">delete</i></a>
+											@if(!$program->deleted_at)
+												<a href="{{ route('programs.destroy', $program->id) }}" onclick="return confirm('¿Desea Inhabilitar el programa?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">visibility_off</i></a>
+											@else
+												<a href="{{ route('programs.destroy', $program->id) }}" onclick="return confirm('¿Desea Habilitar el programa?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">visibility</i></a>
+											@endif
 											<a href="{{ route('programs.edit', $program->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit"><i class="material-icons">create</i></a>
 										</td>
 									</tr>

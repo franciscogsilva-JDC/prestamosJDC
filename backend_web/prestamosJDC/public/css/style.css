@@ -1448,3 +1448,8 @@ div {
     .clear-fgs-message i{        
         font-size: 18px !important;
     }
+
+    .date-deleted-at{        
+        margin-top: 4px;
+        font-size: 11px;
+    }
