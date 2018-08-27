@@ -10,7 +10,7 @@
 						<div class="row row-search-fgs">
 							<div class="file-field input-field col s12 m12 l9 input-search-fgs">
 								<div class="file-path-wrapper path-wrapper-fgs center-text">
-									<input id="title" type="text" class="validate" name="title">
+									<input id="name" type="text" class="validate" name="name">
 									<label class="label-search-fgs" for="icon_prefix">Buscar programa por Nombre</label>
 								</div>
 							</div>
@@ -82,44 +82,44 @@
 							</thead>
 							<tbody>
 								@foreach($programs as $program)
-								<tr>									
-									<td>{{ $program->name }}</td>
-									<td>
-										<b>Dependencia: </b> {{ $program->dependecy->name }}<br>
-										<b>Tipo: </b> {{ $program->type->name }}<br>
-										@if(isset($program->workingDays))}
-											<b>Jornada: </b>
-											@foreach($program->workingDays as $working)
-												{{ $working->name }} - 
-											@endforeach()
-											<br>
-										@endif
-										@if(isset($program->modalities))}
-											<b>Jornada: </b>
-											@foreach($program->modalities as $modality)
-												{{ $modality->name }} - 
-											@endforeach()
-											<br>
-										@endif
-									</td>
-									<td id="td-sector" class="center-align">
-										@if($program->deleted_at)
-											<span class="badge red badge-status-factory center-text">Inhabilitado</span>
-											<p>{{ ucwords($program->deleted_at->format('F d\\, Y')) }}</p>
-										@else
-											<span class="badge green badge-status-factory center-text">Activo</span>
-										@endif
-									</td>
-									<td class="td-fgs center-align">
-										<div class="btn multi_input_delete" style="display: none;">
-											<input name="items_to_delete[]" type="checkbox" class="filled-in filled-in-fgs" id="input_{{$program->id}}" value="{{$program->id}}"/>
-      										<label for="input_{{$program->id}}"></label>
-										</div>
-	                					{!! Form::close() !!}
-										<a href="{{ route('programs.destroy', $program->id) }}" onclick="return confirm('¿Desea Inhabilitar el programa?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">delete</i></a>
-										<a href="{{ route('programs.edit', $program->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit"><i class="material-icons">create</i></a>
-									</td>
-								</tr>
+									<tr>									
+										<td>{{ $program->name }}</td>
+										<td>
+											<b>Dependencia: </b> {{ $program->dependency->name }}<br>
+											<b>Tipo: </b> {{ $program->type->name }}<br>
+											@if(isset($program->workingDays))
+												<b>Jornada: </b>
+												@foreach($program->workingDays as $working)
+													{{ $working->name }} - 
+												@endforeach()
+												<br>
+											@endif
+											@if(isset($program->modalities))
+												<b>Modalidad: </b>
+												@foreach($program->modalities as $modality)
+													{{ $modality->name }} - 
+												@endforeach()
+												<br>
+											@endif
+										</td>
+										<td id="td-sector" class="center-align">
+											@if($program->deleted_at)
+												<span class="badge red badge-status-factory center-text">Inhabilitado</span>
+												<p>{{ ucwords($program->deleted_at->format('F d\\, Y')) }}</p>
+											@else
+												<span class="badge green badge-status-factory center-text">Activo</span>
+											@endif
+										</td>
+										<td class="td-fgs center-align">
+											<div class="btn multi_input_delete" style="display: none;">
+												<input name="items_to_delete[]" type="checkbox" class="filled-in filled-in-fgs" id="input_{{$program->id}}" value="{{$program->id}}"/>
+	      										<label for="input_{{$program->id}}"></label>
+											</div>
+		                					{!! Form::close() !!}
+											<a href="{{ route('programs.destroy', $program->id) }}" onclick="return confirm('¿Desea Inhabilitar el programa?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">delete</i></a>
+											<a href="{{ route('programs.edit', $program->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit"><i class="material-icons">create</i></a>
+										</td>
+									</tr>
 								@endforeach
 							</tbody>
 						</table>
