@@ -4,7 +4,7 @@
 	<meta charset="utf-8" />
 	<link rel="icon" type="image/png" sizes="96x96" href="{{ asset('/img/system32/icon.png') }}">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>{{ $title_page }}</title>
+	<title>{{ env('APP_NAME') }} - {{ $title_page }}</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
     <link href="{{ asset('plugins/materialize/css/materialize.min.css') }}" rel="stylesheet"/>

@@ -309,8 +309,12 @@ div {
         background-color: #b71c1c !important;
     }
 
+    .btn-fgs-edit{
+        background-color: #ff9800 !important;
+    }
+
     .btn-fgs-edit:hover{
-        background-color: #00897b !important;
+        background-color: #D88113  !important;
     }
 
     .card-panel-search-fgs{        
@@ -1435,4 +1439,12 @@ div {
     .progress-fgs{
         height: 20px;
         margin: 0px 6px !important;
+    }
+
+    .clear-fgs-message{
+        color: #FFFFFF !important;
+    }
+
+    .clear-fgs-message i{        
+        font-size: 18px !important;
     }
