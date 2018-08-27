@@ -13,7 +13,7 @@ class User extends Authenticatable
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $table = 'resources';
+    protected $table = 'users';
 
     protected $fillable = [
         'name',
