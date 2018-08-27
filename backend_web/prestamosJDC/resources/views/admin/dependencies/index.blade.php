@@ -60,7 +60,7 @@
 											<b>Responsables: </b><br>
 											@foreach($dependency->attendants as $attendant)												
 												{{ $attendant->name }}<br>
-												<p class="date-deleted-at">{{ $attendant->email }}</p>
+												<span class="date-deleted-at">{{ $attendant->email }}</span><br>
 											@endforeach()
 										</td>
 										<td id="td-logo" class="center-align">
