@@ -85,7 +85,7 @@
 									<tr>									
 										<td>{{ $program->name }}</td>
 										<td>
-											<b>Dependencia: </b> {{ $program->dependency->name }}<br>
+											<b>Dependencia: </b> <a href="{{ route('dependencies.index', ['search' => $program->dependency->name]) }}">{{ $program->dependency->name }}</a><br>
 											<b>Tipo: </b> {{ $program->type->name }}<br>
 											@if(isset($program->workingDays))
 												<b>Jornada: </b>
@@ -102,7 +102,7 @@
 												<br>
 											@endif
 										</td>
-										<td id="td-sector">
+										<td id="td-logo">
 											@if($program->deleted_at)
 												<span class="badge red badge-status-factory center-align">Inhabilitado</span><br>
 												<p class="date-deleted-at">{{ ucwords($program->deleted_at->format('F d\\, Y')) }}</p>

@@ -41,7 +41,7 @@
     </li>
     <li>
         <div class="menu-item-fgs valign-wrapper">
-            <a href="" {{ $menu_item == 7 ? 'class=active-fgs' : '' }}><i class="material-icons">device_hub</i>Dependencias</a>         
+            <a href="{{ route('dependencies.index') }}" {{ $menu_item == 7 ? 'class=active-fgs' : '' }}><i class="material-icons">device_hub</i>Dependencias</a>         
         </div>
     </li>
     <li>

@@ -29,7 +29,7 @@ class ProgramController extends Controller
             $request->working_day_id,
             $request->modality_id
         )->orderBy('created_at', 'DESC')
-            ->paginate(20)
+            ->paginate(config('prestamosjdc.items_per_page_paginator'))
             ->appends('name', $request->name)
             ->appends('program_type_id', $request->program_type_id)
             ->appends('dependency_id', $request->dependency_id)
