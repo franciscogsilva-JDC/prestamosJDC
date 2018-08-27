@@ -110,7 +110,7 @@ div {
 
     @media only screen and (max-width : 992px) {
         .right-fgs-bar{
-            background-color: #212121;
+            background-color: #303030;
             box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);        
         }        
 
@@ -175,7 +175,7 @@ div {
     }
 
     .active-fgs{
-        background: #009688 !important;
+        background: #0e5796 !important;
         color: #fff !important;
         box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
     }
@@ -201,7 +201,7 @@ div {
     }
 
     .dropdown-content-fgs li a:hover{ 
-        background: #009688 !important;
+        background: #0e5796 !important;
         color: #fff !important;
     }
 
@@ -351,7 +351,7 @@ div {
     }
 
     .pagination li.active{
-        background-color: #009688;
+        background-color: #0e5796;
     }
 
     .card-badge-fgs{
@@ -668,16 +668,26 @@ div {
     }
 
     .btn-search-fgs{
+        background-color: #0e5796 !important;
         margin: 15px 0px 0px 0px !important;
         height: 3rem;        
     }
 
+    .btn-search-fgs:hover{        
+        background-color: #074174 !important;
+    }
+
     .btn-fgs-filter{
+        background-color: #0e5796 !important;
         width: 7.333333% !important;
         margin: 15px 0px 0px 5px !important;
         height: 3rem;
         line-height: 3.1rem;
         padding: 0px !important;
+    }
+
+    .btn-fgs-filter:hover{        
+        background-color: #074174 !important;
     }
 
     .icon-filter{
@@ -710,8 +720,12 @@ div {
         display: none;
     }
 
+    .create-new-fgs{
+        background-color: #357420 !important;
+    } 
+
     .create-new-fgs:hover{
-        background-color: #2e7d32 !important;
+        background-color: #4ca030 !important;
     } 
 
     .create-new-fgs i{
@@ -836,7 +850,7 @@ div {
 */
 
     #fgs-section-header>nav {
-        background-color: #009688;
+        background-color: #0e5796;
     }
 
     .image-brand-fgs-container{
@@ -882,7 +896,7 @@ div {
     }
 
     nav {
-        background-color: #212121;
+        background-color: #303030;
     }
 
     nav i.material-icons {
@@ -1061,11 +1075,11 @@ div {
     }
 
     .page-footer {
-        background-color: #212121 !important;
+        background-color: #303030 !important;
     }
 
     .page-footer .footer-copyright {
-        background-color: rgba(51, 51, 51, 0.43);
+        background-color: #3d3d3d;
     }
 
     .btn-login{

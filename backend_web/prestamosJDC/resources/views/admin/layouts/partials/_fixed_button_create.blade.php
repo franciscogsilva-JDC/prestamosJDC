@@ -1,8 +1,8 @@
 	<?php
 		$route = "";
 		switch ($menu_item) {
-		    case 1:
-		    	$route = '';
+		    case 8:
+		    	$route = route('programs.create');
 		        break;
 		}
 	?>

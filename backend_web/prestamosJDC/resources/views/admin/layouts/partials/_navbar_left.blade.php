@@ -1,6 +1,6 @@
 <ul id="slide-out" class="side-nav fixed side-nav-fgs">
     <li>
-        <div class="brand-sidenav-fgs valign-wrapper center-align" style="background-color: #212121;">
+        <div class="brand-sidenav-fgs valign-wrapper center-align" style="background-color: #303030;">
             <a href="{{ route('home') }}">
                 <img class="responsive-img logo-fgs" src="{{ asset('img/system32/logo-CMS.png') }}">
             </a>
@@ -15,7 +15,7 @@
     <li><div class="divider-fgs"></div></li>
     <li>
         <div class="menu-item-fgs valign-wrapper">
-            <a href="" {{ $menu_item == 2 ? 'class=active-fgs' : '' }}><i class="material-icons">assignment</i>Solicitudes</a>         
+            <a href="" {{ $menu_item == 2 ? 'class=active-fgs' : '' }}><i class="material-icons">assignment</i>Solicitudes</a>
         </div>
     </li>
     <li>
@@ -46,7 +46,7 @@
     </li>
     <li>
         <div class="menu-item-fgs valign-wrapper">
-            <a href="" {{ $menu_item == 8 ? 'class=active-fgs' : '' }}><i class="material-icons">school</i>Programas</a>         
+            <a href="{{ route('programs.index') }}" {{ $menu_item == 8 ? 'class=active-fgs' : '' }}><i class="material-icons">school</i>Programas</a>         
         </div>
     </li>
     <li><div class="divider-fgs"></div></li>
