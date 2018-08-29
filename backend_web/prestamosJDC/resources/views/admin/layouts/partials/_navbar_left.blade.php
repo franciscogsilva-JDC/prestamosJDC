@@ -36,7 +36,7 @@
     </li>
     <li>
         <div class="menu-item-fgs valign-wrapper">
-            <a href="" {{ $menu_item == 6 ? 'class=active-fgs' : '' }}><i class="material-icons">category</i>Recursos</a>         
+            <a href="{{ route('resources.index') }}" {{ $menu_item == 6 ? 'class=active-fgs' : '' }}><i class="material-icons">category</i>Recursos</a>         
         </div>
     </li>
     <li>

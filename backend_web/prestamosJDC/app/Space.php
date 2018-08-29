@@ -39,7 +39,7 @@ class Space extends Model
         return $this->belongsTo('App\SpaceType', 'space_type_id');
     }
 
-    public function status{
+    public function status(){
         return $this->belongsTo('App\SpaceStatus', 'space_status_id');
     }
 
