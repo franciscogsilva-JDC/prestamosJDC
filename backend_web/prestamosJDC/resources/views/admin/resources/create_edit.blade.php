@@ -125,6 +125,20 @@
 										</select>
 										<label for="physical_state_id">Estado Físico del Recurso</label>
 									</div>
+									<div class="input-field col s12 m6 l6">
+										<i class="material-icons prefix">domain</i>
+										<select class="icons" name="spaces[]" multiple>
+											<option value="" disabled selected>Selecciona el/los espacios del recurso</option>
+											@foreach($spaces as $space)
+												@if(isset($resource))
+													<option value="{{ $space->id }}" {{in_array($space->id, $resource->spaces->pluck('id')->ToArray())?'selected=selected':''}}>{{ $space->name }}</option>
+												@else
+													<option value="{{ $space->id }}">{{ $space->name }}</option>		
+												@endif
+											@endforeach
+										</select>
+										<label for="spaces">Espacios</label>
+									</div>
 				                </div>
 			                    <div class="buttonpanel-edit center-align">
 			                        <a href="{{ route('resources.index') }}" class="btn waves-effect waves-light grey" onclick="return confirm('¿Desea cancelar la creación del Recurso?')">Cancelar</a>              

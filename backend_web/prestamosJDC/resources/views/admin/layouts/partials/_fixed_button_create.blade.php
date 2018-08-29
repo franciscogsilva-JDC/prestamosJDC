@@ -1,6 +1,9 @@
 	<?php
 		$route = "";
 		switch ($menu_item) {
+		    case 5:
+		    	$route = route('spaces.create');
+		        break;
 		    case 6:
 		    	$route = route('resources.create');
 		        break;

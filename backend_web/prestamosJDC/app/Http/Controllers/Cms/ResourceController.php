@@ -10,6 +10,7 @@ use App\ResourceCategory;
 use App\ResourceStatus;
 use App\ResourceType;
 use App\Space;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Image;
 
@@ -71,8 +72,10 @@ class ResourceController extends Controller
         $dependencies       =   Dependency::orderBy('name', 'ASC')->get();
         $resourceCategories =   ResourceCategory::orderBy('name', 'ASC')->get();
         $physicalStates     =   PhysicalState::orderBy('name', 'ASC')->get();
+        $spaces             =   Space::orderBy('name', 'ASC')->get();
 
         return view('admin.resources.create_edit')
+            ->with('spaces', $spaces)
             ->with('resourceStatuses', $resourceStatuses)
             ->with('resourceTypes', $resourceTypes)
             ->with('dependencies', $dependencies)
@@ -102,6 +105,8 @@ class ResourceController extends Controller
 
         $resource = new Resource();
         $this->setResource($resource, $request);
+
+        $resource->spaces()->attach($request->spaces);
 
         return redirect()->route('resources.index')
             ->with('session_msg', 'Se ha creado correctamente el recurso.');
@@ -153,6 +158,9 @@ class ResourceController extends Controller
 
         $resource = $this->validateResource($id);
         $this->setResource($resource, $request);
+        
+        $resource->spaces()->detach();
+        $resource->spaces()->attach($request->spaces);
 
         return redirect()->route('resources.index')
             ->with('session_msg', '¡El recurso, se ha editado correctamente!');
@@ -190,7 +198,7 @@ class ResourceController extends Controller
             $resource->image = asset('/img/resources/'.$nameImg);
             $resource->image_thumbnail = asset('/img/resources/'.$nameImg_thumbnail);
         }
-                
+
         return $resource->save();
     }
 
