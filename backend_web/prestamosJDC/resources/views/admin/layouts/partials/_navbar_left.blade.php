@@ -26,7 +26,7 @@
     <li><div class="divider-fgs"></div></li>
     <li>
         <div class="menu-item-fgs valign-wrapper">
-            <a href="" {{ $menu_item == 4 ? 'class=active-fgs' : '' }}><i class="material-icons">group</i>Usuarios</a>         
+            <a href="{{ route('users.index') }}" {{ $menu_item == 4 ? 'class=active-fgs' : '' }}><i class="material-icons">group</i>Usuarios</a>         
         </div>
     </li>
     <li>

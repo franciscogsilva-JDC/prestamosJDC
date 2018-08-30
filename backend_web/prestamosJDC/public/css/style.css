@@ -1453,3 +1453,7 @@ div {
         margin-top: 4px;
         font-size: 11px;
     }
+
+    .minitem{        
+        margin: 0px !important;
+    }

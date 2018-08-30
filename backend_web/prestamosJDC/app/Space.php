@@ -63,7 +63,10 @@ class Space extends Model
         }if(!empty($building_id)){
             $query = $query->where('building_id', $building_id);
         }if(!empty($headquarter_id)){
-            $query = $query->where('headquarter_id', $headquarter_id);
+            $query = $query->where('headquarter_id', $headquarter_id)
+                ->orWhereHas('building', function($query) use($headquarter_id){
+                    $query->where('headquarter_id', $headquarter_id);
+                });
         }
 
         return $query;

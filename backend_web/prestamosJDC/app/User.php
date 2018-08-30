@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Jenssegers\Date\Date;
 
 class User extends Authenticatable
 {
@@ -93,5 +94,47 @@ class User extends Authenticatable
 
     public function isAdmin(){
         return $this->type->name === 'Administrador';
+    }
+
+    public function scopeSearch($query, $search, $user_type_id, $user_status_id, $dependency_id, $gender_id, $town_id){
+        if(!empty($search)){
+            $query = $query->where('name', 'LIKE', "%$search%")
+                ->orWhere('email', 'LIKE', "%$search%")
+                ->orWhere('dni', 'LIKE', "%$search%")
+                ->orWhere('company_name', 'LIKE', "%$search%");
+        }if(!empty($user_type_id)){
+            $query = $query->where('user_type_id', $user_type_id);
+        }if(!empty($user_status_id)){
+            $query = $query->where('user_status_id', $user_status_id);
+        }if(!empty($dependency_id)){
+            $query = $query->where('dependency_id', $dependency_id);
+        }if(!empty($gender_id)){
+            $query = $query->where('gender_id', $gender_id);
+        }if(!empty($town_id)){
+            $query = $query->where('town_id', $town_id);
+        }
+
+        return $query;
+    }
+
+    public function getCreatedAtAttribute($date){
+        if($date == null){
+            return null;
+        }
+        return new Date($date);       
+    }
+
+    public function getUpdatedAtAttribute($date){
+        if($date == null){
+            return null;
+        }
+        return new Date($date);
+    }
+
+    public function getDeletedAtAttribute($date){
+        if($date == null){
+            return null;
+        }
+        return new Date($date);
     }
 }

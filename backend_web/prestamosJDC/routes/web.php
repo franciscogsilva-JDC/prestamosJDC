@@ -42,6 +42,7 @@ Route::group(['prefix'=>'admin', 'middleware' => ['web','auth','admin']], functi
 		include_once 'cms/programs.php';
 		include_once 'cms/resources.php';
 		include_once 'cms/spaces.php';
+		include_once 'cms/users.php';
     });
 
 });

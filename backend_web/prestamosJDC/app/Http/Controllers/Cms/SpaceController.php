@@ -148,8 +148,7 @@ class SpaceController extends Controller
         $space->property_type_id    =   $request->property_type_id;
         $space->building_id         =   $request->building_id;
         $space->headquarter_id      =   $request->headquarter_id;
-        $space->save();
-                
+                        
         return $space->save();
     }
 
