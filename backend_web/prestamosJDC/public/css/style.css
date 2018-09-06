@@ -1457,3 +1457,7 @@ div {
     .minitem{        
         margin: 0px !important;
     }
+
+    .required-input{
+        color: red !important;
+    }

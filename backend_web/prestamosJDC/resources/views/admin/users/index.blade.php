@@ -104,7 +104,7 @@
 										</td>
 										<td>
 											@if(isset($user->company_name))
-												<b>Empresa: </b> {{ $user->company_name }}
+												<b>Empresa: </b> {{ $user->company_name }}<br>
 											@elseif(isset($user->dependency))
 												<b>Dependencia: </b><a href="{{ route('dependencies.index', ['search' => $user->dependency->name]) }}">{{ $user->dependency->name }}</a><br>
 											@elseif(isset($user->attendedDependencies))
@@ -115,7 +115,7 @@
 												<br>
 											@endif
 											@if(isset($user->town))
-												<b>Municipio: </b> {{ $user->town->name }}
+												<b>Municipio: </b> {{ $user->town->name }}<br>
 											@endif
 											<b>Tipo: </b> {{ $user->type->name }}<br>
 										</td>

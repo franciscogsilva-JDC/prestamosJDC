@@ -34,6 +34,8 @@ Route::get('/register/verify/{confirmation_code}', 'Auth\AuthController@verify')
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/cities', 'HomeController@getCities')->name('cities');
+
 Route::group(['prefix'=>'admin', 'middleware' => ['web','auth','admin']], function () {
 	
 	Route::namespace('Cms')->group(function(){

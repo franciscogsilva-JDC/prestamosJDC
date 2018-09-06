@@ -7,12 +7,16 @@ use App\Dependency;
 use App\DniType;
 use App\Gender;
 use App\Http\Controllers\Controller;
+use App\Mail\PasswordUserEmail;
+use App\Mail\VerificationEmail;
 use App\Town;
 use App\User;
 use App\UserStatus;
 use App\UserType;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Image;
 
 class UserController extends Controller
 {
@@ -91,6 +95,12 @@ class UserController extends Controller
     public function store(Request $request){
 
         $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
+
+        $this->validate($request, $this->getValidationEmailRule($request), $this->getValidationEmailMessage($request));
+
+        if($request->user_type_id == 3){
+            $this->validate($request, $this->getValidationSemesterRule($request), $this->getValidationSemesterMessage($request));
+        }
         
         if($request->file('image')){
             $rules = [
@@ -100,10 +110,19 @@ class UserController extends Controller
             $this->validate($request, $rules);
         }
 
-        $resource = new Resource();
-        $this->setResource($resource, $request);
+        $user = new User();
+        $generatedPassword = str_random(8);
+        $this->setUser($user, $request, $generatedPassword);
+        $user->confirmation_code = str_random(100);
+        $user->save();
 
-        $resource->spaces()->attach($request->spaces);
+        if($user->user_type_id == 1 || $user->user_type_id == 4){
+            $user->attendedDependencies()->attach($request->dependencies);
+        }
+
+        //Mail::to($user->email)->send(new VerificationEmail($user));
+
+        //Mail::to($user->email)->send(new PasswordUserEmail($user, $generatedPassword));
 
         return redirect()->route('users.index')
             ->with('session_msg', 'Se ha creado correctamente el usuario.');
@@ -126,7 +145,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $resource = $this->validateResource($id);
+        $user = $this->validateResource($id);
         $userstatuses   =   userstatus::orderBy('name', 'ASC')->get();
         $resourceTypes      =   ResourceType::orderBy('name', 'ASC')->get();
         $dependencies       =   Dependency::orderBy('name', 'ASC')->get();
@@ -163,8 +182,8 @@ class UserController extends Controller
             $this->validate($request, $rules);
         }
 
-        $resource = $this->validateResource($id);
-        $this->setResource($resource, $request);
+        $user = $this->validateResource($id);
+        $this->setUser($user, $request);
         
         $resource->spaces()->detach();
         $resource->spaces()->attach($request->spaces);
@@ -173,40 +192,50 @@ class UserController extends Controller
             ->with('session_msg', '¡El usuario, se ha editado correctamente!');
     }
 
-    private function setResource($resource, $request){
-        $resource->name                 =   $request->name;
-        $resource->reference            =   $request->reference;
-        $resource->description          =   $request->description;
-        $resource->resource_type_id     =   $request->resource_type_id;        
-        $resource->resource_status_id   =   $request->resource_status_id;
-        $resource->dependency_id        =   $request->dependency_id;
-        $resource->resource_category_id =   $request->resource_category_id;
-        $resource->physical_state_id    =   $request->physical_state_id;
-        $resource->save();
+    private function setUser($user, $request, $generatedPassword=null){
+        $user->name             =   $request->name;
+        $user->email            =   $request->email;
+        if($generatedPassword){
+            $user->password = bcrypt($generatedPassword);
+        }
+        $user->dni              =   $request->dni;
+        $user->company_name     =   $request->company_name;
+        $user->cellphone_number =   $request->cellphone_number;
+        $user->semester         =   $request->semester;
+        $user->user_type_id     =   $request->user_type_id;
+        $user->user_status_id   =   $request->user_status_id;
+        $user->dni_type_id      =   $request->dni_type_id;
+        $user->dependency_id    =   $request->dependency_id;
+        $user->gender_id        =   $request->gender_id;
+        $user->town_id          =   $request->town_id;
+        $user->save();
 
         if ($request->file('image')) {
-            if($resource->image) {
-                if(file_exists(public_path().str_replace(env('APP_URL'), '/', $resource->image))){
-                    unlink(public_path().str_replace(env('APP_URL'), '/', $resource->image));
-                    unlink(public_path().str_replace(env('APP_URL'), '/', $resource->image_thumbnail));
+            if($user->image) {
+                if(file_exists(public_path().str_replace(env('APP_URL'), '/', $user->image))){
+                    unlink(public_path().str_replace(env('APP_URL'), '/', $user->image));
+                    unlink(public_path().str_replace(env('APP_URL'), '/', $user->image_thumbnail));
                 }
             }
             $file       =   $request->file('image');
-            $nameImg    =   'prestamosjdc_resource_'.$resource->id.'_'.time().'.'.$file->getClientOriginalExtension();
+            $nameImg    =   'prestamosjdc_user_'.$user->id.'_'.time().'.'.$file->getClientOriginalExtension();
             $path       =   public_path().'/img/users/';
             $file->move($path, $nameImg);
 
             $thumbnail = Image::make($path.$nameImg)->resize(200, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
-            $nameImg_thumbnail = 'prestamosjdc_resource_'.$resource->id.'_'.time().'_thumbnail'.'.'.$file->getClientOriginalExtension();
+            $nameImg_thumbnail = 'prestamosjdc_user_'.$user->id.'_'.time().'_thumbnail'.'.'.$file->getClientOriginalExtension();
             $thumbnail->save($path.$nameImg_thumbnail);
 
-            $resource->image = asset('/img/users/'.$nameImg);
-            $resource->image_thumbnail = asset('/img/users/'.$nameImg_thumbnail);
+            $user->image = asset('/img/users/'.$nameImg);
+            $user->image_thumbnail = asset('/img/users/'.$nameImg_thumbnail);
+        }else{
+            $user->image            =   asset('/img/system32/icon.png');
+            $user->image_thumbnail  =   asset('/img/system32/icon.png');
         }
 
-        return $resource->save();
+        return $user->save();
     }
 
     /**
@@ -216,12 +245,12 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id, $type=false){
-        $resource = $this->validateResource($id);
-        if($resource->deleted_at){
-            $resource->restore();
+        $user = $this->validateUser($id);
+        if($user->deleted_at){
+            $user->restore();
             $message = 'Habilitado';
         }else{
-            $resource->delete();
+            $user->delete();
             $message = 'Inhabilitado';
         }
         if(!$type){
@@ -242,26 +271,58 @@ class UserController extends Controller
         }
     }
 
+    private function getValidationEmailRule($request){
+        return [
+            'email' => 'required|email|unique:users'
+        ];
+    }
+
+    private function getValidationSemesterRule($request){
+        return [
+            'semester' => 'required|numeric'
+        ];
+    }
+
+    private function getValidationSemesterMessage($request){
+        return [
+            'semester.required' => 'El semestre del usuario es obligatorio',
+            'semester.numeric' => 'El semestre del usuario debe ser un número'
+        ];
+    }
+
+    private function getValidationEmailMessage($request){
+        return [
+            'email.required'    =>  'El email del Usuario es obligatorio',
+            'email.email'       =>  'El campo email debe ser un Correo Electrónico',
+            'email.unique'      =>  'El email ingresado ya se encuentra en uso'
+        ];
+    }
+
     private function getValidationRules($request){
         return [
-            'name'                  =>  'required|min:3',
-            'resource_status_id'    =>  'required',
-            'resource_type_id'      =>  'required',
-            'dependency_id'         =>  'required',
-            'resource_category_id'  =>  'required',
-            'physical_state_id'     =>  'required'
+            'name'              =>  'required|min:3',
+            'dni'               =>  'required|numeric|unique:users',
+            'cellphone_number'  =>  'required|numeric',
+            'user_type_id'      =>  'required',
+            'user_status_id'    =>  'required',
+            'dni_type_id'       =>  'required',
+            'gender_id'         =>  'required'
         ];
     }
 
     private function getValidationMessages($request){
         return [
-            'name.required'                 =>  'El nombre del usuario es obligatorio',
-            'name.min'                      =>  'El nombre del usuario debe contener al menos 3 caracteres.',
-            'resource_status_id.required'   =>  'El estado del usuario es obligatorio',
-            'resource_type_id.required'     =>  'El tipo del usuario es obligatorio',
-            'dependency_id.required'        =>  'La dependenca del usuario es obligatoria',
-            'resource_category_id.required' =>  'La categoria del usuario es obligatoria',
-            'physical_state_id.required'    =>  'El estado físico del usuario es obligatorio'
+            'name.required'             =>  'El nombre del usuario es obligatorio',
+            'name.min'                  =>  'El nombre del usuario debe contener al menos 3 caracteres.',
+            'dni.required'              =>  'El número de documento de identidad del usuario es obligatorio',
+            'dni.numeric'               =>  'El número de documento de identidad del usuario debe ser un número',
+            'dni.unique'                =>  'El número de documento de identidad del usuario ya se encuentra en uso',
+            'cellphone_number.required' =>  'El número telefonico del usuario es obligatorio',
+            'cellphone_number.numeric'  =>  'El número telefonico del usuario debe ser un número',
+            'user_type_id.required'     =>  'El tipo de usuario es obligatoria',
+            'user_status_id.required'   =>  'El estado del usuario es obligatoria',
+            'dni_type_id.required'      =>  'El tipo de documento de identidad del usuario es obligatorio',
+            'gender_id.required'        =>  'El genero del usuario es obligatorio'
         ];
     }
 
