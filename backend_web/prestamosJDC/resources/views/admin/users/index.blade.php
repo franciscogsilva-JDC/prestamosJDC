@@ -85,7 +85,7 @@
 						</div>
 			     		<table class="highlight striped">
 							<thead>
-								<th>Nombre</th>
+								<th id="td-logo">Image</th>
 								<th>Datos</th>
 								<th id="td-logo">Estado</th>
 								<th id="td-logo">Inhabilitado</th>
@@ -94,15 +94,12 @@
 							<tbody>
 								@foreach($users as $user)
 									<tr>									
-										<td>
-											{{ $user->name }}<br>
-											<p class="date-deleted-at minitem">{{ $user->email }}</p>
-											<p class="date-deleted-at minitem">{{ $user->dni }}</p>
-											<p class="date-deleted-at minitem">{{ $user->cellphone_number }}</p>
-											<p class="date-deleted-at minitem">{{ $user->gender?$user->gender->name:'Sin genero' }}</p>
+										<td id="td-logo">
 											<img class="factory-logo-fgs responsive-img circle materialboxed" src="{{ $user->image }}">
 										</td>
 										<td>
+											{{ $user->name }}<br>
+											<p class="date-deleted-at minitem">{{ $user->email }}</p><br>
 											@if(isset($user->company_name))
 												<b>Empresa: </b> {{ $user->company_name }}<br>
 											@elseif(isset($user->dependency))

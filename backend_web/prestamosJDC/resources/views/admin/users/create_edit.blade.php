@@ -42,7 +42,7 @@
 											<option value="" disabled selected>Selecciona el Tipo de Documento</option>
 											@foreach($dniTypes as $type)
 												@if(isset($user))
-													<option value="{{ $type->id }}" {{$type->id===$user->type->id?'selected=selected':''}}>{{ $type->name }}</option>
+													<option value="{{ $type->id }}" {{$type->id===$user->dniType->id?'selected=selected':''}}>{{ $type->name }}</option>
 												@else 
 													<option value="{{ $type->id }}">{{ $type->name }}</option>
 												@endif
@@ -92,7 +92,9 @@
 											<option value="" disabled selected>Selecciona la/las dependencias a cargo</option>
 											@foreach($dependencies as $dependency)
 												@if(isset($user))
-													<option value="{{ $dependency->id }}" {{in_array($dependency->id, $user->attendedDependencies->pluck('dependency_id')->ToArray())?'selected=selected':''}}>{{ $dependency->name }}</option>
+													@if($user->attendedDependencies)
+														<option value="{{ $dependency->id }}" {{in_array($dependency->id, $user->attendedDependencies->pluck('dependency_id')->ToArray())?'selected=selected':''}}>{{ $dependency->name }}</option>
+													@endif
 												@else
 													<option value="{{ $dependency->id }}">{{ $dependency->name }}</option>		
 												@endif
@@ -116,7 +118,9 @@
 											<option value="" disabled selected>Selecciona la Dependencia</option>
 											@foreach($dependencies as $dependency)
 												@if(isset($user))
-													<option value="{{ $dependency->id }}" {{$dependency->id===$user->dependency->id?'selected=selected':''}}>{{ $dependency->name }}</option>
+													@if($user->dependency)
+														<option value="{{ $dependency->id }}" {{$dependency->id===$user->dependency->id?'selected=selected':''}}>{{ $dependency->name }}</option>
+													@endif
 												@else 
 													<option value="{{ $dependency->id }}">{{ $dependency->name }}</option>
 												@endif
@@ -158,7 +162,9 @@
 											<option value="" disabled selected>Selecciona el Departamento</option>
 											@foreach($departaments as $departament)
 												@if(isset($user))
-													<option value="{{ $departament->id }}" {{$departament->id===$user->departament->id?'selected=selected':''}}>{{ $departament->name }}</option>
+													@if($user->town)
+														<option value="{{ $departament->id }}" {{$departament->id===$user->town->departament->id?'selected=selected':''}}>{{ $departament->name }}</option>
+													@endif
 												@else 
 													<option value="{{ $departament->id }}">{{ $departament->name }}</option>
 												@endif
@@ -169,18 +175,26 @@
 									<div id="town_div" class="input-field col s12 m6 l6">
 										<i class="material-icons prefix">place</i>
 										<select id="town_id" class="icons" name="town_id">
-											<option value="" disabled selected>Primero Selecciona un Departamento</option>											
+											@if(isset($user))
+												@if($user->town)
+													@foreach($towns as $town)
+														<option value="{{ $town->id }}" {{$town->id===$user->town->id?'selected=selected':''}}>{{ $town->name }}</option>
+													@endforeach
+												@endif 
+											@else
+												<option value="" disabled selected>Primero Selecciona un Departamento</option>
+											@endif
 										</select>
 										<label for="town_id">Municipio del Usuario</label>
 									</div>
 				                </div>
 			                    <div class="buttonpanel-edit center-align">
 			                        <a href="{{ route('users.index') }}" class="btn waves-effect waves-light grey" onclick="return confirm('¿Desea cancelar la creación del Usuario?')">Cancelar</a>              
-			                      @if(isset($user))
-			                        {!! Form::submit('Editar', ['class' => 'btn waves-effect btn-fgs-edit postulation-btn', 'id' => 'postulation-btn']) !!}
-			                      @else 
-			                        {!! Form::submit('Crear', ['class' => 'btn waves-effect btn-fgs-edit postulation-btn', 'id' => 'postulation-btn']) !!}
-			                      @endif
+									@if(isset($user))
+										{!! Form::submit('Editar', ['class' => 'btn waves-effect btn-fgs-edit postulation-btn', 'id' => 'postulation-btn']) !!}
+									@else 
+										{!! Form::submit('Crear', ['class' => 'btn waves-effect btn-fgs-edit postulation-btn', 'id' => 'postulation-btn']) !!}
+									@endif
 									<div class="postulate-preloader" id="postulate-preloader" style="display: none;">
 										<div class="preloader-wrapper big active">
 											<div class="spinner-layer spinner-red-only">

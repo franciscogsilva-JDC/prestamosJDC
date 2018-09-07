@@ -95,8 +95,8 @@ class UserController extends Controller
     public function store(Request $request){
 
         $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
-
         $this->validate($request, $this->getValidationEmailRule($request), $this->getValidationEmailMessage($request));
+        $this->validate($request, $this->getValidationDniRule($request), $this->getValidationDniMessage($request));
 
         if($request->user_type_id == 3){
             $this->validate($request, $this->getValidationSemesterRule($request), $this->getValidationSemesterMessage($request));
@@ -145,21 +145,25 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $user = $this->validateResource($id);
-        $userstatuses   =   userstatus::orderBy('name', 'ASC')->get();
-        $resourceTypes      =   ResourceType::orderBy('name', 'ASC')->get();
-        $dependencies       =   Dependency::orderBy('name', 'ASC')->get();
-        $resourceCategories =   ResourceCategory::orderBy('name', 'ASC')->get();
-        $physicalStates     =   PhysicalState::orderBy('name', 'ASC')->get();
+        $user = $this->validateUser($id);
+        $dniTypes       =   DniType::orderBy('name', 'ASC')->get();
+        $userTypes      =   UserType::orderBy('name', 'ASC')->get();
+        $dependencies   =   Dependency::orderBy('name', 'ASC')->get();
+        $userStatuses   =   UserStatus::orderBy('name', 'ASC')->get();
+        $genders        =   Gender::orderBy('name', 'ASC')->get();
+        $departaments   =   Departament::orderBy('name', 'ASC')->get();
+        $towns          =   $user->departament_id?Town::where('departament_id', $user->departament_id)->orderBy('name', 'ASC')->get():Town::orderBy('name', 'ASC')->get();
 
         return view('admin.users.create_edit')
-            ->with('resource', $resource)
-            ->with('userstatuses', $userstatuses)
-            ->with('resourceTypes', $resourceTypes)
+            ->with('user', $user)
+            ->with('dniTypes', $dniTypes)
+            ->with('userTypes', $userTypes)
             ->with('dependencies', $dependencies)
-            ->with('resourceCategories', $resourceCategories)
-            ->with('physicalStates', $physicalStates)
-            ->with('title_page', 'Editar usuario: '.$resource->name)
+            ->with('userStatuses', $userStatuses)
+            ->with('genders', $genders)
+            ->with('departaments', $departaments)
+            ->with('towns', $towns)
+            ->with('title_page', 'Editar usuario: '.$user->name)
             ->with('menu_item', $this->menu_item);
     }
 
@@ -171,10 +175,17 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-
-        $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
         
-        if($request->file('image')){
+        $user = $this->validateUser($id);
+        $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
+
+        if($user->email != $request->email){
+            $this->validate($request, $this->getValidationEmailRule($request), $this->getValidationEmailMessage($request));            
+        }if($user->dni != $request->dni){
+            $this->validate($request, $this->getValidationDniRule($request), $this->getValidationDniMessage($request));            
+        }if($request->user_type_id == 3){
+            $this->validate($request, $this->getValidationSemesterRule($request), $this->getValidationSemesterMessage($request));
+        }if($request->file('image')){
             $rules = [
                 'image' => 'image|mimes:jpg,jpeg,png'
             ];
@@ -182,11 +193,14 @@ class UserController extends Controller
             $this->validate($request, $rules);
         }
 
-        $user = $this->validateResource($id);
         $this->setUser($user, $request);
-        
-        $resource->spaces()->detach();
-        $resource->spaces()->attach($request->spaces);
+
+        if($user->user_type_id == 1 || $user->user_type_id == 4){
+            if($user->attendedDependencies){
+                $user->attendedDependencies()->detach();                
+            }
+            $user->attendedDependencies()->attach($request->dependencies);
+        }
 
         return redirect()->route('users.index')
             ->with('session_msg', '¡El usuario, se ha editado correctamente!');
@@ -210,7 +224,7 @@ class UserController extends Controller
         $user->town_id          =   $request->town_id;
         $user->save();
 
-        if ($request->file('image')) {
+        if($request->file('image')){
             if($user->image) {
                 if(file_exists(public_path().str_replace(env('APP_URL'), '/', $user->image))){
                     unlink(public_path().str_replace(env('APP_URL'), '/', $user->image));
@@ -230,7 +244,7 @@ class UserController extends Controller
 
             $user->image = asset('/img/users/'.$nameImg);
             $user->image_thumbnail = asset('/img/users/'.$nameImg_thumbnail);
-        }else{
+        }elseif(!$user->image){
             $user->image            =   asset('/img/system32/icon.png');
             $user->image_thumbnail  =   asset('/img/system32/icon.png');
         }
@@ -277,6 +291,12 @@ class UserController extends Controller
         ];
     }
 
+    private function getValidationDniRule($request){
+        return [
+            'dni' => 'required|numeric|unique:users',
+        ];
+    }
+
     private function getValidationSemesterRule($request){
         return [
             'semester' => 'required|numeric'
@@ -298,10 +318,17 @@ class UserController extends Controller
         ];
     }
 
+    private function getValidationDniMessage($request){
+        return [
+            'dni.required'    =>  'El número de identidad del Usuario es obligatorio',
+            'dni.numeric'     =>  'El campo número de identidad debe ser un número',
+            'dni.unique'      =>  'El número de identidad ingresado ya se encuentra en uso'
+        ];
+    }
+
     private function getValidationRules($request){
         return [
             'name'              =>  'required|min:3',
-            'dni'               =>  'required|numeric|unique:users',
             'cellphone_number'  =>  'required|numeric',
             'user_type_id'      =>  'required',
             'user_status_id'    =>  'required',
@@ -314,9 +341,6 @@ class UserController extends Controller
         return [
             'name.required'             =>  'El nombre del usuario es obligatorio',
             'name.min'                  =>  'El nombre del usuario debe contener al menos 3 caracteres.',
-            'dni.required'              =>  'El número de documento de identidad del usuario es obligatorio',
-            'dni.numeric'               =>  'El número de documento de identidad del usuario debe ser un número',
-            'dni.unique'                =>  'El número de documento de identidad del usuario ya se encuentra en uso',
             'cellphone_number.required' =>  'El número telefonico del usuario es obligatorio',
             'cellphone_number.numeric'  =>  'El número telefonico del usuario debe ser un número',
             'user_type_id.required'     =>  'El tipo de usuario es obligatoria',
@@ -326,7 +350,7 @@ class UserController extends Controller
         ];
     }
 
-    private function validateResource($id){
+    private function validateUser($id){
         try {
             $user = User::withTrashed()->findOrFail($id);
         }catch (ModelNotFoundException $e){
