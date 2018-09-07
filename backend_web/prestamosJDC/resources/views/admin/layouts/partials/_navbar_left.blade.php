@@ -20,7 +20,7 @@
     </li>
     <li>
         <div class="menu-item-fgs valign-wrapper">
-            <a href="" {{ $menu_item == 3 ? 'class=active-fgs' : '' }}><i class="material-icons">date_range</i>Programación</a>         
+            <a href="{{ route('calendar.index') }}" {{ $menu_item == 3 ? 'class=active-fgs' : '' }}><i class="material-icons">date_range</i>Programación</a>         
         </div>
     </li>
     <li><div class="divider-fgs"></div></li>

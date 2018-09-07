@@ -39,6 +39,7 @@ Route::get('/cities', 'HomeController@getCities')->name('cities');
 Route::group(['prefix'=>'admin', 'middleware' => ['web','auth','admin']], function () {
 	
 	Route::namespace('Cms')->group(function(){
+		Route::get('/calendar', 'CalendarController@index')->name('calendar.index');
 		Route::get('/', 'HomeController@index')->name('admin.index');
 		include_once 'cms/dependencies.php';
 		include_once 'cms/programs.php';
