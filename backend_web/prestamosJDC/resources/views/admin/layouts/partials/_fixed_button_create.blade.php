@@ -1,6 +1,9 @@
 	<?php
 		$route = "";
 		switch ($menu_item) {
+		    case 2:
+		    	$route = route('requests.create');
+		        break;
 		    case 4:
 		    	$route = route('users.create');
 		        break;

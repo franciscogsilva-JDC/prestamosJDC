@@ -15,7 +15,7 @@
     <li><div class="divider-fgs"></div></li>
     <li>
         <div class="menu-item-fgs valign-wrapper">
-            <a href="" {{ $menu_item == 2 ? 'class=active-fgs' : '' }}><i class="material-icons">assignment</i>Solicitudes</a>
+            <a href="{{ route('requests.index') }}" {{ $menu_item == 2 ? 'class=active-fgs' : '' }}><i class="material-icons">assignment</i>Solicitudes</a>
         </div>
     </li>
     <li>
