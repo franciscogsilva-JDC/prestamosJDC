@@ -43,7 +43,8 @@ class Request extends Model
         if(!empty($search)){
             $query = $query->whereHas('user', function($user) use($search){
                 $user->where('name', 'LIKE', "%$search%")
-                    orWhere('dni', 'LIKE', "%$search%");
+                    ->orWhere('dni', 'LIKE', "%$search%")
+                    ->orWhere('email', 'LIKE', "%$search%");
             });
         }if(!empty($request_type_id)){
             $query = $query->where('request_type_id', $request_type_id);

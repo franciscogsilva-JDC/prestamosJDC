@@ -11,7 +11,7 @@
 							<div class="file-field input-field col s12 m12 l9 input-search-fgs">
 								<div class="file-path-wrapper path-wrapper-fgs center-text">
 									<input id="name" type="text" class="validate" name="name">
-									<label class="label-search-fgs" for="icon_prefix">Buscar solicitud por Nombre, # de identificación, email o nombre de empresa</label>
+									<label class="label-search-fgs" for="icon_prefix">Buscar solicitud por Nombre, # de identificación, email del solicitante</label>
 								</div>
 							</div>
 		                    	{!! Form::submit('Buscar', ['class' => 'btn btn-search-fgs col s10 m11 l2 btn-fgs-edit']) !!}
@@ -20,7 +20,43 @@
 							</div>
 						</div>
 						<div class="section section-form">
-                        	
+                        	<div class="row" id="panel-filters">
+								<div class="input-field col s12 m6 l6">
+									<i class="material-icons prefix">assignment</i>
+									<select id="request_type_id" name="request_type_id">
+										<option value="" disabled selected>Selecciona tipo</option>
+										@foreach($requestTypes as $type)
+											<option value="{{ $type->id }}">{{ $type->name }}</option>
+										@endforeach
+									</select>
+									<label for="request_type_id">Filtrar por Tipo</label>
+								</div>
+								<div class="input-field col s12 m6 l6">
+									<i class="material-icons prefix">assignment_late</i>
+									<select id="authorization_status_id" name="authorization_status_id">
+										<option value="" disabled selected>Selecciona una Estado de Autorización</option>
+										@foreach($authorizationStatuses as $status)
+											<option value="{{ $status->id }}">{{  $status->name }}</option>
+										@endforeach
+									</select>
+									<label for="authorization_status_id">Filtrar por Estado de Autorización</label>
+								</div>
+								<div class="input-field col s12 m4 l4">
+									<i class="material-icons prefix">event</i>
+									<input type="text" class="datepicker" id="start_date" name="start_date">
+									<label for="start_date">Filtrar por Fecha de Inicio</label>
+								</div>
+								<div class="input-field col s12 m4 l4">
+									<i class="material-icons prefix">event</i>
+									<input type="text" class="datepicker" id="end_date" name="end_date">
+									<label for="end_date">Filtrar por Fecha de Cierre</label>
+								</div>
+								<div class="input-field col s12 m4 l4">
+									<i class="material-icons prefix">query_builder</i>
+									<input type="text" class="datepicker" id="received_date" name="received_date">
+									<label for="received_date">Filtrar por Fecha de recibido</label>
+								</div>
+                        	</div>
                         </div>
 	                {!! Form::close() !!}
 				</div>

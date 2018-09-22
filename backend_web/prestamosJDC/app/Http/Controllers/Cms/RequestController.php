@@ -23,14 +23,16 @@ class RequestController extends Controller{
             $request->request_type_id,
             $request->authorization_status_id,
             $request->start_date,
-            $request->end_date
+            $request->end_date,
+            $request->received_date
         )->orderBy('created_at', 'DESC')
             ->paginate(config('prestamosjdc.items_per_page_paginator'))
             ->appends('search', $request->search)
             ->appends('request_type_id', $request->request_type_id)
             ->appends('authorization_status_id', $request->authorization_status_id)
             ->appends('start_date', $request->start_date)
-            ->appends('end_date', $request->end_date);
+            ->appends('end_date', $request->end_date)
+            ->appends('received_date', $request->received_date);
 
         $requestTypes = RequestType::orderBy('name', 'ASC')->get();
         $authorizationStatuses = AuthorizationStatus::orderBy('name', 'ASC')->get();
