@@ -24,12 +24,12 @@
 								<div class="input-field col s12 m6 l6">
 									<i class="material-icons prefix">assignment</i>
 									<select id="request_type_id" name="request_type_id">
-										<option value="" disabled selected>Selecciona tipo</option>
+										<option value="" disabled selected>Selecciona tipo de Solicitud</option>
 										@foreach($requestTypes as $type)
 											<option value="{{ $type->id }}">{{ $type->name }}</option>
 										@endforeach
 									</select>
-									<label for="request_type_id">Filtrar por Tipo</label>
+									<label for="request_type_id">Filtrar por Tipo de Solicitud</label>
 								</div>
 								<div class="input-field col s12 m6 l6">
 									<i class="material-icons prefix">assignment_late</i>
@@ -41,17 +41,27 @@
 									</select>
 									<label for="authorization_status_id">Filtrar por Estado de Autorización</label>
 								</div>
-								<div class="input-field col s12 m4 l4">
+								<div class="input-field col s12 m6 l6">
+									<i class="material-icons prefix">tune</i>
+									<select id="user_type_id" name="user_type_id">
+										<option value="" disabled selected>Selecciona tipo de Usuario</option>
+										@foreach($userTypes as $type)
+											<option value="{{ $type->id }}">{{ $type->name }}</option>
+										@endforeach
+									</select>
+									<label for="user_type_id">Filtrar por Tipo de Usuario</label>
+								</div>
+								<div class="input-field col s12 m6 l6">
 									<i class="material-icons prefix">event</i>
 									<input type="text" class="datepicker" id="start_date" name="start_date">
 									<label for="start_date">Filtrar por Fecha de Inicio</label>
 								</div>
-								<div class="input-field col s12 m4 l4">
+								<div class="input-field col s12 m6 l6">
 									<i class="material-icons prefix">event</i>
 									<input type="text" class="datepicker" id="end_date" name="end_date">
 									<label for="end_date">Filtrar por Fecha de Cierre</label>
 								</div>
-								<div class="input-field col s12 m4 l4">
+								<div class="input-field col s12 m6 l6">
 									<i class="material-icons prefix">query_builder</i>
 									<input type="text" class="datepicker" id="received_date" name="received_date">
 									<label for="received_date">Filtrar por Fecha de recibido</label>

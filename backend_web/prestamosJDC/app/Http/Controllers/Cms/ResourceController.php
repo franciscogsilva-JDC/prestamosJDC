@@ -125,6 +125,7 @@ class ResourceController extends Controller
         $dependencies       =   Dependency::orderBy('name', 'ASC')->get();
         $resourceCategories =   ResourceCategory::orderBy('name', 'ASC')->get();
         $physicalStates     =   PhysicalState::orderBy('name', 'ASC')->get();
+        $spaces     =   Space::orderBy('name', 'ASC')->get();
 
         return view('admin.resources.create_edit')
             ->with('resource', $resource)
@@ -133,6 +134,7 @@ class ResourceController extends Controller
             ->with('dependencies', $dependencies)
             ->with('resourceCategories', $resourceCategories)
             ->with('physicalStates', $physicalStates)
+            ->with('spaces', $spaces)
             ->with('title_page', 'Editar recurso: '.$resource->name)
             ->with('menu_item', $this->menu_item);
     }

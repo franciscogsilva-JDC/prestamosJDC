@@ -18,7 +18,7 @@ class Request extends Model
         'request_type_id'
     ];
 
-    public function authorization(){
+    public function authorizations(){
         return $this->hasMany('App\Authorization');
     }
 
@@ -39,7 +39,7 @@ class Request extends Model
         return $this->belongsTo('App\User', 'responsible_id');
     }
 
-    public function scopeSearch($query, $search, $request_type_id, $authorization_status_id, $start_date, $end_date, $received_date){
+    public function scopeSearch($query, $search, $request_type_id, $authorization_status_id, $user_type_id, $start_date, $end_date, $received_date){
         if(!empty($search)){
             $query = $query->whereHas('user', function($user) use($search){
                 $user->where('name', 'LIKE', "%$search%")
@@ -52,12 +52,16 @@ class Request extends Model
             $query = $query->whereHas('authorization', function($authorization) use($authorization_status_id){
                 $authorization->where('authorization_status_id', $authorization_status_id);
             });
+        }if(!empty($user_type_id)){
+            $query = $query->whereHas('user', function($user) use($user_type_id){
+                $user->where('user_type_id', $user_type_id);
+            });
         }if(!empty($start_date)){
-            $query = $query->whereData('start_date', '>=', Carbon::parse(str_replace("\0","",$start_date));
+            $query = $query->whereData('start_date', '>=', Carbon::parse(str_replace("\0","",$start_date)));
         }if(!empty($end_date)){
-            $query = $query->whereData('end_date', '<=', Carbon::parse(str_replace("\0","",$end_date));
+            $query = $query->whereData('end_date', '<=', Carbon::parse(str_replace("\0","",$end_date)));
         }if(!empty($received_date)){
-            $query = $query->whereData('received_date', '=', Carbon::parse(str_replace("\0","",$received_date)->toDateString());
+            $query = $query->whereData('received_date', '=', Carbon::parse(str_replace("\0","",$received_date)->toDateString()));
         }
 
         return $query;

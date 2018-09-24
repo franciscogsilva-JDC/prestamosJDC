@@ -35,6 +35,10 @@ Route::get('/register/verify/{confirmation_code}', 'Auth\AuthController@verify')
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/cities', 'HomeController@getCities')->name('cities');
+Route::get('/spaces/resources', 'Cms\RequestController@getSpaceResources')->name('spaces.resources');
+Route::get('/dependencies/resources', 'Cms\RequestController@getDependenciesResources')->name('dependencies.resources');
+Route::get('/complements', 'Cms\RequestController@getComplements')->name('complements');
+Route::get('validate/resources', 'Cms\RequestController@validateResource')->name('validate.resources');
 
 Route::group(['prefix'=>'admin', 'middleware' => ['web','auth','admin']], function () {
 	

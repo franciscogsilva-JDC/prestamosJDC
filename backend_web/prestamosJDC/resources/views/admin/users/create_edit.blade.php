@@ -263,7 +263,7 @@
 			}else{
 				$('#dependencies_div').hide();
 			}
-		});		
+		});
 
 		$('#departament_id').change(function(){
 			$.get("{{ route('cities') }}",
