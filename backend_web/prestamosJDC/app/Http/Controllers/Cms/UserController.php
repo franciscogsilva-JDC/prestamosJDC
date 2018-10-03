@@ -152,7 +152,7 @@ class UserController extends Controller
         $userStatuses   =   UserStatus::orderBy('name', 'ASC')->get();
         $genders        =   Gender::orderBy('name', 'ASC')->get();
         $departaments   =   Departament::orderBy('name', 'ASC')->get();
-        $towns          =   $user->departament_id?Town::where('departament_id', $user->departament_id)->orderBy('name', 'ASC')->get():Town::orderBy('name', 'ASC')->get();
+        $towns          =   $user->town_id?Town::where('id', $user->town_id)->orderBy('name', 'ASC')->get():Town::orderBy('name', 'ASC')->get();
 
         return view('admin.users.create_edit')
             ->with('user', $user)

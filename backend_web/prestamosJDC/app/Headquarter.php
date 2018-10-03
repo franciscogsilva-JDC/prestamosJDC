@@ -14,7 +14,7 @@ class Headquarter extends Model
     protected $fillable = [
         'name',
         'address',
-        'headquarter_id'
+        'town_id'
     ];
 
     public function buildings(){
@@ -31,5 +31,16 @@ class Headquarter extends Model
 
     public function spaces(){
         return $this->hasMany('App\Space');
+    }
+
+    public function scopeSearch($query, $search, $town_id){
+        if(!empty($search)){
+            $query = $query->where('name', 'LIKE', "%$search%")
+                ->orWhere('address', 'LIKE', "%$search%");
+        }if(!empty($town_id)){
+            $query = $query->where('town_id', $town_id);
+        }
+
+        return $query;
     }
 }

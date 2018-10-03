@@ -19,6 +19,9 @@
 		    case 8:
 		    	$route = route('programs.create');
 		        break;
+		    case 9:
+		    	$route = route('headquarters.create');
+		        break;
 		}
 	?>
 	<div class="fixed-action-btn">

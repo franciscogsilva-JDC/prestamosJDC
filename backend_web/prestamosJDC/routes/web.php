@@ -46,6 +46,7 @@ Route::group(['prefix'=>'admin', 'middleware' => ['web','auth','admin']], functi
 		Route::get('/calendar', 'CalendarController@index')->name('calendar.index');
 		Route::get('/', 'HomeController@index')->name('admin.index');
 		include_once 'cms/dependencies.php';
+		include_once 'cms/headquarters.php';
 		include_once 'cms/programs.php';
 		include_once 'cms/requests.php';
 		include_once 'cms/resources.php';

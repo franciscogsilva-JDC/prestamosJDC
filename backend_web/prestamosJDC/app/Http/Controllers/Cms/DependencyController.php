@@ -13,6 +13,7 @@ class DependencyController extends Controller
 {
     private $menu_item = 7;
     private $title_page = 'Dependencias';
+    
     /**
      * Display a listing of the resource.
      *

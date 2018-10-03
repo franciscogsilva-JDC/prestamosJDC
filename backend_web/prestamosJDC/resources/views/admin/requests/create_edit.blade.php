@@ -174,10 +174,6 @@
 										</select>
 										<label for="complements">Complementos</label>
 									</div>
-
-
-
-
 				                    <div id="participants_div"  class="input-field col s12 m4 l4 student-user" hidden>
 				                        <i class="material-icons prefix">group</i>
 				                        {!! Form::number('participants', isset($request)?$request->participants:null, ['class' => '', 'id' => 'participants', 'min' => '1']) !!}
@@ -193,11 +189,6 @@
 				                        {!! Form::number('external_participants', isset($request)?$request->external_participants:null, ['class' => '', 'id' => 'external_participants', 'min' => '1']) !!}
 				                        <label for="external_participants"># Participantes Externos</label>
 				                    </div>
-									
-
-
-
-
 								</div>
 			                    <div class="buttonpanel-edit center-align">
 									<a href="{{ route('requests.index') }}" class="btn waves-effect waves-light grey" onclick="return confirm('¿Desea cancelar la creación de la Solicitud?')">Cancelar</a>              
