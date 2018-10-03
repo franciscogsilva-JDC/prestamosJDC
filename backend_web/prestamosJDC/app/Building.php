@@ -23,4 +23,15 @@ class Building extends Model
     public function spaces(){
         return $this->hasMany('App\Space');
     }
+
+    public function scopeSearch($query, $search, $headquarter_id){
+        if(!empty($search)){
+            $query = $query->where('name', 'LIKE', "%$search%")
+                ->orWhere('nomenclature', 'LIKE', "%$search%");
+        }if(!empty($headquarter_id)){
+            $query = $query->where('headquarter_id', $headquarter_id);
+        }
+
+        return $query;
+    }
 }

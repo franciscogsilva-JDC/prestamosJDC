@@ -22,6 +22,9 @@
 		    case 9:
 		    	$route = route('headquarters.create');
 		        break;
+		    case 10:
+		    	$route = route('buildings.create');
+		        break;
 		}
 	?>
 	<div class="fixed-action-btn">

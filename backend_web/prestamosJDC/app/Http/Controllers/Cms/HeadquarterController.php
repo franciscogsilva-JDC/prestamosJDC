@@ -108,7 +108,7 @@ class HeadquarterController extends Controller
         $headquarter->save();
 
         return redirect()->route('headquarters.index')
-            ->with('session_msg', '¡La Sede, se ha editado correctamente!');
+            ->with('session_msg', 'Los cambios se han guardado con éxito');
     }
 
     /**

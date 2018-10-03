@@ -54,6 +54,11 @@
             <a href="{{ route('headquarters.index') }}" {{ $menu_item == 9 ? 'class=active-fgs' : '' }}><i class="material-icons">place</i>Sedes</a>         
         </div>
     </li>
+    <li>
+        <div class="menu-item-fgs valign-wrapper">
+            <a href="{{ route('buildings.index') }}" {{ $menu_item == 10 ? 'class=active-fgs' : '' }}><i class="material-icons">location_city</i>Edificios</a>         
+        </div>
+    </li>
     <li><div class="divider-fgs"></div></li>
     <li>
         <div class="menu-item-fgs valign-wrapper">
