@@ -16,8 +16,8 @@ class CreateComplementsHasResourcesTable extends Migration
         Schema::create('complements_has_resources', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('authorization_resource_id')->unsigned();
-            $table->foreign('authorization_resource_id')->references('id')->on('authorizations_resources')->onDelete('cascade');
+            $table->integer('resource_id')->unsigned();
+            $table->foreign('resource_id')->references('id')->on('resources')->onDelete('cascade');
 
             $table->integer('complement_id')->unsigned();
             $table->foreign('complement_id')->references('id')->on('complements')->onDelete('cascade');
