@@ -13,7 +13,7 @@ class CreateAuthorizationsHasResourcesTable extends Migration
      */
     public function up()
     {
-        Schema::create('authorizations_has_resources', function (Blueprint $table) {
+        Schema::create('authorizations_resources', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('quantity')->default(1);
 
@@ -34,6 +34,6 @@ class CreateAuthorizationsHasResourcesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('authorizations_has_resources');
+        Schema::dropIfExists('authorizations_resources');
     }
 }
