@@ -9,15 +9,6 @@ INSERT INTO `authorization_statuses` (`id`, `name`, `created_at`, `updated_at`) 
 (4, 'Cancelada', '2018-08-26 03:18:10', '2018-08-26 03:18:10');
 
 --
--- Volcado de datos para la tabla `buildings`
---
-
-INSERT INTO `buildings` (`id`, `name`, `nomenclature`, `headquarter_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Edificio Central', 'EC', 1, NULL, '2018-08-29 05:00:00', '2018-08-29 05:00:00'),
-(2, 'Edificio Prueba', 'EP-1', 2, NULL, '2018-08-29 05:00:00', '2018-08-29 05:00:00'),
-(3, 'Edificio de Prueba del campo', 'EPDC', 4, NULL, '2018-10-03 04:43:24', '2018-10-03 04:44:01');
-
---
 -- Volcado de datos para la tabla `complements`
 --
 
@@ -70,25 +61,6 @@ INSERT INTO `departaments` (`id`, `name`, `code`, `created_at`, `updated_at`) VA
 (33, 'Vichada', 99, '2018-08-26 03:12:28', '2018-08-26 03:12:28');
 
 --
--- Volcado de datos para la tabla `dependencies`
---
-
-INSERT INTO `dependencies` (`id`, `name`, `email`, `headquarter_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Dependencia de Prueba', 'francisco@appsolution.co', 1, NULL, '2018-08-26 05:00:00', '2018-08-27 07:35:26'),
-(2, 'Parranderia', 'fjgonzalezs@correo.udistrital.edu.co', 4, NULL, '2018-08-26 05:00:00', '2018-08-27 07:35:30'),
-(3, 'Jardineria', 'asmunlothar@gmail.com', 3, NULL, '2018-08-27 07:18:34', '2018-08-27 07:35:21'),
-(4, 'asdasd', 'aaa@aa.com', 1, '2018-08-27 19:55:36', '2018-08-27 07:38:17', '2018-08-27 19:55:36');
-
---
--- Volcado de datos para la tabla `dependencies_has_users`
---
-
-INSERT INTO `dependencies_has_users` (`id`, `attendant_id`, `dependency_id`, `created_at`, `updated_at`) VALUES
-(6, 2, 3, '2018-08-27 07:35:04', '2018-08-27 07:35:04'),
-(7, 1, 3, '2018-08-27 07:35:04', '2018-08-27 07:35:04'),
-(8, 4, 4, '2018-08-27 07:38:17', '2018-08-27 07:38:17');
-
---
 -- Volcado de datos para la tabla `dni_types`
 --
 
@@ -106,17 +78,6 @@ INSERT INTO `genders` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Femenino', '2018-08-26 03:26:00', '2018-08-26 03:26:00'),
 (2, 'Masculino', '2018-08-26 03:27:00', '2018-08-26 03:27:00'),
 (3, 'Comunidad LGBT', '2018-08-26 03:31:00', '2018-08-26 03:31:00');
-
---
--- Volcado de datos para la tabla `headquarters`
---
-
-INSERT INTO `headquarters` (`id`, `name`, `address`, `town_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Alvaro Castillo', 'Carrera 11 # 11-44', 215, NULL, '2018-08-26 15:25:00', '2018-08-26 15:25:00'),
-(2, 'Crisanto Luque', 'Calle 17 # 9 - 85', 215, NULL, '2018-08-26 15:29:00', '2018-08-26 15:29:00'),
-(3, 'Campus Universitario', 'Kilómetro 1 Via Tunja - Villa de Leyva', 215, NULL, '2018-08-26 15:31:00', '2018-08-26 15:31:00'),
-(4, 'Clinica Veterinaria Francisco de Asis', 'Vereda Otrolado', 316, NULL, '2018-08-26 15:34:00', '2018-08-26 15:34:00'),
-(5, 'Sede principal Leticia', 'Selvita siempre viva 123', 1092, NULL, '2018-10-03 03:17:03', '2018-10-03 03:19:53');
 
 --
 -- Volcado de datos para la tabla `modalities`
@@ -145,31 +106,6 @@ INSERT INTO `physical_states` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (3, 'Malo', '2018-08-26 03:37:00', '2018-08-26 03:37:00');
 
 --
--- Volcado de datos para la tabla `programs`
---
-
-INSERT INTO `programs` (`id`, `name`, `program_type_id`, `dependency_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Ingenieria de Prueba', 1, 1, NULL, '2018-08-27 02:35:56', '2018-10-01 18:23:22'),
-(2, 'Programita de pruebita', 3, 2, NULL, '2018-08-27 06:01:50', '2018-08-27 06:08:48');
-
---
--- Volcado de datos para la tabla `programs_has_modalities`
---
-
-INSERT INTO `programs_has_modalities` (`id`, `program_id`, `modality_id`, `created_at`, `updated_at`) VALUES
-(4, 1, 2, '2018-08-27 05:24:01', '2018-08-27 05:24:01'),
-(5, 2, 2, '2018-08-27 06:01:50', '2018-08-27 06:01:50');
-
---
--- Volcado de datos para la tabla `programs_has_working_days`
---
-
-INSERT INTO `programs_has_working_days` (`id`, `program_id`, `working_day_id`, `created_at`, `updated_at`) VALUES
-(4, 1, 1, '2018-08-27 05:24:01', '2018-08-27 05:24:01'),
-(5, 1, 2, '2018-08-27 05:24:01', '2018-08-27 05:24:01'),
-(6, 2, 2, '2018-08-27 06:01:50', '2018-08-27 06:01:50');
-
---
 -- Volcado de datos para la tabla `program_types`
 --
 
@@ -195,24 +131,6 @@ INSERT INTO `request_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (2, 'Recurso', '2018-08-26 03:47:00', '2018-08-26 03:47:00');
 
 --
--- Volcado de datos para la tabla `resources`
---
-
-INSERT INTO `resources` (`id`, `name`, `reference`, `description`, `image`, `image_thumbnail`, `resource_type_id`, `resource_status_id`, `dependency_id`, `resource_category_id`, `physical_state_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Colchon', 'As345353dd', 'El colchon es un implemento fundamental para la práctica de ejercicios', 'http://franciscogsilva.com/prestamosjdc/img/resources/prestamosjdc_resource_1_1535518677.png', 'http://franciscogsilva.com/prestamosjdc/img/resources/prestamosjdc_resource_1_1535518677_thumbnail.png', 1, 3, 1, 1, 1, NULL, '2018-08-29 04:48:06', '2018-09-24 23:21:55'),
-(2, 'Video Beam', 'A1232312-1235asdasd', 'Un video beam es un proyector de video liviano y fácil detransportar, por medio del cual puedes mostrar tus trabajos ypresentaciones desde tu pc a un auditorio o simplemente verdesde la comodidad de tu hogar una pantalla que imite a las delcine.', 'http://franciscogsilva.com/prestamosjdc/img/resources/prestamosjdc_resource_2_1537748191.jpg', 'http://franciscogsilva.com/prestamosjdc/img/resources/prestamosjdc_resource_2_1537748191_thumbnail.jpg', 1, 1, 1, 2, 1, NULL, '2018-09-24 00:16:31', '2018-09-24 00:16:31');
-
---
--- Volcado de datos para la tabla `resource_categories`
---
-
-INSERT INTO `resource_categories` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Deportivo', '2018-08-26 03:48:00', '2018-08-26 03:48:00'),
-(2, 'Audiovisual', '2018-08-26 03:49:00', '2018-08-26 03:49:00'),
-(3, 'Musical', '2018-08-26 03:49:00', '2018-08-26 03:49:00'),
-(4, 'Folclor', '2018-08-26 03:50:00', '2018-08-26 03:50:00');
-
---
 -- Volcado de datos para la tabla `resource_statuses`
 --
 
@@ -230,23 +148,20 @@ INSERT INTO `resource_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (2, 'No Devolutivo', '2018-08-26 04:06:00', '2018-08-26 04:06:00');
 
 --
--- Volcado de datos para la tabla `spaces`
+-- Volcado de datos para la tabla `resource_categories`
 --
 
-INSERT INTO `spaces` (`id`, `name`, `max_persons`, `space_type_id`, `space_status_id`, `property_type_id`, `building_id`, `headquarter_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, 'Auditorio 1', 200, 3, 1, 1, 2, NULL, NULL, '2018-08-29 08:44:32', '2018-08-29 09:22:36'),
-(2, 'Salon 2', 10, 1, 1, 2, 1, NULL, NULL, '2018-08-29 09:22:19', '2018-09-24 23:27:32'),
-(3, 'Cancha de Futbol', NULL, 4, 1, 1, NULL, NULL, NULL, '2018-08-29 09:30:42', '2018-08-29 09:30:42'),
-(4, 'Laboratorio Veterinaria', 50, 2, 1, 2, NULL, 4, NULL, '2018-08-29 09:31:46', '2018-08-29 09:33:36'),
-(5, 'AJNDSJNDFMF', 32, 1, 1, 1, NULL, 1, NULL, '2018-09-25 18:18:22', '2018-09-25 18:18:22');
+INSERT INTO `resource_categories` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Deportivo', '2018-08-26 03:48:00', '2018-08-26 03:48:00'),
+(2, 'Audiovisual', '2018-08-26 03:49:00', '2018-08-26 03:49:00'),
+(3, 'Musical', '2018-08-26 03:49:00', '2018-08-26 03:49:00'),
+(4, 'Folclor', '2018-08-26 03:50:00', '2018-08-26 03:50:00');
 
---
--- Volcado de datos para la tabla `spaces_has_resources`
---
 
-INSERT INTO `spaces_has_resources` (`id`, `resource_id`, `space_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2018-09-23 19:32:26', '2018-09-23 19:32:26'),
-(2, 1, 4, '2018-09-23 19:32:26', '2018-09-23 19:32:26');
+
+
+
+
 
 --
 -- Volcado de datos para la tabla `space_statuses`
@@ -1400,6 +1315,83 @@ INSERT INTO `towns` (`id`, `departament_id`, `code`, `name`, `created_at`, `upda
 (1124, 33, 666, 'SANTA ROSALIA', '2018-08-25 05:00:00', '2018-08-25 05:00:00'),
 (1125, 33, 760, 'SAN JOSE DE OCUNE', '2018-08-25 05:00:00', '2018-08-25 05:00:00'),
 (1126, 33, 773, 'CUMARIBO', '2018-08-25 05:00:00', '2018-08-25 05:00:00');
+--
+-- Volcado de datos para la tabla `headquarters`
+--
+
+INSERT INTO `headquarters` (`id`, `name`, `address`, `town_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Alvaro Castillo', 'Carrera 11 # 11-44', 215, NULL, '2018-08-26 15:25:00', '2018-08-26 15:25:00'),
+(2, 'Crisanto Luque', 'Calle 17 # 9 - 85', 215, NULL, '2018-08-26 15:29:00', '2018-08-26 15:29:00'),
+(3, 'Campus Universitario', 'Kilómetro 1 Via Tunja - Villa de Leyva', 215, NULL, '2018-08-26 15:31:00', '2018-08-26 15:31:00'),
+(4, 'Clinica Veterinaria Francisco de Asis', 'Vereda Otrolado', 316, NULL, '2018-08-26 15:34:00', '2018-08-26 15:34:00'),
+(5, 'Sede principal Leticia', 'Selvita siempre viva 123', 1092, NULL, '2018-10-03 03:17:03', '2018-10-03 03:19:53');
+
+--
+-- Volcado de datos para la tabla `buildings`
+--
+
+INSERT INTO `buildings` (`id`, `name`, `nomenclature`, `headquarter_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Edificio Central', 'EC', 1, NULL, '2018-08-29 05:00:00', '2018-08-29 05:00:00'),
+(2, 'Edificio Prueba', 'EP-1', 2, NULL, '2018-08-29 05:00:00', '2018-08-29 05:00:00'),
+(3, 'Edificio de Prueba del campo', 'EPDC', 4, NULL, '2018-10-03 04:43:24', '2018-10-03 04:44:01');
+
+--
+-- Volcado de datos para la tabla `dependencies`
+--
+
+INSERT INTO `dependencies` (`id`, `name`, `email`, `headquarter_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Dependencia de Prueba', 'francisco@appsolution.co', 1, NULL, '2018-08-26 05:00:00', '2018-08-27 07:35:26'),
+(2, 'Parranderia', 'fjgonzalezs@correo.udistrital.edu.co', 4, NULL, '2018-08-26 05:00:00', '2018-08-27 07:35:30'),
+(3, 'Jardineria', 'asmunlothar@gmail.com', 3, NULL, '2018-08-27 07:18:34', '2018-08-27 07:35:21'),
+(4, 'asdasd', 'aaa@aa.com', 1, '2018-08-27 19:55:36', '2018-08-27 07:38:17', '2018-08-27 19:55:36');
+
+--
+-- Volcado de datos para la tabla `resources`
+--
+
+INSERT INTO `resources` (`id`, `name`, `reference`, `description`, `image`, `image_thumbnail`, `resource_type_id`, `resource_status_id`, `dependency_id`, `resource_category_id`, `physical_state_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Colchon', 'As345353dd', 'El colchon es un implemento fundamental para la práctica de ejercicios', 'http://franciscogsilva.com/prestamosjdc/img/resources/prestamosjdc_resource_1_1535518677.png', 'http://franciscogsilva.com/prestamosjdc/img/resources/prestamosjdc_resource_1_1535518677_thumbnail.png', 1, 3, 1, 1, 1, NULL, '2018-08-29 04:48:06', '2018-09-24 23:21:55'),
+(2, 'Video Beam', 'A1232312-1235asdasd', 'Un video beam es un proyector de video liviano y fácil detransportar, por medio del cual puedes mostrar tus trabajos ypresentaciones desde tu pc a un auditorio o simplemente verdesde la comodidad de tu hogar una pantalla que imite a las delcine.', 'http://franciscogsilva.com/prestamosjdc/img/resources/prestamosjdc_resource_2_1537748191.jpg', 'http://franciscogsilva.com/prestamosjdc/img/resources/prestamosjdc_resource_2_1537748191_thumbnail.jpg', 1, 1, 1, 2, 1, NULL, '2018-09-24 00:16:31', '2018-09-24 00:16:31');
+
+--
+-- Volcado de datos para la tabla `user_statuses`
+--
+
+INSERT INTO `user_statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Activo', '2018-08-26 04:16:00', '2018-08-26 04:16:00'),
+(2, 'Inactivo', '2018-08-26 04:17:00', '2018-08-26 04:17:00'),
+(3, 'Inhabilitado', '2018-08-26 04:18:00', '2018-08-26 04:18:00');
+
+
+--
+-- Volcado de datos para la tabla `spaces`
+--
+
+INSERT INTO `spaces` (`id`, `name`, `max_persons`, `space_type_id`, `space_status_id`, `property_type_id`, `building_id`, `headquarter_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Auditorio 1', 200, 3, 1, 1, 2, NULL, NULL, '2018-08-29 08:44:32', '2018-08-29 09:22:36'),
+(2, 'Salon 2', 10, 1, 1, 2, 1, NULL, NULL, '2018-08-29 09:22:19', '2018-09-24 23:27:32'),
+(3, 'Cancha de Futbol', NULL, 4, 1, 1, NULL, NULL, NULL, '2018-08-29 09:30:42', '2018-08-29 09:30:42'),
+(4, 'Laboratorio Veterinaria', 50, 2, 1, 2, NULL, 4, NULL, '2018-08-29 09:31:46', '2018-08-29 09:33:36'),
+(5, 'AJNDSJNDFMF', 32, 1, 1, 1, NULL, 1, NULL, '2018-09-25 18:18:22', '2018-09-25 18:18:22');
+
+--
+-- Volcado de datos para la tabla `spaces_has_resources`
+--
+
+INSERT INTO `spaces_has_resources` (`id`, `resource_id`, `space_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '2018-09-23 19:32:26', '2018-09-23 19:32:26'),
+(2, 1, 4, '2018-09-23 19:32:26', '2018-09-23 19:32:26');
+
+--
+-- Volcado de datos para la tabla `user_types`
+--
+
+INSERT INTO `user_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Administrador', '2018-08-26 04:20:00', '2018-08-26 04:20:00'),
+(2, 'Docente', '2018-08-26 04:21:00', '2018-08-26 04:21:00'),
+(3, 'Estudiante', '2018-08-26 04:22:00', '2018-08-26 04:22:00'),
+(4, 'Administrativo', '2018-08-26 04:22:00', '2018-08-26 04:23:00'),
+(5, 'Externo', '2018-08-26 04:23:00', '2018-08-26 04:23:00');
 
 --
 -- Volcado de datos para la tabla `users`
@@ -1416,24 +1408,13 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `dni`, `image`, `image_t
 (10, 'asdasdaqwd', 'asdqwxcqw@gmail.com', '$2y$10$9yVP20a2T9h/4zLS7kyY.OVwwoNhdMyhqA491vmqnX617j1jVetca', 1231231237869, 'http://franciscogsilva.com/prestamosjdc/img/users/prestamosjdc_user_10_1536212328.jpg', 'http://franciscogsilva.com/prestamosjdc/img/users/prestamosjdc_user_10_1536212329_thumbnail.jpg', 'Frikis S.A', '12312124', NULL, 5, 1, 1, NULL, 2, 590, 'ffhLspadRBFkmr8mK4Nen1DcCxvVB6XNLC6EFmt7FtjogGBtkcoZTSEkcpExK6LGu3nexqz2Bkchwx2ZXRgljx3O6AYSJPSntGhv', NULL, NULL, NULL, NULL, '2018-09-06 05:38:48', '2018-09-07 03:42:41');
 
 --
--- Volcado de datos para la tabla `user_statuses`
+-- Volcado de datos para la tabla `dependencies_has_users`
 --
 
-INSERT INTO `user_statuses` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Activo', '2018-08-26 04:16:00', '2018-08-26 04:16:00'),
-(2, 'Inactivo', '2018-08-26 04:17:00', '2018-08-26 04:17:00'),
-(3, 'Inhabilitado', '2018-08-26 04:18:00', '2018-08-26 04:18:00');
-
---
--- Volcado de datos para la tabla `user_types`
---
-
-INSERT INTO `user_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', '2018-08-26 04:20:00', '2018-08-26 04:20:00'),
-(2, 'Docente', '2018-08-26 04:21:00', '2018-08-26 04:21:00'),
-(3, 'Estudiante', '2018-08-26 04:22:00', '2018-08-26 04:22:00'),
-(4, 'Administrativo', '2018-08-26 04:22:00', '2018-08-26 04:23:00'),
-(5, 'Externo', '2018-08-26 04:23:00', '2018-08-26 04:23:00');
+INSERT INTO `dependencies_has_users` (`id`, `attendant_id`, `dependency_id`, `created_at`, `updated_at`) VALUES
+(6, 2, 3, '2018-08-27 07:35:04', '2018-08-27 07:35:04'),
+(7, 1, 3, '2018-08-27 07:35:04', '2018-08-27 07:35:04'),
+(8, 4, 4, '2018-08-27 07:38:17', '2018-08-27 07:38:17');
 
 --
 -- Volcado de datos para la tabla `working_days`
@@ -1442,3 +1423,28 @@ INSERT INTO `user_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
 INSERT INTO `working_days` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Diurna', '2018-08-26 04:13:00', '2018-08-26 04:13:00'),
 (2, 'Nocturna', '2018-08-26 04:13:00', '2018-08-26 04:13:00');
+
+--
+-- Volcado de datos para la tabla `programs`
+--
+
+INSERT INTO `programs` (`id`, `name`, `program_type_id`, `dependency_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
+(1, 'Ingenieria de Prueba', 1, 1, NULL, '2018-08-27 02:35:56', '2018-10-01 18:23:22'),
+(2, 'Programita de pruebita', 3, 2, NULL, '2018-08-27 06:01:50', '2018-08-27 06:08:48');
+
+--
+-- Volcado de datos para la tabla `programs_has_modalities`
+--
+
+INSERT INTO `programs_has_modalities` (`id`, `program_id`, `modality_id`, `created_at`, `updated_at`) VALUES
+(4, 1, 2, '2018-08-27 05:24:01', '2018-08-27 05:24:01'),
+(5, 2, 2, '2018-08-27 06:01:50', '2018-08-27 06:01:50');
+
+--
+-- Volcado de datos para la tabla `programs_has_working_days`
+--
+
+INSERT INTO `programs_has_working_days` (`id`, `program_id`, `working_day_id`, `created_at`, `updated_at`) VALUES
+(4, 1, 1, '2018-08-27 05:24:01', '2018-08-27 05:24:01'),
+(5, 1, 2, '2018-08-27 05:24:01', '2018-08-27 05:24:01'),
+(6, 2, 2, '2018-08-27 06:01:50', '2018-08-27 06:01:50');
