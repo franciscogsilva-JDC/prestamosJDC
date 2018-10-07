@@ -13,7 +13,7 @@ return [
     |Push notifications firebase server key
     |-------------------------------
     |*/
-    'push_notifications_key' => 'AAAAP4fWpxI:APA91bHzG9IenmfLImuVHYnRpVy0Jtg43Y1QrSi5AR6bv0b66HUTi0g-klegYb2flmjzH3sq0_k7uaGplSF97ujYqtts4OK67-BbTI7vqvNqom5E_8DeUC6KJb0tpfk9lHIa2fKZjAEZ',
+    'push_notifications_key' => '',
 
     /*
     |-----------------------------------------
@@ -21,4 +21,25 @@ return [
     |------------------------------------------
     */
     'items_per_page_paginator' => 30,
+
+    /*
+    |-----------------------------------------
+    |Días mínimos para préstamos de espacios físicos
+    |------------------------------------------
+    */
+    'minimum_days_for_spaces_loans' => 3,
+
+    /*
+    |-----------------------------------------
+    |Días mínimos para préstamos de elemento audiovisual
+    |------------------------------------------
+    */
+    'minimum_days_for_audiovisual_element_loans' => 3,
+
+    /*
+    |-----------------------------------------
+    |Días mínimos para préstamos de elemento de Música o folcklore
+    |------------------------------------------
+    */
+    'minimum_days_for_musical_or_folklore_elements' => 3,
 ];
