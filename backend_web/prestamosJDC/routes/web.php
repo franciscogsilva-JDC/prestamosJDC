@@ -35,6 +35,7 @@ Route::get('/register/verify/{confirmation_code}', 'Auth\AuthController@verify')
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/cities', 'HomeController@getCities')->name('cities');
+Route::get('/types-spaces', 'Cms\RequestController@getSpacesByType')->name('types.spaces');
 Route::get('/spaces/resources', 'Cms\RequestController@getSpaceResources')->name('spaces.resources');
 Route::get('/dependencies/resources', 'Cms\RequestController@getDependenciesResources')->name('dependencies.resources');
 Route::get('/complements', 'Cms\RequestController@getComplements')->name('complements');

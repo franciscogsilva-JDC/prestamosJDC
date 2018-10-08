@@ -24,7 +24,7 @@
 			                    {!! Form::open(['route' => 'requests.store', 'method' => 'POST', 'onsubmit' => 'preloader()']) !!}
 			                @endif
 			                	<div class="row">
-									<div class="input-field col s12 m12 l12">
+									<div class="input-field col s12 m6 l6">
 										<i class="material-icons prefix">tune</i>
 										<select id="request_type_id" class="icons" name="request_type_id">
 											<option value="" disabled selected>Selecciona el Tipo <span class="required-input">*</span></option>
@@ -37,6 +37,20 @@
 											@endforeach
 										</select>
 										<label for="request_type_id">Tipo de Solicitud <span class="required-input">*</span></label>
+									</div>
+									<div id="space_type_id_div" class="input-field col s12 m6 l6" hidden>
+										<i class="material-icons prefix"></i>
+										<select id="space_type_id" class="icons" name="space_type_id">
+											<option value="" disabled selected>Selecciona el Tipo de espacio<span class="required-input">*</span></option>
+											@foreach($statusTypes as $type)
+												@if(isset($request))
+													<option value="{{ $type->id }}" {{$type->id===100000?'selected=selected':''}}>{{ $type->name }}</option>
+												@else 
+													<option value="{{ $type->id }}">{{ $type->name }}</option>
+												@endif
+											@endforeach
+										</select>
+										<label for="space_type_id">Tipos de Espacios<span class="required-input">*</span></label>
 									</div>
 									<div id="description_div" class="input-field col s12 m12 l12" hidden>
 				                        <i class="material-icons prefix">description</i>
@@ -57,7 +71,7 @@
 										</select>
 										<label for="user_id">Solicitante <span class="required-input">*</span></label>
 									</div>
-									<div id="responsible_div" class="input-field col s12 m6 l6" hidden>
+									<div id="responsible_div" class="input-field col s12 m6 l6">
 										<i class="material-icons prefix">how_to_reg</i>
 										<select class="icons" name="responsible_id" id="responsible_id">
 											<option value="" disabled selected>Selecciona el responsable</option>
@@ -70,6 +84,20 @@
 											@endforeach
 										</select>
 										<label for="responsible_id">Responsable</label>
+									</div>
+									<div class="input-field col s12 m6 l6">
+										<i class="material-icons prefix">done_all</i>
+										<select id="authorization_status_id" class="icons" name="authorization_status_id">
+											<option value="" disabled selected>Selecciona el Estado de la Solicitud <span class="required-input">*</span></option>
+											@foreach($authorizationStatuses as $status)
+												@if(isset($request))
+													<option value="{{ $status->id }}" {{$status->id===$request->authorizations->orderBy('created_at', 'DESC')->first()->status->id?'selected=selected':''}}>{{ $status->name }}</option>
+												@else 
+													<option value="{{ $status->id }}">{{ $status->name }}</option>
+												@endif
+											@endforeach
+										</select>
+										<label for="authorization_status_id">Estado de Solicitud <span class="required-input">*</span></label>
 									</div>
 									<div class="input-field col s6 m6 l6">
 										<i class="material-icons prefix">event_available</i>
@@ -111,13 +139,13 @@
 										<i class="material-icons prefix">domain</i>
 										<select class="icons" name="space_id" id="space_id">
 											<option value="" disabled selected>Selecciona el espacio</option>
-											@foreach($spaces as $space)
-												@if(isset($request))
-													<option value="{{ $space->id }}" {{in_array($space->id, $request->authorizations->orderBy('created_at', 'DESC')->first()->spaces->pluck('id')->ToArray())?'selected=selected':''}}>{{ $space->name }}</option>
-												@else
-													<option value="{{ $space->id }}">{{ $space->name }}</option>
-												@endif
-											@endforeach
+											@if(isset($request))
+												@foreach($spaces as $space)
+													<option value="{{ $space->id }}" {{$space->id===10000?'selected=selected':''}}>{{ $space->name }} ({{ $space->max_persons }})</option>
+												@endforeach
+											@else
+												<option value="" disabled selected>Primero Selecciona un tipo de Espacio</option>
+											@endif
 										</select>
 										<label for="space_id">Espacios</label>
 									</div>
@@ -156,11 +184,12 @@
 													<option value="{{ $resource->id }}" {{$resource->id===$request->authorizations->orderBy('created_at', 'DESC')->first()->resources->pluck('id')->ToArray()?'selected=selected':''}}>{{ $resource->name }}</option>
 												@endforeach
 											@else
-												<option value="" disabled selected>Selecciona una Dependencia</option>
+												<option value="" disabled selected>Primero Selecciona una Dependencia</option>
 											@endif
 										</select>
 										<label for="resources_dep">Recursos</label>
 									</div>
+									<!--
 									<div id="complements_div" class="input-field col s12 m6 l6" hidden>
 										<i class="material-icons prefix">power</i>
 										<select id="complements" class="icons" name="complements[]" multiple>
@@ -169,22 +198,37 @@
 													<option value="{{ $complement->id }}" {{$complement->id===$request->authorizations->orderBy('created_at', 'DESC')->first()->resources->complements->pluck('id')->ToArray()?'selected=selected':''}}>{{ $complement->name }}</option>
 												@endforeach
 											@else
-												<option value="" disabled selected>Selecciona una Dependencia</option>
+												<option value="" disabled selected>Primero Selecciona una Dependencia</option>
 											@endif
 										</select>
 										<label for="complements">Complementos</label>
 									</div>
-				                    <div id="participants_div"  class="input-field col s12 m4 l4 student-user" hidden>
+									-->
+									<div id="participant_types_div" class="input-field col s12 m6 l6" hidden>
+										<i class="material-icons prefix">group</i>
+										<select class="icons" name="participantsTypes" id="participantsTypes[]" multiple>
+											<option value="" disabled selected>Selecciona el Tipo de participantes <span class="required-input">*</span></option>
+											@foreach($participantTypes as $type)
+												@if(isset($request))
+													<option value="{{ $type->id }}" {{in_array($type->id, $request->participantTypes->pluck('id')->ToArray())?'selected=selected':''}}>{{ $type->name }}</option>
+												@else
+													<option value="{{ $type->id }}">{{ $type->name }}</option>		
+												@endif
+											@endforeach
+										</select>
+										<label for="participantsTypes">Tipo de participantes <span class="required-input">*</span></label>
+									</div>
+				                    <div id="participants_div"  class="input-field col s12 m6 l6 student-user" hidden>
 				                        <i class="material-icons prefix">group</i>
 				                        {!! Form::number('participants', isset($request)?$request->participants:null, ['class' => '', 'id' => 'participants', 'min' => '1']) !!}
-				                        <label for="participants"># Participantes</label>
+				                        <label for="participants"># Total de Participantes</label>
 				                    </div>
-				                    <div id="internal_participants_div"  class="input-field col s12 m4 l4 student-user" hidden>
+				                    <div id="internal_participants_div"  class="input-field col s12 m6 l6 student-user" hidden>
 				                        <i class="material-icons prefix">person</i>
 				                        {!! Form::number('internal_participants', isset($request)?$request->internal_participants:null, ['class' => '', 'id' => 'internal_participants', 'min' => '1']) !!}
 				                        <label for="internal_participants"># Participantes Internos</label>
 				                    </div>
-				                    <div id="external_participants_div"  class="input-field col s12 m4 l4 student-user" hidden>
+				                    <div id="external_participants_div"  class="input-field col s12 m6 l6 student-user" hidden>
 				                        <i class="material-icons prefix">person_outline</i>
 				                        {!! Form::number('external_participants', isset($request)?$request->external_participants:null, ['class' => '', 'id' => 'external_participants', 'min' => '1']) !!}
 				                        <label for="external_participants"># Participantes Externos</label>
@@ -249,30 +293,47 @@
 
 		function showSpaceInputs(){
 			$('#description_div').show();
+			$('#space_type_id_div').show();
 			$('#spaces_div').show();
 			$('#resources_div').show();
 			$('#participants_div').show();
+			$('#participant_types_div').show();
 			$('#internal_participants_div').show();
 			$('#external_participants_div').show();
 			$('#responsible_div').show();
 			$('#dependencies_div').hide();
 			$('#dep_resources_div').hide();
-			$('#complements_div').hide();
+			//$('#complements_div').hide();
 		}
 
 		function showResourceInputs(){	
 			$('#description_div').hide();	
 			$('#spaces_div').hide();	
+			$('#space_type_id_div').hide();	
 			$('#resources_div').hide();
 			$('#participants_div').hide();
+			$('#participant_types_div').hide();
 			$('#internal_participants_div').hide();
 			$('#external_participants_div').hide();
-			$('#responsible_div').hide();
 			$('#dependencies_div').show();
 			$('#dep_resources_div').show();
+			$('#responsible_div').show();
 		}
 
 		$('.timepicker').pickatime();
+
+		$('#space_type_id').change(function(){
+			$.get("{{ route('types.spaces') }}",
+			{ space_type_id: $(this).val() },
+			function(data) {
+				$('#space_id').empty();
+	          	$('#space_id').append("<option value='' disabled selected>Selecciona un Espacio</option>");
+				$.each(data, function(key, element) {
+					$('#space_id').append("<option value='" + element.id + "'>" + element.name + " (" + element.max_persons + ")</option>");
+				});
+				$('select').material_select();
+			});
+		});
 
 		$('#space_id').change(function(){
 			$.get("{{ route('spaces.resources') }}",
@@ -288,15 +349,19 @@
 		});
 
 		$('#dependency_id').change(function(){			
+			/*
 			$('#complements').empty();
 			$('#complements_div').hide();
+			*/
 			$.get("{{ route('dependencies.resources') }}",
 			{ dependency_id: $(this).val() },
 			function(data) {
 				$('#resources_dep').empty();
 	          	$('#resources_dep').append("<option value='' disabled selected>Selecciona un Recurso</option>");
+				/*
 				$('#complements').empty();
 	          	$('#complements').append("<option value='' disabled selected>Selecciona un Recurso</option>");
+	          	*/
 				$.each(data, function(key, element) {
 					$('#resources_dep').append("<option value='" + element.id + "' data-icon='"+ element.image_thumbnail +"' class='rigth circle'>" + element.name + "</option>");
 				});
@@ -308,6 +373,7 @@
 			$.get("{{ route('validate.resources') }}",
 			{ resource_id: $(this).val() },
 			function(data) {
+				/*
 				if(data == 'true'){
 					$('#complements_div').show();			
 					$.get("{{ route('complements') }}",
@@ -324,6 +390,7 @@
 					$('#complements').empty();
 					$('#complements_div').hide();
 				}
+				*/
 			});
 		});
 	</script>						
