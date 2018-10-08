@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Jenssegers\Date\Date;
 
 class Request extends Model
 {
@@ -57,11 +58,11 @@ class Request extends Model
                 $user->where('user_type_id', $user_type_id);
             });
         }if(!empty($start_date)){
-            $query = $query->whereData('start_date', '>=', Carbon::parse(str_replace("\0","",$start_date)));
+            $query = $query->whereDate('start_date', '>=', Carbon::parse(str_replace("\0","",$start_date)));
         }if(!empty($end_date)){
-            $query = $query->whereData('end_date', '<=', Carbon::parse(str_replace("\0","",$end_date)));
+            $query = $query->whereDate('end_date', '<=', Carbon::parse(str_replace("\0","",$end_date)));
         }if(!empty($received_date)){
-            $query = $query->whereData('received_date', '=', Carbon::parse(str_replace("\0","",$received_date)->toDateString()));
+            $query = $query->whereDate('received_date', '=', Carbon::parse(str_replace("\0","",$received_date)->toDateString()));
         }
 
         return $query;
@@ -107,5 +108,9 @@ class Request extends Model
             return null;
         }
         return new Date($date);
+    }
+
+    public function calculeSpaceValue(){
+        return 0;
     }
 }
