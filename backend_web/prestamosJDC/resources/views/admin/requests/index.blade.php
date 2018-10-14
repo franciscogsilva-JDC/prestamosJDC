@@ -80,54 +80,64 @@
 						</div>
 			     		<table class="highlight striped">
 							<thead>
-								<th id="td-logo">Image</th>
 								<th>Datos</th>
-								<th id="td-logo">Estado</th>
-								<th id="td-logo">Inhabilitado</th>
+								<th>Fechas</th>
+								<th>Estado</th>
 								<th class="center-align">Opciones</th>
 							</thead>
 							<tbody>
 								@foreach($requests as $request)
-									<tr>									
-										<td id="td-logo">
-											<img class="factory-logo-fgs responsive-img circle materialboxed" src="{{ $request->image }}">
-										</td>
+									<tr>
 										<td>
-											{{ $request->name }}<br>
-											<p class="date-deleted-at minitem">{{ $request->email }}</p><br>
-											@if(isset($request->company_name))
-												<b>Empresa: </b> {{ $request->company_name }}<br>
-											@elseif(isset($request->dependency))
-												<b>Dependencia: </b><a href="{{ route('dependencies.index', ['search' => $request->dependency->name]) }}">{{ $request->dependency->name }}</a><br>
-											@elseif(isset($request->attendedDependencies))
-												<b>Dependencia a cargo: </b>
-												@foreach($request->attendedDependencies as $dependency)
-													<a href="{{ route('dependencies.index', ['search' => $dependency->name]) }}">{{ $dependency->name }}</a>
-												@endforeach
-												<br>
+											<b>Solicitante: </b><a href="{{ route('users.index', ['search' => $request->user->email]) }}">{{ $request->user->name }}</a><br>
+											<b>Responsable: </b><a href="{{ route('users.index', ['search' => $request->responsible->email]) }}">{{ $request->responsible?$request->responsible->name:$request->user->name }}</a><br>
+											@if($request->authorizations()->orderBy('created_at', 'DESC')->first()->approved_by)
+												<b>Aprovado: </b><a href="{{ route('users.index', ['search' => $request->authorizations()->orderBy('created_at', 'DESC')->first()->approver->email]) }}">{{ $request->authorizations()->orderBy('created_at', 'DESC')->first()->approver->name }}</a><br>
 											@endif
-											@if(isset($request->town))
-												<b>Municipio: </b> {{ $request->town->name }}<br>
+											@if($request->authorizations()->orderBy('created_at', 'DESC')->first()->received_by)
+												<b>Recibido: </b><a href="{{ route('users.index', ['search' => $request->authorizations()->orderBy('created_at', 'DESC')->first()->receiver->email]) }}">{{ $request->authorizations()->orderBy('created_at', 'DESC')->first()->receiver->name }}</a><br>
 											@endif
 											<b>Tipo: </b> {{ $request->type->name }}<br>
-										</td>
-										<td id="td-logo">
-											@if($request->status->id == 1)
-												<span class="badge green badge-status-factory center-text">
-											@elseif($request->status->id == 2)
-												<span class="badge grey badge-status-factory center-text">
-											@elseif($request->status->id == 3)
-												<span class="badge red badge-status-factory center-text">
-											@endif
-												{{ $request->status->name }}
-											</span>
-										</td>
-										<td id="td-logo">
-											@if($request->deleted_at)
-												<span class="badge red badge-status-factory center-align">Inhabilitado</span><br>
-												<p class="date-deleted-at">{{ ucwords($request->deleted_at->format('F d\\, Y')) }}</p>
+											@if($request->type->id == 1)
+												<b>Espacio: </b> 
+												@foreach($request->authorizations()->orderBy('created_at', 'DESC')->first()->spaces()->get() as $i => $space)
+													<a href="{{ route('spaces.index', ['search' => $space->namel]) }}">{{ $space->name }}</a>, 
+												@endforeach()
+												<br>
+												@if($request->authorizations()->orderBy('created_at', 'DESC')->first()->resources()->count()>0)
+													<b>Recurso: </b> 
+													@foreach($request->authorizations()->orderBy('created_at', 'DESC')->first()->resources()->get() as $i => $resource)
+														<a href="{{ route('resources.index', ['search' => $resource->namel]) }}">{{ $resource->name }}</a>, 
+													@endforeach()
+													<br>
+												@endif
+												<b>Valor: </b> {{ $request->value }}<br>
 											@else
-												<span class="badge green badge-status-factory center-text">Activo</span>
+											 
+											@endif
+										</td>
+										<td>
+											<b>Fecha de Inicio: </b>{{ ucwords($request->start_date->format('F d\\, Y H:m:s')) }}<br>
+											<b>Fecha de Fin: </b>{{ ucwords($request->end_date->format('F d\\, Y H:m:s')) }}<br>
+											@if($request->authorizations()->orderBy('created_at', 'DESC')->first()->received_by)
+												<b>Fecha Recibido: </b>{{ ucwords($request->received_date?$request->received_date->format('F d\\, Y H:m:s'):'Sin dato') }}<br>
+											@endif
+										</td>
+										<td>
+											@if($request->authorizations()->count()>0)
+												@if($request->authorizations()->orderBy('created_at', 'DESC')->first()->status->id == 1)
+													<span class="badge blue badge-status-factory center-text">
+												@elseif($request->authorizations()->orderBy('created_at', 'DESC')->first()->status->id == 2)
+													<span class="badge green badge-status-factory center-text">
+												@elseif($request->authorizations()->orderBy('created_at', 'DESC')->first()->status->id == 3)
+													<span class="badge red badge-status-factory center-text">
+												@elseif($request->authorizations()->orderBy('created_at', 'DESC')->first()->status->id == 4)
+													<span class="badge grey badge-status-factory center-text">
+												@elseif($request->authorizations()->orderBy('created_at', 'DESC')->first()->status->id == 5)
+													<span class="badge orange badge-status-factory center-text">
+												@endif
+													{{ $request->authorizations()->orderBy('created_at', 'DESC')->first()->status->name }}
+												</span>
 											@endif
 										</td>
 										<td class="td-fgs center-align">
@@ -137,9 +147,9 @@
 											</div>
 		                					{!! Form::close() !!}
 											@if(!$request->deleted_at)
-												<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Inhabilitar el solicitud?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">visibility_off</i></a>
+												<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Inhabilitar el solicitud?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">delete</i></a>
 											@else
-												<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Habilitar el solicitud?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">visibility</i></a>
+												<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Habilitar el solicitud?')" class="btn btn-fgs btn-fgs-delete grey darken-3"><i class="material-icons">delete</i></a>
 											@endif
 											<a href="{{ route('requests.edit', $request->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit"><i class="material-icons">create</i></a>
 										</td>

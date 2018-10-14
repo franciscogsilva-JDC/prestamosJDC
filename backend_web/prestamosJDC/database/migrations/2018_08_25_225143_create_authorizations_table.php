@@ -15,6 +15,7 @@ class CreateAuthorizationsTable extends Migration
     {
         Schema::create('authorizations', function (Blueprint $table) {
             $table->increments('id');
+            $table->longText('description')->nullable();
 
             $table->integer('request_id')->unsigned();
             $table->foreign('request_id')->references('id')->on('requests')->onDelete('cascade');
