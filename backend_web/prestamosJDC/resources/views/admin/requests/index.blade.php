@@ -147,11 +147,11 @@
 											</div>
 		                					{!! Form::close() !!}
 											@if(!$request->deleted_at)
-												<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Inhabilitar el solicitud?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">delete</i></a>
+												<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Inhabilitar la solicitud?')" class="btn btn-fgs btn-fgs-delete red darken-3 tooltipped" data-position="top" data-delay="50" data-tooltip="Inhabilitar"><i class="material-icons">delete</i></a>
 											@else
-												<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Habilitar el solicitud?')" class="btn btn-fgs btn-fgs-delete grey darken-3"><i class="material-icons">delete</i></a>
+												<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Habilitar la solicitud?')" class="btn btn-fgs btn-fgs-delete grey darken-2 tooltipped" data-position="top" data-delay="50" data-tooltip="Habilitar"><i class="material-icons">update</i></a>
 											@endif
-											<a href="{{ route('requests.edit', $request->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit"><i class="material-icons">create</i></a>
+											<a href="{{ route('requests.edit', $request->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit tooltipped" data-position="top" data-delay="50" data-tooltip="Editar"><i class="material-icons">create</i></a>
 										</td>
 									</tr>
 								@endforeach

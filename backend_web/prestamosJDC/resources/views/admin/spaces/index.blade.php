@@ -59,7 +59,7 @@
 								<div class="input-field col s12 m6 l6">
 									<i class="material-icons prefix">location_city</i>
 									<select id="building_id" name="building_id">
-										<option value="" disabled selected>Selecciona un edificio</option>
+										<option value="" disabled selected>Selecciona un 1</option>
 										@foreach($buildings as $building)
 											<option value="{{ $building->id }}">{{  $building->name }}</option>
 										@endforeach
@@ -139,11 +139,11 @@
 											</div>
 		                					{!! Form::close() !!}
 											@if(!$space->deleted_at)
-												<a href="{{ route('spaces.destroy', $space->id) }}" onclick="return confirm('¿Desea Inhabilitar el espacio?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">visibility_off</i></a>
+												<a href="{{ route('spaces.destroy', $space->id) }}" onclick="return confirm('¿Desea Inhabilitar el Espacio?')" class="btn btn-fgs btn-fgs-delete red darken-3 tooltipped" data-position="top" data-delay="50" data-tooltip="Inhabilitar"><i class="material-icons">delete</i></a>
 											@else
-												<a href="{{ route('spaces.destroy', $space->id) }}" onclick="return confirm('¿Desea Habilitar el espacio?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">visibility</i></a>
+												<a href="{{ route('spaces.destroy', $space->id) }}" onclick="return confirm('¿Desea Habilitar el Espacio?')" class="btn btn-fgs btn-fgs-delete grey darken-2 tooltipped" data-position="top" data-delay="50" data-tooltip="Habilitar"><i class="material-icons">update</i></a>
 											@endif
-											<a href="{{ route('spaces.edit', $space->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit"><i class="material-icons">create</i></a>
+											<a href="{{ route('spaces.edit', $space->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit tooltipped" data-position="top" data-delay="50" data-tooltip="Editar"><i class="material-icons">create</i></a>
 										</td>
 									</tr>
 								@endforeach

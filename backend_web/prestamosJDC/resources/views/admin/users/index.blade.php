@@ -142,11 +142,11 @@
 											</div>
 		                					{!! Form::close() !!}
 											@if(!$user->deleted_at)
-												<a href="{{ route('users.destroy', $user->id) }}" onclick="return confirm('¿Desea Inhabilitar el usuario?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">visibility_off</i></a>
+												<a href="{{ route('users.destroy', $user->id) }}" onclick="return confirm('¿Desea Inhabilitar el Usuario?')" class="btn btn-fgs btn-fgs-delete red darken-3 tooltipped" data-position="top" data-delay="50" data-tooltip="Inhabilitar"><i class="material-icons">delete</i></a>
 											@else
-												<a href="{{ route('users.destroy', $user->id) }}" onclick="return confirm('¿Desea Habilitar el usuario?')" class="btn btn-fgs btn-fgs-delete red darken-3"><i class="material-icons">visibility</i></a>
+												<a href="{{ route('users.destroy', $user->id) }}" onclick="return confirm('¿Desea Habilitar el Usuario?')" class="btn btn-fgs btn-fgs-delete grey darken-2 tooltipped" data-position="top" data-delay="50" data-tooltip="Habilitar"><i class="material-icons">update</i></a>
 											@endif
-											<a href="{{ route('users.edit', $user->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit"><i class="material-icons">create</i></a>
+											<a href="{{ route('users.edit', $user->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit tooltipped" data-position="top" data-delay="50" data-tooltip="Editar"><i class="material-icons">create</i></a>
 										</td>
 									</tr>
 								@endforeach
