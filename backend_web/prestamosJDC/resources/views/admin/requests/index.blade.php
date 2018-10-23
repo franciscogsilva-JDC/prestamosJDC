@@ -76,7 +76,7 @@
 						<div class="row row-delete-all">							
 							<div class="btn red darken-3 right" id="multipleDelete" onclick="multiDelete()">Inhabilitar Varios</div>							
 							<div class="btn red darken-3 right cancel_multipleDelete" id="cancel_multipleDelete" onclick="cancel_multipleDelete()" style="display: none;"><i class="material-icons">clear</i></div>
-							{!! Form::submit('Inhabilitar', ['class' => 'btn red darken-3 right', 'onclick' => 'return confirm("¿Desea Habilitar/Inhabilitar las solicitudes seleccionadas? Si una solicitud se encuentra INHABILITADA, pasará a estar HABILITADA con este método")', 'id' => 'multiDeleteAction', 'style' => 'display: none;']) !!}	
+							{!! Form::submit('Inhabilitar', ['class' => 'btn red darken-3 right', 'onclick' => 'return confirm("¿Desea Inhabilitar las solicitudes seleccionadas? Si una solicitud se encuentra INHABILITADA, esta será CANCELADA y todos los espacios o recursos asociados pasarán a estar DISPONIBLES INMEDIATAMENTE.")', 'id' => 'multiDeleteAction', 'style' => 'display: none;']) !!}	
 						</div>
 			     		<table class="highlight striped">
 							<thead>
@@ -92,7 +92,7 @@
 											<b>Solicitante: </b><a href="{{ route('users.index', ['search' => $request->user->email]) }}">{{ $request->user->name }}</a><br>
 											<b>Responsable: </b><a href="{{ route('users.index', ['search' => $request->responsible->email]) }}">{{ $request->responsible?$request->responsible->name:$request->user->name }}</a><br>
 											@if($request->authorizations()->orderBy('created_at', 'DESC')->first()->approved_by)
-												<b>Aprovado: </b><a href="{{ route('users.index', ['search' => $request->authorizations()->orderBy('created_at', 'DESC')->first()->approver->email]) }}">{{ $request->authorizations()->orderBy('created_at', 'DESC')->first()->approver->name }}</a><br>
+												<b>Aprobado: </b><a href="{{ route('users.index', ['search' => $request->authorizations()->orderBy('created_at', 'DESC')->first()->approver->email]) }}">{{ $request->authorizations()->orderBy('created_at', 'DESC')->first()->approver->name }}</a><br>
 											@endif
 											@if($request->authorizations()->orderBy('created_at', 'DESC')->first()->received_by)
 												<b>Recibido: </b><a href="{{ route('users.index', ['search' => $request->authorizations()->orderBy('created_at', 'DESC')->first()->receiver->email]) }}">{{ $request->authorizations()->orderBy('created_at', 'DESC')->first()->receiver->name }}</a><br>
@@ -146,12 +146,8 @@
 	      										<label for="input_{{$request->id}}"></label>
 											</div>
 		                					{!! Form::close() !!}
-											@if(!$request->deleted_at)
-												<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Inhabilitar la solicitud?')" class="btn btn-fgs btn-fgs-delete red darken-3 tooltipped" data-position="top" data-delay="50" data-tooltip="Inhabilitar"><i class="material-icons">delete</i></a>
-											@else
-												<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Habilitar la solicitud?')" class="btn btn-fgs btn-fgs-delete grey darken-2 tooltipped" data-position="top" data-delay="50" data-tooltip="Habilitar"><i class="material-icons">update</i></a>
-											@endif
-											<a href="{{ route('requests.edit', $request->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit tooltipped" data-position="top" data-delay="50" data-tooltip="Editar"><i class="material-icons">create</i></a>
+											<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Inhabilitar la solicitud? Si una solicitud se encuentra INHABILITADA, esta será CANCELADA y todos los espacios o recursos asociados pasarán a estar DISPONIBLES INMEDIATAMENTE')" class="btn btn-fgs btn-fgs-delete red darken-3 tooltipped {{ $request->deleted_at?'disabled':'' }}" data-position="top" data-delay="50" data-tooltip="Inhabilitar"><i class="material-icons">delete</i></a>
+											<a href="{{ route('requests.edit', $request->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit tooltipped {{ $request->deleted_at?'disabled':'' }}" data-position="top" data-delay="50" data-tooltip="Editar"><i class="material-icons">create</i></a>
 										</td>
 									</tr>
 								@endforeach

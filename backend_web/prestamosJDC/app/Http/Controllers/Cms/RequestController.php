@@ -16,10 +16,11 @@ use App\Space;
 use App\SpaceType;
 use App\User;
 use App\UserType;
+use Auth;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Auth;
 
 class RequestController extends Controller{
     private $menu_item = 2;
@@ -73,7 +74,7 @@ class RequestController extends Controller{
         $statusTypes = SpaceType::orderBy('name', 'ASC')->get();
         $participantTypes = ParticipantType::orderBy('name', 'ASC')->get();
         $authorizationStatuses = AuthorizationStatus::orderBy('name', 'ASC')->get();
-        $users = User::orderBy('name', 'ASC')->get();
+        $users = User::where('user_type_id', '!=', 3)->orderBy('name', 'ASC')->get();
         //$spaces = Space::orderBy('name', 'ASC')->get();
         $dependencies = Dependency::orderBy('name', 'ASC')->get();
 
@@ -96,7 +97,6 @@ class RequestController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-
         $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
         $start_date_full = Carbon::parse($request->start_date.' '.$request->start_time, config('app.timezone'));
         $end_date_full = Carbon::parse($request->end_date.' '.$request->end_time, config('app.timezone'));
@@ -113,6 +113,14 @@ class RequestController extends Controller{
         //Type = 2 => Recurso
         if($request->request_type_id == 1){
             $this->validate($request, $this->getValidationSpaceRequestRules($request), $this->getValidationSpaceRequestMessages($request));
+            $user_type_id = User::find($request->user_id)->user_type_id;
+
+            if($user_type_id == 3){
+                $errors = collect(['El tipo de usuario seleccionado no puede realizar este tipo de solicitudes']);
+                return back()
+                    ->withInput()
+                    ->with('errors', $errors);
+            }
 
             if($start_date_full <= Carbon::now()->addDays(config('prestamosjdc.minimum_days_for_spaces_loans'))){
                 $errors = collect(['La fecha de inicio de la solicitud no puede ser menor a '.config('prestamosjdc.minimum_days_for_spaces_loans').' días para Espacios Físicos.']);
@@ -191,6 +199,7 @@ class RequestController extends Controller{
         $authorization->request_id = $application->id;
         $authorization->authorization_status_id = $request->authorization_status_id;
         $authorization->approved_by = $request->authorization_status_id===2?Auth::user()->id:null;
+        $authorization->received_by = $request->authorization_status_id===5?Auth::user()->id:null;
         $authorization->save();
 
         if($request->request_type_id == 1){
@@ -202,24 +211,238 @@ class RequestController extends Controller{
             $authorization->resources()->attach($request->resources);
             if($request->resources){
                 foreach ($request->resources as $res) {
-                    $res = Resource::find($resource);
-                    $res->resource_status_id = 2;
-                    $res->save();
+                    $resource = Resource::find($res);
+                    $resource->resource_status_id = 2;
+                    $resource->save();
                 }
             }
         }elseif($request->request_type_id == 2){
             $authorization->resources()->attach($request->resources_dep);            
             if($request->resources_dep){
-                foreach ($request->resources_dep as $res) {
-                    $res = Resource::find($resource);
-                    $res->resource_status_id = 2;
-                    $res->save();
-                }
+                $res = Resource::find($request->resources_dep);
+                $res->resource_status_id = 2;
+                $res->save();
             }            
         }
 
         return redirect()->route('requests.index')
             ->with('session_msg', 'Se ha creado la solicitud.');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id){
+        $application = $this->validateApplication($id);
+        $requestTypes = RequestType::orderBy('name', 'ASC')->get();
+        $statusTypes = SpaceType::orderBy('name', 'ASC')->get();
+        $participantTypes = ParticipantType::orderBy('name', 'ASC')->get();
+        $authorizationStatuses = AuthorizationStatus::orderBy('name', 'ASC')->get();
+        $users = User::where('user_type_id', '!=', 3)->orderBy('name', 'ASC')->get();
+        $spaces = Space::orderBy('name', 'ASC')->get();
+        $dependencies = Dependency::orderBy('name', 'ASC')->get();
+        $resources = null;
+
+        $type = $application->type->id;
+
+        if($type == 1){
+            $thisSpaceType = $application->authorizations()->orderBy('created_at', 'DESC')->first()->spaces()->orderBy('created_at', 'DESC')->first()->type;
+            $thisSpace = $application->authorizations()->orderBy('created_at', 'DESC')->first()->spaces()->orderBy('created_at', 'DESC')->first();
+            $thisSpaces = Space::where('space_type_id', $thisSpaceType->id)->where('space_status_id', 1)->orWhere('id', $thisSpace->id)->get();
+            $thisResources = $application->authorizations()->orderBy('created_at', 'DESC')->first()->resources()->get();
+            $resources = Resource::whereIn('id', $thisResources->pluck('id')->ToArray())->orWhere('resource_status_id', 1)->where('resource_type_id', 2)->whereHas('spaces', function($space) use($thisSpace){
+                $space->where('space_id', $thisSpace->id);
+            })->orderBy('name', 'ASC')->get();
+        }elseif($type == 2){
+            $thisDependency = $application->authorizations()->orderBy('created_at', 'DESC')->first()->resources()->orderBy('created_at', 'DESC')->first()->dependency_id;
+            $thisDependencyResources = $application->authorizations()->orderBy('created_at', 'DESC')->first()->resources->pluck('id')->ToArray();
+            $resources = Resource::whereIn('id', $thisDependencyResources)->orWhere('resource_status_id', 1)->where('resource_type_id', 1)->where('dependency_id', $thisDependency)->orderBy('name', 'ASC')->get();
+        }
+
+        return view('admin.requests.create_edit')
+            ->with('request', $application)
+            ->with('requestTypes', $requestTypes)
+            ->with('statusTypes', $statusTypes)
+            ->with('participantTypes', $participantTypes)
+            ->with('authorizationStatuses', $authorizationStatuses)
+            ->with('users', $users)
+            ->with('spaces', $spaces)
+            ->with('dependencies', $dependencies)
+            ->with('resources', $resources)
+            ->with('thisSpaceType', $type===1?$thisSpaceType:null)
+            ->with('thisSpaces', $type===1?$thisSpaces:null)
+            ->with('thisDependency', $type===2?$thisDependency:null)
+            ->with('thisDependencyResources', $type===2?$thisDependencyResources:null)
+            ->with('title_page', 'Editar Solicitud #'.$application->id)
+            ->with('menu_item', $this->menu_item);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id){
+        $application = $this->validateApplication($id);
+        $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
+        $start_date_full = Carbon::parse($request->start_date.' '.$request->start_time, config('app.timezone'));
+        $end_date_full = Carbon::parse($request->end_date.' '.$request->end_time, config('app.timezone'));
+        $errors = null;
+
+        if($start_date_full >= $end_date_full){
+            $errors = collect(['La fecha de inicio de la solicitud no puede ser MAYOR o IGUAL a la fecha de finalización de la solicitud.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
+
+        //Type = 1 => Espacio
+        //Type = 2 => Recurso
+        if($request->request_type_id == 1){
+            $this->validate($request, $this->getValidationSpaceRequestRules($request), $this->getValidationSpaceRequestMessages($request));
+            $user_type_id = User::find($request->user_id)->user_type_id;
+
+            if($user_type_id == 3){
+                $errors = collect(['El tipo de usuario seleccionado no puede realizar este tipo de solicitudes']);
+                return back()
+                    ->withInput()
+                    ->with('errors', $errors);
+            }
+
+            if($start_date_full <= Carbon::now()){
+                $errors = collect(['La fecha de inicio de la solicitud no puede ser menor a la fecha actual. Por favor verificar las fechas.']);
+                return back()
+                    ->withInput()
+                    ->with('errors', $errors); 
+            }
+
+            if($request->participants <= 0){
+                $errors = collect(['El número TOTAL de participantes no puede ser menor o igual a 0 (cero)']);
+                return back()
+                    ->withInput()
+                    ->with('errors', $errors);
+            }else{
+                if($request->participants > Space::find($request->space_id)->max_persons){
+                    $errors = collect(['El número TOTAL de participantes es mayor a la capacidad del espacio seleccionado.']);
+                    return back()
+                        ->withInput()
+                        ->with('errors', $errors);
+                }
+                if(($request->internal_participants + $request->external_participants) != $request->participants){
+                    $errors = collect(['El número TOTAL de participantes no coincide con la suma del número de participantes EXTERNOS y el número de participantes INTERNOS']);
+                    return back()
+                        ->withInput()
+                        ->with('errors', $errors);
+                }
+            }
+        }elseif($request->request_type_id == 2){
+            $this->validate($request, $this->getValidationResourceRequestRules($request), $this->getValidationResourceRequestMessages($request));
+            //Si es un Elemento Audiovisual
+            if((Resource::find($request->resources_dep)->category->id == 2)){
+                //Si es un Estudiante
+                if(User::find($request->user_id)->type->id == 3){
+                    $this->validate(
+                        $request, 
+                        [
+                            'responsible_id' => 'required|numeric'
+                        ],
+                        [
+                            'responsible_id.required' => 'El responsable es obligatorio.',
+                            'responsible_id.numeric'  => 'El responsable debe ser un valor numerico.'
+                        ]
+                    );
+                }
+
+                if($start_date_full <= Carbon::now()->addDays(config('prestamosjdc.minimum_days_for_audiovisual_element_loans'))){
+                    $errors = collect(['La fecha de inicio de la solicitud no puede ser menor a '.config('prestamosjdc.minimum_days_for_audiovisual_element_loans').' días para elementos de tipo AUDIOVISUAL.']); 
+                    return back()
+                        ->withInput()
+                        ->with('errors', $errors);
+                }
+            }elseif((Resource::find($request->resources_dep)->category->id == 3 || Resource::find($request->resources_dep)->category->id == 4)){
+                //Si es un elemento de Musuica o Folclorico
+                if($start_date_full <= Carbon::now()->addDays(config('prestamosjdc.minimum_days_for_musical_or_folklore_elements'))){
+                    $errors = collect(['La fecha de inicio de la solicitud no puede ser menor a '.config('prestamosjdc.minimum_days_for_musical_or_folklore_elements').' días para elementos de tipo AUDIOVISUAL.']);
+                    return back()
+                        ->withInput()
+                        ->with('errors', $errors);
+                }
+            }elseif(Resource::find($request->resources_dep)->category->id == 1){
+                //Si es un elemento Deportivo
+                if($end_date_full > $start_date_full->addHours(2)){
+                    $errors = collect(['La Fecha y Hora de entrega de la solicitud no puede ser mayor de 2 HORAS para elementos de tipo DEPORTIVO.']);
+                    return back()
+                        ->withInput()
+                        ->with('errors', $errors);
+                }
+            }
+        }
+
+        $application = $this->setApplication($application, $request);
+        $application->participantTypes()->detach();
+        $application->participantTypes()->attach($request->participantsTypes);
+
+        $beforeAuthorization = $application->authorizations()->orderBy('created_at', 'DESC')->first();
+        
+        $authorization = new Authorization();
+        $authorization->request_id = $application->id;
+        $authorization->authorization_status_id = $request->authorization_status_id;
+        $authorization->approved_by = $request->authorization_status_id===2?Auth::user()->id:null;
+        $authorization->received_by = $request->authorization_status_id===5?Auth::user()->id:null;
+        $authorization->save();
+
+        if($request->request_type_id == 1){
+            $space = $beforeAuthorization->spaces()->orderBy('created_at', 'DESC')->first();
+            $newSpace = Space::find($request->space_id);
+            if($space->id != $newSpace->id){
+                $space->space_status_id = 1;
+                $space->save();                
+            }
+
+            $authorization->spaces()->attach($request->space_id);
+            $newSpace->space_status_id = 2;
+            $newSpace->save();
+
+            $beforeResources = $beforeAuthorization->resources()->get();
+            if($beforeResources->count()>0){
+                foreach ($beforeResources as $befRes) {
+                    $befRes->resource_status_id = 1;
+                    $befRes->save();
+                }
+            }
+
+            $authorization->resources()->attach($request->resources);
+            if($request->resources){
+                foreach ($request->resources as $id) {
+                    $resource = Resource::find($id);
+                    $resource->resource_status_id = 2;
+                    $resource->save();
+                }
+            }
+        }elseif($request->request_type_id == 2){
+            $beforeResources = $beforeAuthorization->resources()->get();
+            if($beforeResources->count()>0){
+                foreach ($beforeResources as $befRes) {
+                    $befRes->resource_status_id = 1;
+                    $befRes->save();
+                }
+            }
+
+            $authorization->resources()->attach($request->resources_dep);            
+            if($request->resources_dep){
+                $res = Resource::find($request->resources_dep);
+                $res->resource_status_id = 2;
+                $res->save();
+            }            
+        }
+
+        return redirect()->route('requests.index')
+            ->with('session_msg', '¡La solicitud, se ha editado correctamente!');
     }
 
     private function setApplication($application, $request){
@@ -234,6 +457,70 @@ class RequestController extends Controller{
         $application->start_date            =   Carbon::parse($request->start_date.' '.$request->start_time, config('app.timezone'));
         $application->end_date              =   Carbon::parse($request->end_date.' '.$request->end_time, config('app.timezone'));
         $application->save();
+        return $application;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id, $type=false){
+        $application = $this->validateApplication($id);
+        if($application->deleted_at){
+
+        }else{
+            $beforeAuthorization = $application->authorizations()->orderBy('created_at', 'DESC')->first();
+            if($application->request_type_id == 1){
+                $space = $beforeAuthorization->spaces()->orderBy('created_at', 'DESC')->first();
+                $space->space_status_id = 1;
+                $space->save();
+            }
+
+            $beforeResources = $beforeAuthorization->resources()->get();
+            if($beforeResources->count()>0){
+                foreach ($beforeResources as $befRes) {
+                    $befRes->resource_status_id = 1;
+                    $befRes->save();
+                }
+            }
+        
+            $authorization = new Authorization();
+            $authorization->request_id = $application->id;
+            $authorization->authorization_status_id = 4;
+            $authorization->approved_by = Auth::user()->id;
+            $authorization->save();
+            $application->delete();
+            $message = 'Inhabilitado';
+        }
+        if(!$type){
+            return redirect()->route('requests.index')
+                ->with('session_msg', 'La solicitud se ha '.$message.' correctamente');
+        }             
+    }
+    
+    public function destroyMulti(Request $request){
+        if(isset($request->items_to_delete)){
+            foreach ($request->items_to_delete as $item) {
+                $this->destroy($item, true);
+            }            
+            return redirect()->route('requests.index')
+                ->with('session_msg', 'Las solicitudes, se han Inhabilitado correctamente');
+        }else{            
+            return redirect()->route('requests.index');
+        }
+    }
+
+    private function validateApplication($id){
+        try {
+            $application = Application::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Solicitud con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         return $application;
     }
 
@@ -259,7 +546,7 @@ class RequestController extends Controller{
      */
     public function getDependenciesResources(){
         $dependency_id = request()->input('dependency_id');
-        return Resource::where('resource_status_id', 1)->where('resource_type_id', 1)->where('dependency_id', $dependency_id)->get();        
+        return Resource::where('resource_status_id', 1)->where('resource_type_id', 1)->where('dependency_id', $dependency_id)->get();
     }
 
     public function getComplements(){
