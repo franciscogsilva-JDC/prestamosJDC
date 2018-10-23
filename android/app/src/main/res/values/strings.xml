@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Prestamos_JDC</string>
+    <string name="app_name">Prestamos JDC</string>
+    <string name="bienvenida">Seleccione el tipo de solicitud que desea realizar</string>
+    <string name="buscar">Buscar</string>
+    <string name="solicitar">Solicitar</string>
+    <string name="autorizar">Autorizar</string>
 </resources>
