@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Prestamos JDC</string>
+    <string name="bienvenida">Seleccione el tipo de solicitud que desea realizar</string>
+    <string name="buscar">Buscar</string>
+</resources>
