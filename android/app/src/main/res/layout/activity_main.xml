@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:padding="15dp"
-            android:textSize="24sp"
+            android:textSize="21sp"
             android:textAlignment="center"
             android:text="@string/bienvenida"/>
     </LinearLayout>
@@ -29,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:itemBackground="@color/colorPrimaryLight"
         app:menu="@menu/menu_inferior">
 
     </android.support.design.widget.BottomNavigationView>
