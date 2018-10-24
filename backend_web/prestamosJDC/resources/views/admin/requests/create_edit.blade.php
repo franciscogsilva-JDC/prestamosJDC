@@ -11,7 +11,7 @@
 			        <div class="head-edit">
 			            <div class="section">              
 							@if(isset($request))
-								<p class="caption-title center-align">Editar Solicitud</p>
+								<p class="caption-title center-align">Editar Solicitud #{{ $request->id }}</p>
 							@else 
 			               		<p class="caption-title center-align">Crear nueva Solicitud</p>
 							@endif
@@ -44,7 +44,9 @@
 											<option value="" disabled selected>Selecciona el Tipo de espacio<span class="required-input">*</span></option>
 											@foreach($statusTypes as $type)
 												@if(isset($request))
-													<option value="{{ $type->id }}" {{$type->id===100000?'selected=selected':''}}>{{ $type->name }}</option>
+													@if($request->type->id == 1)
+														<option value="{{ $type->id }}" {{$type->id===$thisSpaceType->id?'selected=selected':''}}>{{ $type->name }}</option>
+													@endif
 												@else 
 													<option value="{{ $type->id }}">{{ $type->name }}</option>
 												@endif
@@ -63,7 +65,7 @@
 											<option value="" disabled selected>Selecciona el solicitante <span class="required-input">*</span></option>
 											@foreach($users as $user)
 												@if(isset($request))
-													<option value="{{ $user->id }}" data-icon="{{ $user->image_thumbnail }}" class="rigth circle" {{in_array($user->id, $request->users->pluck('id')->ToArray())?'selected=selected':''}}>{{ $user->name }}</option>
+													<option value="{{ $user->id }}" data-icon="{{ $user->image_thumbnail }}" class="rigth circle" {{in_array($user->id, $request->user->pluck('id')->ToArray())?'selected=selected':''}}>{{ $user->name }}</option>
 												@else
 													<option value="{{ $user->id }}" data-icon="{{ $user->image_thumbnail }}" class="rigth circle" >{{ $user->name }}</option>		
 												@endif
@@ -91,7 +93,7 @@
 											<option value="" disabled selected>Selecciona el Estado de la Solicitud <span class="required-input">*</span></option>
 											@foreach($authorizationStatuses as $status)
 												@if(isset($request))
-													<option value="{{ $status->id }}" {{$status->id===$request->authorizations->orderBy('created_at', 'DESC')->first()->status->id?'selected=selected':''}}>{{ $status->name }}</option>
+													<option value="{{ $status->id }}" {{$status->id===$request->authorizations()->orderBy('created_at', 'DESC')->first()->status->id?'selected=selected':''}}>{{ $status->name }}</option>
 												@else 
 													<option value="{{ $status->id }}">{{ $status->name }}</option>
 												@endif
@@ -138,11 +140,13 @@
 									<div id="spaces_div" class="input-field col s12 m6 l6" hidden>
 										<i class="material-icons prefix">domain</i>
 										<select class="icons" name="space_id" id="space_id">
-											<option value="" disabled selected>Selecciona el espacio</option>
 											@if(isset($request))
-												@foreach($spaces as $space)
-													<option value="{{ $space->id }}" {{$space->id===10000?'selected=selected':''}}>{{ $space->name }} ({{ $space->max_persons }})</option>
-												@endforeach
+												<option value="" disabled selected>Selecciona el espacio</option>
+												@if($request->type->id == 1)
+													@foreach($thisSpaces as $space)
+														<option value="{{ $space->id }}" {{$space->id===$request->authorizations()->orderBy('created_at', 'DESC')->first()->spaces()->orderBy('created_at', 'DESC')->first()->id?'selected=selected':''}}>{{ $space->name }} ({{ $space->max_persons }})</option>
+													@endforeach
+												@endif
 											@else
 												<option value="" disabled selected>Primero Selecciona un tipo de Espacio</option>
 											@endif
@@ -151,11 +155,18 @@
 									</div>
 									<div id="resources_div" class="input-field col s12 m6 l6" hidden>
 										<i class="material-icons prefix">category</i>
-										<select id="resources" class="icons" name="resources[]">
+										<select id="resources" class="icons" name="resources[]" multiple>
 											@if(isset($request))
-												@foreach($spaceResources as $resource)
-													<option value="{{ $resource->id }}" {{$resource->id===$request->authorizations->orderBy('created_at', 'DESC')->first()->spaces->resources->pluck('id')->ToArray()?'selected=selected':''}}>{{ $resource->name }}</option>
-												@endforeach
+												<option value="" disabled selected>Selecciona un recurso</option>
+												@if($request->authorizations()->orderBy('created_at', 'DESC')->first()->spaces()->count()>0)
+													@if($resources->count()>0)
+														@foreach($resources as $resource)
+															<option value="{{ $resource->id }}" data-icon="{{ $resource->image_thumbnail }}" class="rigth circle" {{in_array($resource->id, $request->authorizations()->orderBy('created_at', 'DESC')->first()->resources()->pluck('resource_id')->ToArray())?'selected=selected':''}}>{{ $resource->name }} - {{ $resource->reference }}</option>
+														@endforeach
+													@else
+														<option value="" disabled selected>No hay recursos disponibles para este espacio</option>
+													@endif
+												@endif
 											@else
 												<option value="" disabled selected>Primero Selecciona un Espacio</option>
 											@endif
@@ -168,7 +179,9 @@
 											<option value="" disabled selected>Selecciona la dependencia <span class="required-input">*</span></option>
 											@foreach($dependencies as $dependency)
 												@if(isset($request))
-													<option value="{{ $dependency->id }}" {{in_array($dependency->id, $request->authorizations->resources->pluck('id')->ToArray())?'selected=selected':''}}>{{ $dependency->name }}</option>
+													@if($request->type->id == 2)
+														<option value="{{ $dependency->id }}" {{$dependency->id===$thisDependency?'selected=selected':''}}>{{ $dependency->name }}</option>
+													@endif
 												@else
 													<option value="{{ $dependency->id }}">{{ $dependency->name }}</option>		
 												@endif
@@ -180,30 +193,17 @@
 										<i class="material-icons prefix">category</i>
 										<select id="resources_dep" class="icons" name="resources_dep">
 											@if(isset($request))
-												@foreach($depResources as $resource)
-													<option value="{{ $resource->id }}" {{$resource->id===$request->authorizations->orderBy('created_at', 'DESC')->first()->resources->pluck('id')->ToArray()?'selected=selected':''}}>{{ $resource->name }}</option>
-												@endforeach
+												@if($request->type->id == 2)
+													@foreach($resources as $resource)
+														<option value="{{ $resource->id }}" data-icon="{{ $resource->image_thumbnail }}" class="rigth circle" {{in_array($resource->id, $thisDependencyResources)?'selected=selected':''}}>{{ $resource->name }} - {{ $resource->reference }}</option>
+													@endforeach
+												@endif
 											@else
 												<option value="" disabled selected>Primero Selecciona una Dependencia</option>
 											@endif
 										</select>
 										<label for="resources_dep">Recursos</label>
 									</div>
-									<!--
-									<div id="complements_div" class="input-field col s12 m6 l6" hidden>
-										<i class="material-icons prefix">power</i>
-										<select id="complements" class="icons" name="complements[]" multiple>
-											@if(isset($request))
-												@foreach($complements as $complement)
-													<option value="{{ $complement->id }}" {{$complement->id===$request->authorizations->orderBy('created_at', 'DESC')->first()->resources->complements->pluck('id')->ToArray()?'selected=selected':''}}>{{ $complement->name }}</option>
-												@endforeach
-											@else
-												<option value="" disabled selected>Primero Selecciona una Dependencia</option>
-											@endif
-										</select>
-										<label for="complements">Complementos</label>
-									</div>
-									-->
 									<div id="participant_types_div" class="input-field col s12 m6 l6" hidden>
 										<i class="material-icons prefix">group</i>
 										<select class="icons" name="participantsTypes" id="participantsTypes[]" multiple>
@@ -342,7 +342,7 @@
 				$('#resources').empty();
 	          	$('#resources').append("<option value='' disabled selected>Selecciona un Recurso</option>");
 				$.each(data, function(key, element) {
-					$('#resources').append("<option value='" + element.id + "'>" + element.name + "</option>");
+					$('#resources').append("<option value='" + element.id + "' data-icon='"+ element.image_thumbnail +"' class='rigth circle'>" + element.name + " - " + element.reference + "</option>");
 				});
 				$('select').material_select();
 			});
@@ -363,7 +363,7 @@
 	          	$('#complements').append("<option value='' disabled selected>Selecciona un Recurso</option>");
 	          	*/
 				$.each(data, function(key, element) {
-					$('#resources_dep').append("<option value='" + element.id + "' data-icon='"+ element.image_thumbnail +"' class='rigth circle'>" + element.name + "</option>");
+					$('#resources_dep').append("<option value='" + element.id + "' data-icon='"+ element.image_thumbnail +"' class='rigth circle'>" + element.name + " - " + element.reference + "</option>");
 				});
 				$('select').material_select();
 			});
