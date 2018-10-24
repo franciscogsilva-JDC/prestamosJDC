@@ -17,11 +17,35 @@
             android:id="@+id/bienvenida"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:padding="15dp"
-            android:textSize="21sp"
+            android:layout_margin="18dp"
+            android:padding="18dp"
+            android:textSize="22sp"
             android:textAlignment="center"
             android:text="@string/bienvenida"/>
+
+        <Button
+            android:id="@+id/btn_spaces"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="18dp"
+            android:drawableLeft="@drawable/espacios"
+            android:padding="10dp"
+            android:text="@string/espacios"
+            android:textSize="18sp"
+            android:onClick="requestSpace"/>
+
+        <Button
+            android:id="@+id/btn_resources"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:layout_margin="18dp"
+            android:drawableLeft="@drawable/recursos"
+            android:text="Recursos Físicos"
+            android:textSize="18sp"/>
+
     </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView

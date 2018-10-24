@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SolicitarEspacio">
+
+    
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/container1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/form_space"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginBottom="9dp"
+            android:padding="10dp"
+            android:text="@string/form_espacio"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:orientation="horizontal"
+            android:padding="3dp">
+
+            <LinearLayout
+                android:id="@+id/formLeft"
+                android:layout_width="181dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtEventDate"
+                    android:layout_width="179dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:padding="8dp"
+                    android:text="@string/event_date"
+                    android:textSize="17sp"
+                    android:layout_marginTop="3dp"/>
+
+                <TextView
+                    android:id="@+id/txtTimeStart"
+                    android:layout_width="179dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:padding="8dp"
+                    android:text="@string/time_start"
+                    android:textSize="17sp"
+                    android:layout_marginTop="3dp"/>
+
+                <TextView
+                    android:id="@+id/txtTimeEnd"
+                    android:layout_width="179dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:padding="8dp"
+                    android:text="@string/time_end"
+                    android:textSize="17sp"
+                    android:layout_marginTop="3dp"/>
+
+                <TextView
+                    android:id="@+id/txtHeadquarters"
+                    android:layout_width="179dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:padding="8dp"
+                    android:text="@string/headquarters"
+                    android:textSize="17sp"
+                    android:layout_marginTop="3dp"/>
+
+                <TextView
+                    android:id="@+id/txtBuilding"
+                    android:layout_width="179dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:padding="8dp"
+                    android:text="@string/building"
+                    android:textSize="17sp"
+                    android:layout_marginTop="3dp"/>
+
+                <TextView
+                    android:id="@+id/txtSpace"
+                    android:layout_width="179dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:padding="8dp"
+                    android:text="@string/space"
+                    android:textSize="17sp"
+                    android:layout_marginTop="3dp"/>
+
+                <TextView
+                    android:id="@+id/txtResources"
+                    android:layout_width="179dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:padding="6dp"
+                    android:text="@string/resources"
+                    android:textSize="16sp"
+                    android:layout_marginTop="3dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/formRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edtEventDate"
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/date_format"
+                        android:inputType="date" />
+
+                    <ImageButton
+                        android:id="@+id/ibDate"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
+                        android:layout_gravity="center"
+                        android:background="@color/colorPrimary"
+                        android:onClick="getDateButton"
+                        android:src="@drawable/ic_date" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edtTimeStart"
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/time_format"
+                        android:inputType="time" />
+
+                    <ImageButton
+                        android:id="@+id/ibTimeStart"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
+                        android:layout_gravity="center"
+                        android:background="@color/colorPrimary"
+                        android:onClick="getTimeButton"
+                        android:src="@drawable/ic_time" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edtTimeEnd"
+                        android:layout_width="125dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/time_format"
+                        android:inputType="time" />
+
+                    <ImageButton
+                        android:id="@+id/ibTimeEnd"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
+                        android:layout_gravity="center"
+                        android:background="@color/colorPrimary"
+                        android:onClick="getTimeButton"
+                        android:src="@drawable/ic_time" />
+                </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/cbHeadquarters"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"/>
+
+                <Spinner
+                    android:id="@+id/cbBuildings"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"/>
+
+                <Spinner
+                    android:id="@+id/cbSpaces"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+    </LinearLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/menuInferior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemBackground="@color/colorPrimaryLight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/menu_inferior">
+
+    </android.support.design.widget.BottomNavigationView>
+
+</android.support.constraint.ConstraintLayout>

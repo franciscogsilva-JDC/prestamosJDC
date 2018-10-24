@@ -1,10 +1,12 @@
 package com.camila.prestamos_jdc;
 
+import android.content.Intent;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,5 +37,10 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void requestSpace(View v){
+        Intent oIntent = new Intent(this, SolicitarEspacio.class);
+        startActivity(oIntent);
     }
 }
