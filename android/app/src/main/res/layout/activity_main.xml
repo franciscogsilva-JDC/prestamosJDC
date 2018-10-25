@@ -31,7 +31,7 @@
             android:layout_margin="18dp"
             android:drawableLeft="@drawable/espacios"
             android:padding="10dp"
-            android:text="@string/espacios"
+            android:text="@string/btn_spaces"
             android:textSize="18sp"
             android:onClick="requestSpace"/>
 
@@ -43,8 +43,9 @@
             android:padding="10dp"
             android:layout_margin="18dp"
             android:drawableLeft="@drawable/recursos"
-            android:text="Recursos Físicos"
-            android:textSize="18sp"/>
+            android:text="@string/btn_resources"
+            android:textSize="18sp"
+            android:onClick="requestResource"/>
 
     </LinearLayout>
 

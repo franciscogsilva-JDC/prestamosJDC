@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">Prestamos JDC</string>
+
     <string name="bienvenida">Seleccione el tipo de solicitud que desea realizar</string>
-    <string name="buscar">Buscar</string>
-    <string name="espacios">Espacios Físicos</string>
-    <string name="form_espacio">SOLICITAR ESPACIO FÍSICO</string>
+
+    <string name="menu_search">Buscar</string>
+    <string name="menu_request">Solicitar</string>
+    <string name="menu_authorizations">Autorizaciones</string>
+
+    <string name="btn_spaces">Espacios Físicos</string>
+    <string name="btn_resources">Recursos Físicos</string>
+
+    <string name="form_space">SOLICITAR ESPACIO FÍSICO</string>
     <string name="date_format">dd/mm/yyyy</string>
     <string name="time_format">hh:mm</string>
     <string name="event_date">Fecha Evento:</string>
@@ -13,5 +20,15 @@
     <string name="building">Edificio:</string>
     <string name="space">Espacio:</string>
     <string name="resources">Recursos Adicionales:</string>
+    <string name="create">CREAR</string>
+
+    <string name="form_resource">SOLICITAR RECURSO FÍSICO</string>
+    <string name="category">Categoría:</string>
+    <string name="request_resource">Recurso:</string>
+    <string name="quantity">Cantidad:</string>
+    <string name="date">Fecha:</string>
+    <string name="hour">Hora:</string>
+    <string name="profile">Perfil</string>
+
 
 </resources>
