@@ -18,7 +18,7 @@
     <script src="{{ asset('plugins/fullcalendar/locale/es.js')}}"></script>
     <script type="text/javascript">
 		$(function() {
-			$('#calendar').fullCalendar({
+            $('#calendar').fullCalendar({
 				header: {
 					left: 'prev,next today',
 					center: 'title',
@@ -31,7 +31,14 @@
 					listWeek: { buttonText: 'Semana' }
 				},
                 //editable: true,
-                events: [
+                events: {
+                    url: '{{ route("calendar.events") }}',
+                    type: 'GET', // Send post data
+                    error: function() {
+                        alert('There was an error while fetching events.');
+                    }
+                }
+                /*events: [
                     {               
                         title: 'All Day Event',
                         start: '2018-09-01'
@@ -86,7 +93,7 @@
                         url: 'http://google.com/',
                         start: '2018-09-28'
                     }
-                ]
+                ]*/
 			})
 		});
     </script>

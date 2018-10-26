@@ -314,11 +314,13 @@ class RequestController extends Controller{
                     ->with('errors', $errors);
             }
 
-            if($start_date_full <= Carbon::now()){
-                $errors = collect(['La fecha de inicio de la solicitud no puede ser menor a la fecha actual. Por favor verificar las fechas.']);
-                return back()
-                    ->withInput()
-                    ->with('errors', $errors); 
+            if($request->authorization_status_id == 2){
+                if($start_date_full <= Carbon::now()){
+                    $errors = collect(['La fecha de inicio de la solicitud no puede ser menor a la fecha actual. Por favor verificar las fechas.']);
+                    return back()
+                        ->withInput()
+                        ->with('errors', $errors); 
+                }                
             }
 
             if($request->participants <= 0){
@@ -633,5 +635,42 @@ class RequestController extends Controller{
             'resources_dep.required'    =>  'El recurso es obligatorio.',
             'resources_dep.numeric'     =>  'El recurso debe ser un valor numerico.'
         ];
+    }
+
+    public function getAvailableEvents(){
+        $applications = Application::where('request_type_id', 1)
+                ->whereHas('authorizations')
+                ->with(['authorizations' => function($authorization){
+                    $authorization->orderBy('created_at', 'DESC')
+                        ->select([
+                            'id',
+                            'authorization_status_id',
+                            'request_id'
+                        ])
+                        ->first();
+                }])
+                ->orderBy('start_date', 'ASC')
+                ->select([
+                    'id',
+                    'description',
+                    'start_date',
+                    'end_date'
+                ])
+                ->get();
+
+        $events = array();
+        foreach ($applications as $event) {
+            if($event->authorizations[0]->authorization_status_id == 2){
+                $e = array();
+                $e['id'] = $event->id.'';
+                $e['title'] = $event->description.'';
+                $e['start'] = $event->start_date->format('Y-m-d\TH:i:s').'';
+                $e['end'] = $event->end_date->format('Y-m-d\TH:i:s').'';
+                $e['url'] = route('requests.show', $event->id).'';
+                array_push($events, $e);
+            }
+        }
+        
+        return json_encode($events);
     }
 }
