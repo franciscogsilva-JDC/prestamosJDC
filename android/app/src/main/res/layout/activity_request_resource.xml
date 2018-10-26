@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RequestResource">
+
+    <ScrollView
+        android:id="@+id/scroll_resource"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/menuInferior"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:id="@+id/main_container_resource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="top|center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/form_resource"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginBottom="9dp"
+                android:padding="10dp"
+                android:text="@string/form_resource"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TableLayout
+                android:id="@+id/form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:padding="2dp">
+
+                <TableRow
+                    android:id="@+id/row1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/txtCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="end"
+                        android:padding="8dp"
+                        android:text="@string/category"
+                        android:textSize="16sp" />
+
+                    <Spinner
+                        android:id="@+id/cbCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" />
+
+                    <TextView />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/txtResource"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="end"
+                        android:padding="8dp"
+                        android:text="@string/request_resource"
+                        android:textSize="16sp" />
+
+                    <Spinner
+                        android:id="@+id/cbResource"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp" />
+
+                    <TextView />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/txtQuantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="end"
+                        android:padding="8dp"
+                        android:text="@string/quantity"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/edtQuantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="6"
+                        android:inputType="number" />
+
+                    <TextView />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/txtDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="end"
+                        android:padding="8dp"
+                        android:text="@string/date"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/edtDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="6"
+                        android:focusable="false"
+                        android:hint="@string/date_format"
+                        android:inputType="date" />
+
+                    <ImageButton
+                        android:id="@+id/ibDate"
+                        android:layout_width="99px"
+                        android:layout_height="59px"
+                        android:layout_gravity="center"
+                        android:background="@color/colorPrimary"
+                        android:contentDescription="TODO"
+                        android:onClick="getDateButton"
+                        android:src="@drawable/ic_date" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/txtTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:gravity="end"
+                        android:padding="8dp"
+                        android:text="@string/hour"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/edtTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="6"
+                        android:focusable="false"
+                        android:hint="@string/time_format"
+                        android:inputType="time" />
+
+                    <ImageButton
+                        android:id="@+id/ibTime"
+                        android:layout_width="99px"
+                        android:layout_height="59px"
+                        android:layout_gravity="center"
+                        android:background="@color/colorPrimary"
+                        android:onClick="getTimeButton"
+                        android:src="@drawable/ic_time" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="18dp"
+                android:padding="3dp"
+                android:text="@string/create" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/menuInferior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemBackground="@color/colorPrimaryLight"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_inferior"/>
+
+</RelativeLayout>

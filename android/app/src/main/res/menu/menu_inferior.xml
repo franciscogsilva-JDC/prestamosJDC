@@ -3,14 +3,14 @@
     <item
         android:id="@+id/btn_search"
         android:icon="@drawable/ic_search"
-        android:title="@string/buscar"/>
+        android:title="@string/menu_search"/>
     <item
         android:id="@+id/btn_request"
         android:icon="@drawable/ic_requests"
-        android:title="Solicitar"/>
+        android:title="@string/menu_request"/>
     <item
         android:id="@+id/btn_authorization"
         android:icon="@drawable/ic_authorizations"
-        android:title="Autorizar"/>
+        android:title="@string/menu_authorizations"/>
 
 </menu>

@@ -17,12 +17,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setIcon(R.drawable.ic_profile);
-        getSupportActionBar().setTitle("    "+getString(R.string.app_name));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.menuInferior);
         mBottomNavigationView.setSelectedItemId(R.id.btn_request);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.bar_profile, menu);
+        return true;
     }
 
     @Override
@@ -40,7 +42,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void requestSpace(View v){
-        Intent oIntent = new Intent(this, SolicitarEspacio.class);
+        Intent oIntent = new Intent(this, RequestSpace.class);
+        startActivity(oIntent);
+    }
+
+    public void requestResource(View v){
+        Intent oIntent = new Intent(this, RequestResource.class);
         startActivity(oIntent);
     }
 }
