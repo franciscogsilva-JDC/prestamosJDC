@@ -5,22 +5,28 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
+import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SearchResource extends AppCompatActivity {
 
     private BottomNavigationView mBottomNavigationView;
+    private ListView resourcesList;
+    private List<Item> items = new ArrayList<Item>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_search_resource);
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.menuInferior);
-        mBottomNavigationView.setSelectedItemId(R.id.btn_request);
+        resourcesList         = (ListView) findViewById(R.id.resources_list);
 
         //Opciones del menú
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -28,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.btn_search:
-                        Intent oIntent = new Intent(MainActivity.this, SearchResource.class);
+                        Intent oIntent = new Intent(SearchResource.this, SearchResource.class);
                         startActivity(oIntent);
                         break;
                     case R.id.btn_request:
@@ -45,32 +51,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.bar_profile, menu);
         return true;
     }
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.btn_search:
-                Intent oIntent = new Intent(this, SearchResource.class);
-                startActivity(oIntent);
-                return true;
-            case R.id.btn_request:
-                oIntent = new Intent(this, SearchResource.class);
-                startActivity(oIntent);
-                return true;
-            case R.id.btn_authorization:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-*/
-    public void requestSpace(View v){
-        Intent oIntent = new Intent(this, RequestSpace.class);
-        startActivity(oIntent);
-    }
 
-    public void requestResource(View v){
-        Intent oIntent = new Intent(this, RequestResource.class);
-        startActivity(oIntent);
-    }
+
 }

@@ -29,6 +29,8 @@
     <string name="date">Fecha:</string>
     <string name="hour">Hora:</string>
     <string name="profile">Perfil</string>
+    <string name="resources_search">Recursos Físicos</string>
+    <string name="searcher">Nombre de recurso físico</string>
 
 
 </resources>
