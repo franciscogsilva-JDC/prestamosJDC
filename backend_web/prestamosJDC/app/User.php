@@ -93,7 +93,7 @@ class User extends Authenticatable
     }
 
     public function isAdmin(){
-        return $this->type->name === 'Administrador';
+        return $this->type->id === 1 || $this->type->id === 6 || $this->type->id === 7 || $this->type->id === 8;
     }
 
     public function scopeSearch($query, $search, $user_type_id, $user_status_id, $dependency_id, $gender_id, $town_id){
