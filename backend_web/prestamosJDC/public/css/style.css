@@ -1471,3 +1471,11 @@ div {
         font-size: 12px;
         line-height: 13px;
     }
+
+    .icon-block .material-icons {
+        font-size: inherit;
+    }
+
+    .color-index {
+        color: #0e5796 !important;
+    }
