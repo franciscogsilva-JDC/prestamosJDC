@@ -25,23 +25,16 @@
     <!--   Core JS Files   -->
     <script src="{{ asset('plugins/materialize/js/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('plugins/materialize/js/materialize.min.js') }}"></script>
+    @yield('imported_js')
+    <script src="{{ asset('js/fgs.js') }}"></script>
     <script type="text/javascript">
         $('select').material_select();
-        $('.button-collapse').sideNav();
-        $('.parallax').parallax();        
+        $(".button-collapse").sideNav();
+        $(".dropdown-button").dropdown();
+        $('.tooltipped').tooltip({delay: 50});
         $("#session_msg").delay(3000).hide(600);
-
-        (function($) {
-          $(function() {
-            $('.dropdown-button').dropdown({
-              inDuration: 300,
-              outDuration: 225,
-              hover: true, // Activate on hover
-              belowOrigin: true, // Displays dropdown below the button
-              alignment: 'right' // Displays dropdown with edge aligned to the left of button
-            });
-          }); // End Document Ready
-        })(jQuery); // End of jQuery name space
-      </script>
+        $('.modal').modal();
+        $('.materialboxed').materialbox();
+    </script>
     @yield('js')
 </html>

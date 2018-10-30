@@ -141,7 +141,7 @@ class RequestController extends Controller{
             $this->validate($request, $this->getValidationSpaceRequestRules($request), $this->getValidationSpaceRequestMessages($request));
             $user_type_id = User::find($request->user_id)->user_type_id;
 
-            if($user_type_id == 3){
+            if($user_type_id == 3 || $user_type_id == 2){
                 $errors = collect(['El tipo de usuario seleccionado no puede realizar este tipo de solicitudes']);
                 return back()
                     ->withInput()
@@ -333,7 +333,7 @@ class RequestController extends Controller{
             $this->validate($request, $this->getValidationSpaceRequestRules($request), $this->getValidationSpaceRequestMessages($request));
             $user_type_id = User::find($request->user_id)->user_type_id;
 
-            if($user_type_id == 3){
+            if($user_type_id == 3 || $user_type_id == 2){
                 $errors = collect(['El tipo de usuario seleccionado no puede realizar este tipo de solicitudes']);
                 return back()
                     ->withInput()

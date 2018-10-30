@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', 'HomeController@index')->name('welcome');
+Route::get('/home', 'HomeController@index');
 
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -32,14 +31,18 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/register/verify/{confirmation_code}', 'Auth\AuthController@verify');
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::get('/cities', 'HomeController@getCities')->name('cities');
 Route::get('/types-spaces', 'Cms\RequestController@getSpacesByType')->name('types.spaces');
 Route::get('/spaces/resources', 'Cms\RequestController@getSpaceResources')->name('spaces.resources');
 Route::get('/dependencies/resources', 'Cms\RequestController@getDependenciesResources')->name('dependencies.resources');
 Route::get('/complements', 'Cms\RequestController@getComplements')->name('complements');
 Route::get('validate/resources', 'Cms\RequestController@validateResource')->name('validate.resources');
+
+Route::group(['middleware' => ['web', 'auth']], function () {	
+	Route::namespace('Web')->group(function(){
+		include_once 'web/requests.php';
+    });
+});
 
 Route::group(['prefix'=>'admin', 'middleware' => ['role:1,6,7,8', 'web', 'auth']], function () {	
 	Route::namespace('Cms')->group(function(){

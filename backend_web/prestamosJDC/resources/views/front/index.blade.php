@@ -9,7 +9,7 @@
 	</div>
 	<div class="section white">
 		<div class="center-align">
-			<a href="{{ route('welcome') }}" class="btn waves-effect btn-bts-edit btn-login btn-fgs-show">Nueva Solicitud</a>			
+			<a href="{{ route('requests-front.create') }}" class="btn waves-effect btn-bts-edit btn-login btn-fgs-show">Nueva Solicitud</a>			
 		</div>
 	</div>
 @endsection()
@@ -17,7 +17,7 @@
 @section('js')
 	<script type="text/javascript">
 		$(document).ready(function(){
-      $('.slider').slider();
-    });
+	      	$('.slider').slider();
+	    });
 	</script>
 @endsection
