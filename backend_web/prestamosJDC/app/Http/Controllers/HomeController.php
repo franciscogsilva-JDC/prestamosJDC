@@ -7,15 +7,8 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+
+    private $menu_item = 0;
 
     /**
      * Show the application dashboard.
@@ -24,7 +17,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('front.index')
+            ->with('menu_item', $this->menu_item);
     }
 
     public function getCities(){

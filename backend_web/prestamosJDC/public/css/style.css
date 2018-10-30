@@ -1465,3 +1465,9 @@ div {
     .btn-fgs-show{
         background-color: #0e5796 !important;
     }
+
+    .message-register{
+        text-align: center;
+        font-size: 12px;
+        line-height: 13px;
+    }
