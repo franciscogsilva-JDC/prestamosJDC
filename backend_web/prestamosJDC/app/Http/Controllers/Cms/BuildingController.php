@@ -7,6 +7,7 @@ use App\Headquarter;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Auth;
 
 class BuildingController extends Controller
 {

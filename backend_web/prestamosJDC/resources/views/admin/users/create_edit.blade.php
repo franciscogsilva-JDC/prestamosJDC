@@ -35,7 +35,7 @@
 				                        <i class="material-icons prefix">phone</i>
 				                        {!! Form::number('cellphone_number', isset($user)?$user->cellphone_number:null, ['class' => '', 'required', 'id' => 'cellphone_number', 'min' => '100']) !!}
 				                        <label for="cellphone_number">Número Telefonico  <span class="required-input">*</span></label>
-				                    </div>
+				                    </div> 
 									<div class="input-field col s12 m6 l6">
 										<i class="material-icons prefix">layers</i>
 										<select id="dni_type_id" class="icons" name="dni_type_id">
@@ -43,8 +43,8 @@
 											@foreach($dniTypes as $type)
 												@if(isset($user))
 													<option value="{{ $type->id }}" {{$type->id===$user->dniType->id?'selected=selected':''}}>{{ $type->name }}</option>
-												@else 
-													<option value="{{ $type->id }}">{{ $type->name }}</option>
+												@else
+													<option value="{{ $type->id }}" {{old('dni_type_id')==$type->id?'selected=selected':''}}>{{ $type->name }}</option>
 												@endif
 											@endforeach
 										</select>
@@ -122,7 +122,7 @@
 														<option value="{{ $dependency->id }}" {{$dependency->id===$user->dependency->id?'selected=selected':''}}>{{ $dependency->name }}</option>
 													@endif
 												@else 
-													<option value="{{ $dependency->id }}">{{ $dependency->name }}</option>
+													<option value="{{ $dependency->id }}" {{old('dependency_id')==$dependency->id?'selected=selected':''}}>{{ $dependency->name }}</option>
 												@endif
 											@endforeach
 										</select>
@@ -136,7 +136,7 @@
 												@if(isset($user))
 													<option value="{{ $status->id }}" {{$status->id===$user->status->id?'selected=selected':''}}>{{ $status->name }}</option>
 												@else 
-													<option value="{{ $status->id }}">{{ $status->name }}</option>
+													<option value="{{ $status->id }}" {{old('user_status_id')==$status->id?'selected=selected':''}}>{{ $status->name }}</option>
 												@endif
 											@endforeach
 										</select>
@@ -150,7 +150,7 @@
 												@if(isset($user))
 													<option value="{{ $gender->id }}" {{$gender->id===$user->gender->id?'selected=selected':''}}>{{ $gender->name }}</option>
 												@else 
-													<option value="{{ $gender->id }}">{{ $gender->name }}</option>
+													<option value="{{ $gender->id }}" {{old('gender_id')==$gender->id?'selected=selected':''}}>{{ $gender->name }}</option>
 												@endif
 											@endforeach
 										</select>
@@ -166,7 +166,7 @@
 														<option value="{{ $departament->id }}" {{$departament->id===$user->town->departament->id?'selected=selected':''}}>{{ $departament->name }}</option>
 													@endif
 												@else 
-													<option value="{{ $departament->id }}">{{ $departament->name }}</option>
+													<option value="{{ $departament->id }}" {{old('departament_id')==$departament->id?'selected=selected':''}}>{{ $departament->name }}</option>
 												@endif
 											@endforeach
 										</select>

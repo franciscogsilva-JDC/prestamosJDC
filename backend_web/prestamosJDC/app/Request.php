@@ -50,7 +50,7 @@ class Request extends Model
         }if(!empty($request_type_id)){
             $query = $query->where('request_type_id', $request_type_id);
         }if(!empty($authorization_status_id)){
-            $query = $query->whereHas('authorization', function($authorization) use($authorization_status_id){
+            $query = $query->whereHas('authorizations', function($authorization) use($authorization_status_id){
                 $authorization->where('authorization_status_id', $authorization_status_id);
             });
         }if(!empty($user_type_id)){

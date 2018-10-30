@@ -13,6 +13,7 @@ use App\Space;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Image;
+use Auth;
 
 class ResourceController extends Controller
 {
@@ -24,7 +25,23 @@ class ResourceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        $resources = Resource::withTrashed()->search(
+        $resources = Resource::withTrashed();
+        switch (Auth::user()->type->id) {
+            case 7:
+                $resources = $resources->where('resource_category_id', 2);
+                break;
+            case 8:
+                $resources = $resources->where('resource_category_id', 1)
+                    ->orWhere('resource_category_id', 3)
+                    ->orWhere('resource_category_id', 4);
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+        $resources = $resources->search(
             $request->search, //name or reference
             $request->resource_status_id,
             $request->resource_type_id,

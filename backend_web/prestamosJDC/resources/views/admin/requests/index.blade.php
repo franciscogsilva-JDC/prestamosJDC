@@ -21,16 +21,18 @@
 						</div>
 						<div class="section section-form">
                         	<div class="row" id="panel-filters">
-								<div class="input-field col s12 m6 l6">
-									<i class="material-icons prefix">assignment</i>
-									<select id="request_type_id" name="request_type_id">
-										<option value="" disabled selected>Selecciona tipo de Solicitud</option>
-										@foreach($requestTypes as $type)
-											<option value="{{ $type->id }}">{{ $type->name }}</option>
-										@endforeach
-									</select>
-									<label for="request_type_id">Filtrar por Tipo de Solicitud</label>
-								</div>
+                        		@if(Auth::user()->type->id == 1)
+									<div class="input-field col s12 m6 l6">
+										<i class="material-icons prefix">assignment</i>
+										<select id="request_type_id" name="request_type_id">
+											<option value="" disabled selected>Selecciona tipo de Solicitud</option>
+											@foreach($requestTypes as $type)
+												<option value="{{ $type->id }}">{{ $type->name }}</option>
+											@endforeach
+										</select>
+										<label for="request_type_id">Filtrar por Tipo de Solicitud</label>
+									</div>
+								@endif
 								<div class="input-field col s12 m6 l6">
 									<i class="material-icons prefix">assignment_late</i>
 									<select id="authorization_status_id" name="authorization_status_id">
@@ -148,6 +150,7 @@
 		                					{!! Form::close() !!}
 											<a href="{{ route('requests.destroy', $request->id) }}" onclick="return confirm('¿Desea Inhabilitar la solicitud? Si una solicitud se encuentra INHABILITADA, esta será CANCELADA y todos los espacios o recursos asociados pasarán a estar DISPONIBLES INMEDIATAMENTE')" class="btn btn-fgs btn-fgs-delete red darken-3 tooltipped {{ $request->deleted_at?'disabled':'' }}" data-position="top" data-delay="50" data-tooltip="Inhabilitar"><i class="material-icons">delete</i></a>
 											<a href="{{ route('requests.edit', $request->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-edit tooltipped {{ $request->deleted_at?'disabled':'' }}" data-position="top" data-delay="50" data-tooltip="Editar"><i class="material-icons">create</i></a>
+											<a href="{{ route('requests.show', $request->id) }}" class="btn btn-raised btn-primary btn-fgs btn-fgs-show tooltipped {{ $request->deleted_at?'disabled':'' }}" data-position="top" data-delay="50" data-tooltip="Ver Detalles"><i class="material-icons">more_horiz</i></a>
 										</td>
 									</tr>
 								@endforeach

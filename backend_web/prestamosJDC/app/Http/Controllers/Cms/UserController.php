@@ -226,9 +226,11 @@ class UserController extends Controller
 
         if($request->file('image')){
             if($user->image) {
-                if(file_exists(public_path().str_replace(env('APP_URL'), '/', $user->image))){
-                    unlink(public_path().str_replace(env('APP_URL'), '/', $user->image));
-                    unlink(public_path().str_replace(env('APP_URL'), '/', $user->image_thumbnail));
+                if($user->image != asset('/img/system32/icon.png')){
+                    if(file_exists(public_path().str_replace(env('APP_URL'), '/', $user->image))){
+                        unlink(public_path().str_replace(env('APP_URL'), '/', $user->image));
+                        unlink(public_path().str_replace(env('APP_URL'), '/', $user->image_thumbnail));
+                    }
                 }
             }
             $file       =   $request->file('image');

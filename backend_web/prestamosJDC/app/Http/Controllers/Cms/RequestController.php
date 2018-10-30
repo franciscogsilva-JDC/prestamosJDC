@@ -32,7 +32,24 @@ class RequestController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-		$applications = Application::withTrashed()->search(
+        $applications = Application::withTrashed();
+        switch (Auth::user()->type->id) {
+            case 6:
+                $applications = $applications->where('request_type_id', 1);
+                break;
+            case 7:
+                $applications = $applications->where('request_type_id', 2);
+                break;
+            case 8:
+                $applications = $applications->where('request_type_id', 3);
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+        $applications = $applications->search(
             $request->search, //user name or user dni
             $request->request_type_id,
             $request->authorization_status_id,
@@ -87,6 +104,15 @@ class RequestController extends Controller{
             ->with('participantTypes', $participantTypes)
             ->with('authorizationStatuses', $authorizationStatuses)
             ->with('title_page', 'Crear nueva solicitud')
+            ->with('menu_item', $this->menu_item);
+    }
+
+    public function show($id){        
+        $application = $this->validateApplication($id);
+
+        return view('admin.requests.show')
+            ->with('request', $application)
+            ->with('title_page', 'Detalle Solicitud #'.$application->id)
             ->with('menu_item', $this->menu_item);
     }
 

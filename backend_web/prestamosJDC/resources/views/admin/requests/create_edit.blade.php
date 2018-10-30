@@ -28,13 +28,21 @@
 										<i class="material-icons prefix">tune</i>
 										<select id="request_type_id" class="icons" name="request_type_id">
 											<option value="" disabled selected>Selecciona el Tipo <span class="required-input">*</span></option>
-											@foreach($requestTypes as $type)
-												@if(isset($request))
-													<option value="{{ $type->id }}" {{$type->id===$request->type->id?'selected=selected':''}}>{{ $type->name }}</option>
-												@else 
-													<option value="{{ $type->id }}">{{ $type->name }}</option>
-												@endif
-											@endforeach
+											@if(Auth::user()->type->id == 1)
+												@foreach($requestTypes as $type)
+													@if(isset($request))
+															<option value="{{ $type->id }}" {{$type->id===$request->type->id?'selected=selected':''}}>{{ $type->name }}</option>
+													@else 
+														<option value="{{ $type->id }}">{{ $type->name }}</option>
+													@endif
+												@endforeach
+											@elseif(Auth::user()->type->id == 6)
+												<option value="1" selected=selected'>Espacio</option>
+											@elseif(Auth::user()->type->id == 7)
+												<option value="2" selected=selected'>Recurso Audiovisual</option>
+											@elseif(Auth::user()->type->id == 8)
+												<option value="3" selected=selected'>Recurso Bienestar</option>
+											@endif
 										</select>
 										<label for="request_type_id">Tipo de Solicitud <span class="required-input">*</span></label>
 									</div>
@@ -177,15 +185,21 @@
 										<i class="material-icons prefix">device_hub</i>
 										<select class="icons" name="dependency_id" id="dependency_id">
 											<option value="" disabled selected>Selecciona la dependencia <span class="required-input">*</span></option>
-											@foreach($dependencies as $dependency)
-												@if(isset($request))
-													@if($request->type->id == 2)
-														<option value="{{ $dependency->id }}" {{$dependency->id===$thisDependency?'selected=selected':''}}>{{ $dependency->name }}</option>
+											@if(Auth::user()->type->id == 1)
+												@foreach($dependencies as $dependency)
+													@if(isset($request))
+														@if($request->type->id == 2)
+															<option value="{{ $dependency->id }}" {{$dependency->id===$thisDependency?'selected=selected':''}}>{{ $dependency->name }}</option>
+														@endif
+													@else
+														<option value="{{ $dependency->id }}">{{ $dependency->name }}</option>		
 													@endif
-												@else
-													<option value="{{ $dependency->id }}">{{ $dependency->name }}</option>		
-												@endif
-											@endforeach
+												@endforeach
+											@elseif(Auth::user()->type->id == 7)
+												<option value="5" {{isset($request)?'selected=selected':''}}>Audiovisuales</option>
+											@elseif(Auth::user()->type->id == 8)
+												<option value="6" {{isset($request)?'selected=selected':''}}>Bienestar Universitario</option>
+											@endif
 										</select>
 										<label for="dependency_id">Dependencia <span class="required-input">*</span></label>
 									</div>
@@ -286,7 +300,7 @@
 		function validateInputs(){
 			if($('#request_type_id option:selected').val() == "1"){
 				showSpaceInputs();
-			}if($('#request_type_id option:selected').val() == "2"){
+			}if($('#request_type_id option:selected').val() == "2" || $('#request_type_id option:selected').val() == "3"){
 				showResourceInputs();
 			}
 		}
