@@ -24,24 +24,21 @@
 					<div class="icon-block">
 						<h2 class="center color-index"><i class="material-icons">flash_on</i></h2>
 						<h5 class="center">Solicitudes en linea</h5>
-
 						<p class="light">Agilizamos el proceso de solicitud de espacio físico y/o recurso, ya sea deporte, audiovisual y otros.</p>
 					</div>
 				</div>
 				<div class="col s12 m4">
 					<div class="icon-block">
 						<h2 class="center color-index"><i class="material-icons">group</i></h2>
-						<h5 class="center">User Experience Focused</h5>
-
-						<p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
+						<h5 class="center">Interactúa Fácil</h5>
+						<p class="light">Ingresa de forma sencilla, amigable e interactiva a las funciones del sistema.</p>
 					</div>
 				</div>
 				<div class="col s12 m4">
 					<div class="icon-block">
 						<h2 class="center color-index"><i class="material-icons">settings</i></h2>
 						<h5 class="center">Administra</h5>
-
-						<p class="light">Administra las solicitudes, así como revisa el historial de solicitudes de tu cuenta.</p>
+						<p class="light">Administra y revisa el historial de solicitudes de tu cuenta.</p>
 					</div>
 				</div>
 			</div>
