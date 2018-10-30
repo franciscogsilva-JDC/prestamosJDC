@@ -7,7 +7,7 @@ use JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
-class Admin
+class Role
 {
     /**
      * Handle an incoming request.
@@ -18,18 +18,17 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
+        $roles = array_except(func_get_args(), [0,1]);
         if(Auth::user()){
-            if(Auth::user()->isAdmin()){
+            if(in_array(Auth::user()->type->id, $roles)){
                 return $next($request);
             }else{
-                Auth::logout();
-                return redirect()->route('login');            
+                return redirect()->back();            
             }
         }elseif(JWTAuth::parseToken()->authenticate()){
-            if(JWTAuth::parseToken()->authenticate()->isAdmin()){
+            if(in_array(JWTAuth::parseToken()->authenticate()->type->id, $roles)){
                 return $next($request);
             }else{
-                JWTAuth::invalidate(JWTAuth::getToken());
                 return response()->json([
                     'error'     =>  'Usuario no autorizado',
                     'success'   =>  false

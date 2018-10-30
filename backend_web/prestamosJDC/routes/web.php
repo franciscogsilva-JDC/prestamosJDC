@@ -41,20 +41,28 @@ Route::get('/dependencies/resources', 'Cms\RequestController@getDependenciesReso
 Route::get('/complements', 'Cms\RequestController@getComplements')->name('complements');
 Route::get('validate/resources', 'Cms\RequestController@validateResource')->name('validate.resources');
 
-Route::group(['prefix'=>'admin', 'middleware' => ['web','auth','admin']], function () {
-	
+Route::group(['prefix'=>'admin', 'middleware' => ['role:1,6,7,8', 'web', 'auth']], function () {	
 	Route::namespace('Cms')->group(function(){
 		Route::get('/', 'HomeController@index')->name('admin.index');
-		include_once 'cms/buildings.php';
-		include_once 'cms/calendar.php';
-		include_once 'cms/dependencies.php';
-		include_once 'cms/headquarters.php';
-		include_once 'cms/programs.php';
-		include_once 'cms/requests.php';
-		include_once 'cms/resources.php';
-		include_once 'cms/spaces.php';
-		include_once 'cms/users.php';
-    });
 
+		Route::group(['middleware' => ['role:1']], function () {
+			include_once 'cms/buildings.php';
+			include_once 'cms/dependencies.php';
+			include_once 'cms/headquarters.php';
+			include_once 'cms/programs.php';
+			include_once 'cms/users.php';
+		});
+
+		Route::group(['middleware' => ['role:1,7,8']], function () {
+			include_once 'cms/resources.php';			
+		});
+
+		Route::group(['middleware' => ['role:1,6']], function () {
+			include_once 'cms/calendar.php';
+			include_once 'cms/spaces.php';			
+		});
+		
+		include_once 'cms/requests.php';
+    });
 });
 
