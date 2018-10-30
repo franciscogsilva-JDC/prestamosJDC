@@ -128,7 +128,8 @@ INSERT INTO `property_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
 
 INSERT INTO `request_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Espacio', '2018-08-26 03:46:00', '2018-08-26 03:46:00'),
-(2, 'Recurso', '2018-08-26 03:47:00', '2018-08-26 03:47:00');
+(2, 'Recurso Audiovisual', '2018-08-26 03:47:00', '2018-08-26 03:47:00'),
+(2, 'Recurso Bienestar', '2018-08-26 03:47:00', '2018-08-26 03:47:00');
 
 --
 -- Volcado de datos para la tabla `resource_statuses`
@@ -1391,7 +1392,10 @@ INSERT INTO `user_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (2, 'Docente', '2018-08-26 04:21:00', '2018-08-26 04:21:00'),
 (3, 'Estudiante', '2018-08-26 04:22:00', '2018-08-26 04:22:00'),
 (4, 'Administrativo', '2018-08-26 04:22:00', '2018-08-26 04:23:00'),
-(5, 'Externo', '2018-08-26 04:23:00', '2018-08-26 04:23:00');
+(5, 'Externo', '2018-08-26 04:22:00', '2018-08-26 04:23:00'),
+(6, 'Administrador Planeación', '2018-08-26 04:23:00', '2018-08-26 04:23:00')
+(7, 'Administrador Audiovisuales', '2018-08-26 04:23:00', '2018-08-26 04:23:00'),
+(8, 'Administrador Bienestar', '2018-08-26 04:23:00', '2018-08-26 04:23:00');
 
 --
 -- Volcado de datos para la tabla `users`
