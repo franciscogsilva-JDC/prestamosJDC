@@ -41,6 +41,7 @@ Route::get('validate/resources', 'Cms\RequestController@validateResource')->name
 Route::group(['middleware' => ['web', 'auth']], function () {	
 	Route::namespace('Web')->group(function(){
 		include_once 'web/requests.php';
+		include_once 'web/users.php';
     });
 });
 

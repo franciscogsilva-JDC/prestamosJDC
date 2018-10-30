@@ -35,7 +35,10 @@
                         </li>
                     @else
                         <li>
-                            <a href="">Perfil<i class="material-icons right">person</i></a>
+                            <a href="{{ route('users-front.edit') }}">Perfil<i class="material-icons right">person</i></a>
+                        </li>
+                        <li>
+                            <a href="{{ route('users-front.requests') }}">Mis Solicitudes<i class="material-icons right">assignment</i></a>
                         </li>
                     @endif
               <li class="divider"></li>
@@ -74,7 +77,12 @@
         @else
           <li>
               <div class="menu-item-fgs valign-wrapper">
-                  <a href="" {{ $menu_item == -1 ? 'class=active-fgs' : '' }}><i class="material-icons">person</i>{!! str_limit(Auth::user()->name, 16) !!}</a>         
+                  <a href="{{ route('users-front.edit') }}" {{ $menu_item == 165 ? 'class=active-fgs' : '' }}><i class="material-icons">person</i>{!! str_limit(Auth::user()->name, 16) !!}</a>         
+              </div>
+          </li>
+          <li>
+              <div class="menu-item-fgs valign-wrapper">
+                  <a href="{{ route('users-front.requests') }}" {{ $menu_item == -166 ? 'class=active-fgs' : '' }}><i class="material-icons">assignment</i>Mis Solicitudes</a>         
               </div>
           </li>
           <li><div class="divider-fgs"></div></li>
