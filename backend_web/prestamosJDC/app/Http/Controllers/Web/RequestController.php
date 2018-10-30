@@ -14,6 +14,7 @@ use App\SpaceType;
 use App\User;
 use Auth;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class RequestController extends Controller
@@ -178,6 +179,58 @@ class RequestController extends Controller
 
         return redirect()->route('welcome')
             ->with('session_msg', 'Se ha creado la solicitud correctamente.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id, $type=false){
+        $application = $this->validateApplication($id);
+        if($application->deleted_at){
+
+        }else{
+            $beforeAuthorization = $application->authorizations()->orderBy('created_at', 'DESC')->first();
+            if($application->request_type_id == 1){
+                $space = $beforeAuthorization->spaces()->orderBy('created_at', 'DESC')->first();
+                $space->space_status_id = 1;
+                $space->save();
+            }
+
+            $beforeResources = $beforeAuthorization->resources()->get();
+            if($beforeResources->count()>0){
+                foreach ($beforeResources as $befRes) {
+                    $befRes->resource_status_id = 1;
+                    $befRes->save();
+                }
+            }
+        
+            $authorization = new Authorization();
+            $authorization->request_id = $application->id;
+            $authorization->authorization_status_id = 4;
+            $authorization->approved_by = Auth::user()->id;
+            $authorization->save();
+            $application->delete();
+            $message = 'Inhabilitado';
+        }
+        if(!$type){
+            return redirect()->route('requests.index')
+                ->with('session_msg', 'La solicitud se ha '.$message.' correctamente');
+        }             
+    }
+
+    private function validateApplication($id){
+        try {
+            $application = Application::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Solicitud con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
+        return $application;
     }
 
     private function setApplication($application, $request){
