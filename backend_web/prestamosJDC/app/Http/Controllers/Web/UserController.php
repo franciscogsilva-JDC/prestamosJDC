@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\AuthorizationStatus;
 use App\Departament;
 use App\DniType;
 use App\Gender;
 use App\Http\Controllers\Controller;
+use App\Request as Application;
 use App\Town;
 use Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Image;
 
@@ -109,6 +112,35 @@ class UserController extends Controller
         return $user->save();
     }
 
+    public function getRequests(Request $request){
+        $applications = Application::withTrashed()
+        	->where('user_id', Auth::user()->id)
+    		->search(
+	            $request->search,
+	            null,
+	            $request->authorization_status_id,
+	            null,
+	            $request->start_date,
+	            $request->end_date,
+	            $request->received_date
+	        )->orderBy('created_at', 'DESC')
+	            ->paginate(config('prestamosjdc.items_per_page_paginator'))
+	            ->appends('search', $request->search)
+	            ->appends('authorization_status_id', $request->authorization_status_id)
+	            ->appends('start_date', $request->start_date)
+	            ->appends('end_date', $request->end_date)
+	            ->appends('received_date', $request->received_date);
+
+        $authorizationStatuses = AuthorizationStatus::orderBy('name', 'ASC')->get();
+
+        return view('front.users.requests')
+            ->with('requests', $applications)
+            ->with('authorizationStatuses', $authorizationStatuses)
+            ->with('title_page', 'Historial de Solicitudes')
+            ->with('menu_item', 166);
+
+    }
+
     private function getValidationDniRule($request){
         return [
             'dni' => 'required|numeric|unique:users',
@@ -151,5 +183,60 @@ class UserController extends Controller
             'dni_type_id.required'      =>  'El tipo de documento de identidad del usuario es obligatorio',
             'gender_id.required'        =>  'El genero del usuario es obligatorio'
         ];
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id, $type=false){
+        try {
+            $application = Application::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Solicitud con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
+
+        if(Auth::user()->id == $application->user_id){
+        	if($application->deleted_at){
+
+	        }else{
+	            $beforeAuthorization = $application->authorizations()->orderBy('created_at', 'DESC')->first();
+	            if($application->request_type_id == 1){
+	                $space = $beforeAuthorization->spaces()->orderBy('created_at', 'DESC')->first();
+	                $space->space_status_id = 1;
+	                $space->save();
+	            }
+
+	            $beforeResources = $beforeAuthorization->resources()->get();
+	            if($beforeResources->count()>0){
+	                foreach ($beforeResources as $befRes) {
+	                    $befRes->resource_status_id = 1;
+	                    $befRes->save();
+	                }
+	            }
+	        
+	            $authorization = new Authorization();
+	            $authorization->request_id = $application->id;
+	            $authorization->authorization_status_id = 4;
+	            $authorization->approved_by = Auth::user()->id;
+	            $authorization->save();
+	            $application->delete();
+	            $message = 'Inhabilitado';
+	        }
+	        if(!$type){
+	            return redirect()->route('users-front.requests')
+	                ->with('session_msg', 'La solicitud se ha '.$message.' correctamente');
+	        }
+        }else{
+            $errors = collect(['Acción no permitida']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+            }                     
     }
 }
