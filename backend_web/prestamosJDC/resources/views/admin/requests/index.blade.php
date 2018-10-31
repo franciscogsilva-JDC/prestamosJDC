@@ -36,7 +36,7 @@
 								<div class="input-field col s12 m6 l6">
 									<i class="material-icons prefix">assignment_late</i>
 									<select id="authorization_status_id" name="authorization_status_id">
-										<option value="" disabled selected>Selecciona una Estado de Autorización</option>
+										<option value="" disabled selected>Selecciona un Estado de Autorización</option>
 										@foreach($authorizationStatuses as $status)
 											<option value="{{ $status->id }}">{{  $status->name }}</option>
 										@endforeach

@@ -48,7 +48,7 @@
 									<div class="input-field col s12 m6 l6">
 										<i class="material-icons prefix">supervisor_account</i>
 										<select class="icons" name="attendants[]" multiple>
-											<option value="" disabled selected>Selecciona el/las Responsables</option>
+											<option value="" disabled selected>Selecciona el/los Responsables</option>
 											@foreach($attendants as $user)
 												@if(isset($dependency))
 													<option value="{{ $user->id }}" data-icon="{{ $user->image_thumbnail }}" class="rigth circle" {{in_array($user->id, $dependency->attendants->pluck('id')->ToArray())?'selected=selected':''}}>{{ $user->name }}</option>
