@@ -41,11 +41,7 @@
 						<div class="row row-delete-all">							
 							<div class="btn red darken-3 right" id="multipleDelete" onclick="multiDelete()">Inhabilitar Varios</div>							
 							<div class="btn red darken-3 right cancel_multipleDelete" id="cancel_multipleDelete" onclick="cancel_multipleDelete()" style="display: none;"><i class="material-icons">clear</i></div>
-<<<<<<< HEAD
-							{!! Form::submit('Inhabilitar', ['class' => 'btn red darken-3 right', 'onclick' => 'return confirm("¿Desea Habilitar/Inhabilitar las dependencias seleccionadas? Si un dependencia se encuentra INHABILITADA, pasará a estar HABILITADA con este método")', 'id' => 'multiDeleteAction', 'style' => 'display: none;']) !!}	
-=======
-							{!! Form::submit('Inhabilitar', ['class' => 'btn red darken-3 right', 'onclick' => 'return confirm("¿Desea Habilitar/Inhabilitar las dependencias seleccionadas? Si una dependencia se encuentra INHABILITADA, pasará a estar HABILITADA con este método")', 'id' => 'multiDeleteAction', 'style' => 'display: none;']) !!}	
->>>>>>> 9648b2778f24ef75cc9d0962aff7333d37109b7e
+							{!! Form::submit('Inhabilitar', ['class' => 'btn red darken-3 right', 'onclick' => 'return confirm("¿Desea Habilitar/Inhabilitar las dependencias seleccionadas? Si un dependencia se encuentra INHABILITADA, pasará a estar HABILITADA con este método")', 'id' => 'multiDeleteAction', 'style' => 'display: none;']) !!}
 						</div>
 			     		<table class="highlight striped">
 							<thead>
