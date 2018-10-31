@@ -145,7 +145,14 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $user = $this->validateUser($id);
+        try {
+            $user = User::withTrashed()->findOrFail($id);
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El usuario con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $dniTypes       =   DniType::orderBy('name', 'ASC')->get();
         $userTypes      =   UserType::orderBy('name', 'ASC')->get();
         $dependencies   =   Dependency::orderBy('name', 'ASC')->get();
@@ -175,8 +182,14 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-        
-        $user = $this->validateUser($id);
+        try {
+            $user = User::withTrashed()->findOrFail($id);
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El usuario con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
 
         if($user->email != $request->email){
@@ -261,7 +274,14 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id, $type=false){
-        $user = $this->validateUser($id);
+        try {
+            $user = User::withTrashed()->findOrFail($id);
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El usuario con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         if($user->deleted_at){
             $user->restore();
             $message = 'Habilitado';
@@ -350,17 +370,5 @@ class UserController extends Controller
             'dni_type_id.required'      =>  'El tipo de documento de identidad del usuario es obligatorio',
             'gender_id.required'        =>  'El genero del usuario es obligatorio'
         ];
-    }
-
-    private function validateUser($id){
-        try {
-            $user = User::withTrashed()->findOrFail($id);
-        }catch (ModelNotFoundException $e){
-            $errors = collect(['El usuario con ID '.$id.' no se encuentra.']);
-            return back()
-                ->withInput()
-                ->with('errors', $errors);
-        }
-        return $user;
     }
 }

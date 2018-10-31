@@ -1,3 +1,6 @@
+<?php
+  $menu_item = isset($menu_item)?$menu_item:1000000;
+?>
 <div class="navbar-fixed">
   <nav class="navbar-fixed">
     <div class="nav-wrapper container container-front-fgs">

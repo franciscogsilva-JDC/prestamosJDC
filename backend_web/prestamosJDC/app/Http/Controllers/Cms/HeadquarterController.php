@@ -78,7 +78,14 @@ class HeadquarterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $headquarter = $this->validateHeadquarter($id);
+        try {
+            $headquarter = Headquarter::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Sede con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $departaments = Departament::orderBy('name', 'ASC')->get();
         $towns = $headquarter->town_id?Town::where('id', $headquarter->town_id)->orderBy('name', 'ASC')->get():Town::orderBy('name', 'ASC')->get();
 
@@ -101,7 +108,14 @@ class HeadquarterController extends Controller
 
         $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
 
-        $headquarter = $this->validateHeadquarter($id);
+        try {
+            $headquarter = Headquarter::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Sede con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $headquarter->name = $request->name;
         $headquarter->address = $request->address;
         $headquarter->town_id = $request->town_id;
@@ -118,7 +132,14 @@ class HeadquarterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id, $type=false){
-        $headquarter = $this->validateHeadquarter($id);
+        try {
+            $headquarter = Headquarter::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Sede con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         if($headquarter->deleted_at){
             $headquarter->restore();
             $message = 'Habilitado';
@@ -160,17 +181,5 @@ class HeadquarterController extends Controller
             'address.min'               =>  'La dirección de la Sede debe contener al menos 3 caracteres.',
             'town_id.required'   =>  'La Ciudad de la Sede es obligatoria'
         ];
-    }
-
-    private function validateHeadquarter($id){
-        try {
-            $headquarter = Headquarter::withTrashed()->findOrFail($id);            
-        }catch (ModelNotFoundException $e){
-            $errors = collect(['La Sede con ID '.$id.' no se encuentra.']);
-            return back()
-                ->withInput()
-                ->with('errors', $errors);
-        }
-        return $headquarter;
     }
 }

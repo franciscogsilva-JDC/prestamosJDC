@@ -38,6 +38,8 @@ Route::get('/dependencies/resources', 'Cms\RequestController@getDependenciesReso
 Route::get('/complements', 'Cms\RequestController@getComplements')->name('complements');
 Route::get('validate/resources', 'Cms\RequestController@validateResource')->name('validate.resources');
 
+include_once 'errors/errors.php';
+
 Route::group(['middleware' => ['web', 'auth']], function () {	
 	Route::namespace('Web')->group(function(){
 		include_once 'web/requests.php';

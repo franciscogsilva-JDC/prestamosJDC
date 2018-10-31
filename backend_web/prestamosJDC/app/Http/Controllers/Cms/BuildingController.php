@@ -78,7 +78,14 @@ class BuildingController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $building = $this->validateBuilding($id);
+        try {
+            $building = Building::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El edificio con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $headquarters = Headquarter::orderBy('name', 'ASC')->get();
 
         return view('admin.buildings.create_edit')
@@ -99,7 +106,14 @@ class BuildingController extends Controller
 
         $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
 
-        $building = $this->validateBuilding($id);
+        try {
+            $building = Building::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El edificio con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $building->name = $request->name;
         $building->nomenclature = $request->nomenclature;
         $building->headquarter_id = $request->headquarter_id;
@@ -116,7 +130,14 @@ class BuildingController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id, $type=false){
-        $building = $this->validateBuilding($id);
+        try {
+            $building = Building::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El edificio con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         if($building->deleted_at){
             $building->restore();
             $message = 'Habilitado';
@@ -158,17 +179,5 @@ class BuildingController extends Controller
             'nomenclature.min'               =>  'La nomenclatura del edificio debe contener al menos 3 caracteres.',
             'headquarter_id.required'   =>  'La Ciudad del edificio es obligatoria'
         ];
-    }
-
-    private function validateBuilding($id){
-        try {
-            $building = Building::withTrashed()->findOrFail($id);            
-        }catch (ModelNotFoundException $e){
-            $errors = collect(['El edificio con ID '.$id.' no se encuentra.']);
-            return back()
-                ->withInput()
-                ->with('errors', $errors);
-        }
-        return $building;
     }
 }

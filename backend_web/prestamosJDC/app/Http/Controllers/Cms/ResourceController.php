@@ -136,7 +136,15 @@ class ResourceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $resource = $this->validateResource($id);
+        
+        try {
+            $resource = Resource::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El recurso con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $resourceStatuses   =   ResourceStatus::orderBy('name', 'ASC')->get();
         $resourceTypes      =   ResourceType::orderBy('name', 'ASC')->get();
         $dependencies       =   Dependency::orderBy('name', 'ASC')->get();
@@ -175,7 +183,15 @@ class ResourceController extends Controller
             $this->validate($request, $rules);
         }
 
-        $resource = $this->validateResource($id);
+        
+        try {
+            $resource = Resource::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El recurso con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $this->setResource($resource, $request);
         
         $resource->spaces()->detach();
@@ -228,7 +244,15 @@ class ResourceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id, $type=false){
-        $resource = $this->validateResource($id);
+        
+        try {
+            $resource = Resource::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El recurso con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         if($resource->deleted_at){
             $resource->restore();
             $message = 'Habilitado';
@@ -275,17 +299,5 @@ class ResourceController extends Controller
             'resource_category_id.required' =>  'La categoria del recurso es obligatoria',
             'physical_state_id.required'    =>  'El estado físico del recurso es obligatorio'
         ];
-    }
-
-    private function validateResource($id){
-        try {
-            $resource = Resource::withTrashed()->findOrFail($id);            
-        }catch (ModelNotFoundException $e){
-            $errors = collect(['El recurso con ID '.$id.' no se encuentra.']);
-            return back()
-                ->withInput()
-                ->with('errors', $errors);
-        }
-        return $resource;
     }
 }

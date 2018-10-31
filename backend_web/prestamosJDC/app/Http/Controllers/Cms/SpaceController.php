@@ -104,7 +104,15 @@ class SpaceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $space = $this->validateSpace($id);
+        
+        try {
+            $space = Space::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El espacio con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $spaceTypes     =   SpaceType::orderBy('name', 'ASC')->get();
         $spaceStatuses  =   SpaceStatus::orderBy('name', 'ASC')->get();
         $propertyTypes  =   PropertyType::orderBy('name', 'ASC')->get();
@@ -133,7 +141,15 @@ class SpaceController extends Controller
 
         $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
 
-        $space = $this->validateSpace($id);
+        
+        try {
+            $space = Space::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El espacio con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $this->setSpace($space, $request);
 
         return redirect()->route('spaces.index')
@@ -159,7 +175,15 @@ class SpaceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id, $type=false){
-        $space = $this->validateSpace($id);
+        
+        try {
+            $space = Space::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El espacio con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         if($space->deleted_at){
             $space->restore();
             $message = 'Habilitado';
@@ -202,17 +226,5 @@ class SpaceController extends Controller
             'space_status_id.required'  =>  'El estado del espacio es obligatorio',
             'property_type_id.required' =>  'El tipo de propiedad del espacio es obligatoria'
         ];
-    }
-
-    private function validateSpace($id){
-        try {
-            $space = Space::withTrashed()->findOrFail($id);            
-        }catch (ModelNotFoundException $e){
-            $errors = collect(['El espacio con ID '.$id.' no se encuentra.']);
-            return back()
-                ->withInput()
-                ->with('errors', $errors);
-        }
-        return $space;
     }
 }

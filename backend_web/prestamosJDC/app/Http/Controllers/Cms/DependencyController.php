@@ -83,7 +83,14 @@ class DependencyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $dependency     =   $this->validateDependency($id);
+        try {
+            $dependency = Dependency::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Dependencia con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $headquarters   =   Headquarter::orderBy('name', 'ASC')->get();
         $attendants     =   User::where('user_type_id', 1)->orWhere('user_type_id', 4)->orderBy('name', 'ASC')->get();
 
@@ -106,7 +113,14 @@ class DependencyController extends Controller
 
         $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
 
-        $dependency = $this->validateDependency($id);
+        try {
+            $dependency = Dependency::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Dependencia con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
 
         if($dependency->email != $request->email){
             $this->validate($request, $this->getValidationEmailRule($request), $this->getValidationEmailMessage($request));
@@ -133,7 +147,14 @@ class DependencyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id, $type=false){
-        $dependency = $this->validateDependency($id);
+        try {
+            $dependency = Dependency::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Dependencia con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         if($dependency->deleted_at){
             $dependency->restore();
             $message = 'Habilitado';
@@ -188,17 +209,5 @@ class DependencyController extends Controller
             'headquarter_id.required'   =>  'La Sede de la Dependencia es obligatorio',
             'attendants.required'       =>  'Una Dependencia debe tener almenos 1 responsable'
         ];
-    }
-
-    private function validateDependency($id){
-        try {
-            $dependency = Dependency::withTrashed()->findOrFail($id);            
-        }catch (ModelNotFoundException $e){
-            $errors = collect(['La Dependencia con ID '.$id.' no se encuentra.']);
-            return back()
-                ->withInput()
-                ->with('errors', $errors);
-        }
-        return $dependency;
     }
 }

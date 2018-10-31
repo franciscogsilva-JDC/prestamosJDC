@@ -101,7 +101,14 @@ class ProgramController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $program        =   $this->validateProgram($id);
+        try {
+            $program = Program::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El programa con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $programTypes   =   ProgramType::orderBy('name', 'ASC')->get();
         $dependencies   =   Dependency::orderBy('name', 'ASC')->get();
         $workingDays    =   WorkingDay::orderBy('name', 'ASC')->get();
@@ -128,7 +135,14 @@ class ProgramController extends Controller
 
         $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
 
-        $program                    =   $this->validateProgram($id);
+        try {
+            $program = Program::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El programa con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $program->name              =   $request->name;
         $program->program_type_id   =   $request->program_type_id;        
         $program->dependency_id     =   $request->dependency_id;
@@ -152,7 +166,14 @@ class ProgramController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id, $type=false){
-        $program = $this->validateProgram($id);
+        try {
+            $program = Program::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['El programa con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         if($program->deleted_at){
             $program->restore();
             $message = 'Habilitado';
@@ -197,17 +218,5 @@ class ProgramController extends Controller
             'workingDays.required'      =>  'Un programa debe tener almenos 1 jornada', 
             'modalities.required'       =>  'Un programa debe tener almenos 1 modalidad'
         ];
-    }
-
-    private function validateProgram($id){
-        try {
-            $program = Program::withTrashed()->findOrFail($id);            
-        }catch (ModelNotFoundException $e){
-            $errors = collect(['El programa con ID '.$id.' no se encuentra.']);
-            return back()
-                ->withInput()
-                ->with('errors', $errors);
-        }
-        return $program;
     }
 }

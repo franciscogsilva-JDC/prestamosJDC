@@ -108,7 +108,15 @@ class RequestController extends Controller{
     }
 
     public function show($id){        
-        $application = $this->validateApplication($id);
+        
+        try {
+            $application = Application::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Solicitud con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
 
         return view('admin.requests.show')
             ->with('request', $application)
@@ -262,7 +270,15 @@ class RequestController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $application = $this->validateApplication($id);
+        
+        try {
+            $application = Application::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Solicitud con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $requestTypes = RequestType::orderBy('name', 'ASC')->get();
         $statusTypes = SpaceType::orderBy('name', 'ASC')->get();
         $participantTypes = ParticipantType::orderBy('name', 'ASC')->get();
@@ -314,7 +330,15 @@ class RequestController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-        $application = $this->validateApplication($id);
+        
+        try {
+            $application = Application::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Solicitud con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         $this->validate($request, $this->getValidationRules($request), $this->getValidationMessages($request));
         $start_date_full = Carbon::parse($request->start_date.' '.$request->start_time, config('app.timezone'));
         $end_date_full = Carbon::parse($request->end_date.' '.$request->end_time, config('app.timezone'));
@@ -495,7 +519,15 @@ class RequestController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function destroy($id, $type=false){
-        $application = $this->validateApplication($id);
+        
+        try {
+            $application = Application::withTrashed()->findOrFail($id);            
+        }catch (ModelNotFoundException $e){
+            $errors = collect(['La Solicitud con ID '.$id.' no se encuentra.']);
+            return back()
+                ->withInput()
+                ->with('errors', $errors);
+        }
         if($application->deleted_at){
 
         }else{
@@ -541,14 +573,6 @@ class RequestController extends Controller{
     }
 
     private function validateApplication($id){
-        try {
-            $application = Application::withTrashed()->findOrFail($id);            
-        }catch (ModelNotFoundException $e){
-            $errors = collect(['La Solicitud con ID '.$id.' no se encuentra.']);
-            return back()
-                ->withInput()
-                ->with('errors', $errors);
-        }
         return $application;
     }
 
