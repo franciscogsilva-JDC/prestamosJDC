@@ -6,39 +6,32 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.*;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SearchResource extends AppCompatActivity {
+public class InfoApplication extends AppCompatActivity {
 
     private BottomNavigationView mBottomNavigationView;
-    private ListView resourcesList;
-    private List<Item> items = new ArrayList<Item>();
+    private Intent oIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_resource);
-
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setContentView(R.layout.activity_info_application);
 
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.menuInferior);
-        resourcesList         = (ListView) findViewById(R.id.resources_list);
+        mBottomNavigationView.setSelectedItemId(R.id.btn_info);
 
         //Opciones del menú
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.btn_search:
-                        Intent oIntent = new Intent(SearchResource.this, SearchResource.class);
+                    case R.id.btn_request:
+                        oIntent = new Intent(InfoApplication.this, MainActivity.class);
                         startActivity(oIntent);
                         break;
-                    case R.id.btn_request:
-                        Toast.makeText(getApplicationContext(), "Item 2", Toast.LENGTH_LONG).show();
+                    case R.id.btn_authorization:
+                        oIntent = new Intent(InfoApplication.this, AllRequests.class);
+                        startActivity(oIntent);
                         break;
                 }
                 return true;
@@ -52,5 +45,14 @@ public class SearchResource extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
 
+        if (id == R.id.menu_profile){
+            Intent oIntent = new Intent(this, Profile.class);
+            startActivity(oIntent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

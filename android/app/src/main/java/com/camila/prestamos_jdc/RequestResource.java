@@ -1,6 +1,8 @@
 package com.camila.prestamos_jdc;
 
 import android.app.*;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import java.util.Calendar;
 public class RequestResource extends AppCompatActivity {
 
     private BottomNavigationView mBottomNavigationView;
+    private Intent oIntent;
 
     private static final String zero="0";
 
@@ -39,6 +42,28 @@ public class RequestResource extends AppCompatActivity {
 
         edtDate = (EditText) findViewById(R.id.edtDate);
         edtHour = (EditText) findViewById(R.id.edtTime);
+
+        //Opciones del menú
+        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.btn_info:
+                        oIntent = new Intent(RequestResource.this, InfoApplication.class);
+                        startActivity(oIntent);
+                        break;
+                    case R.id.btn_request:
+                        oIntent = new Intent(RequestResource.this, MainActivity.class);
+                        startActivity(oIntent);
+                        break;
+                    case R.id.btn_authorization:
+                        oIntent = new Intent(RequestResource.this, AllRequests.class);
+                        startActivity(oIntent);
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -49,16 +74,13 @@ public class RequestResource extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.btn_search:
-                return true;
-            case R.id.btn_request:
-                return true;
-            case R.id.btn_authorization:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int id = item.getItemId();
+
+        if (id == R.id.menu_profile){
+            Intent oIntent = new Intent(this, Profile.class);
+            startActivity(oIntent);
         }
+        return super.onOptionsItemSelected(item);
     }
 
     public void getDateButton(View view) {

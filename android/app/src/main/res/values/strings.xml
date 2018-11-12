@@ -3,9 +3,9 @@
 
     <string name="bienvenida">Seleccione el tipo de solicitud que desea realizar</string>
 
-    <string name="menu_search">Buscar</string>
+    <string name="menu_info">Acerca de</string>
     <string name="menu_request">Solicitar</string>
-    <string name="menu_authorizations">Autorizaciones</string>
+    <string name="menu_authorizations">Mis Solicitudes</string>
 
     <string name="btn_spaces">Espacios Físicos</string>
     <string name="btn_resources">Recursos Físicos</string>
@@ -31,6 +31,7 @@
     <string name="profile">Perfil</string>
     <string name="resources_search">Recursos Físicos</string>
     <string name="searcher">Nombre de recurso físico</string>
+    <string name="info_tittle">Acerca de</string>
 
 
 </resources>
