@@ -7,8 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.*;
 
-
-public class MainActivity extends AppCompatActivity {
+public class AllRequests extends AppCompatActivity {
 
     private BottomNavigationView mBottomNavigationView;
     private Intent oIntent;
@@ -16,10 +15,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_all_requests);
 
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.menuInferior);
-        mBottomNavigationView.setSelectedItemId(R.id.btn_request);
+        mBottomNavigationView.setSelectedItemId(R.id.btn_authorization);
 
         //Opciones del menú
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -27,15 +26,11 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.btn_info:
-                        oIntent = new Intent(MainActivity.this, InfoApplication.class);
+                        oIntent = new Intent(AllRequests.this, InfoApplication.class);
                         startActivity(oIntent);
                         break;
                     case R.id.btn_request:
-                        oIntent = new Intent(MainActivity.this, MainActivity.class);
-                        startActivity(oIntent);
-                        break;
-                    case R.id.btn_authorization:
-                        oIntent = new Intent(MainActivity.this, AllRequests.class);
+                        oIntent = new Intent(AllRequests.this, MainActivity.class);
                         startActivity(oIntent);
                         break;
                 }
@@ -59,15 +54,5 @@ public class MainActivity extends AppCompatActivity {
             startActivity(oIntent);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void requestSpace(View v){
-        Intent oIntent = new Intent(this, RequestSpace.class);
-        startActivity(oIntent);
-    }
-
-    public void requestResource(View v){
-        Intent oIntent = new Intent(this, RequestResource.class);
-        startActivity(oIntent);
     }
 }

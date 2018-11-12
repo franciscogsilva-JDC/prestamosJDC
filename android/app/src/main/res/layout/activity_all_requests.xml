@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".AllRequests">
 
     <LinearLayout
         android:id="@+id/contenedor"
@@ -14,38 +14,15 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/info"
+            android:id="@+id/requests_tittle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="18dp"
             android:padding="18dp"
             android:textSize="22sp"
+            android:textStyle="bold"
             android:textAlignment="center"
-            android:text="@string/bienvenida"/>
-
-        <Button
-            android:id="@+id/btn_spaces"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="18dp"
-            android:drawableLeft="@drawable/espacios"
-            android:padding="10dp"
-            android:text="@string/btn_spaces"
-            android:textSize="18sp"
-            android:onClick="requestSpace"/>
-
-        <Button
-            android:id="@+id/btn_resources"
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="10dp"
-            android:layout_margin="18dp"
-            android:drawableLeft="@drawable/recursos"
-            android:text="@string/btn_resources"
-            android:textSize="18sp"
-            android:onClick="requestResource"/>
+            android:text="Mis Solicitudes"/>
 
     </LinearLayout>
 

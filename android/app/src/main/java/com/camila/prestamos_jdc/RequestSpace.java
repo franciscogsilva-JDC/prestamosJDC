@@ -6,17 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
-import android.widget.EditText;
 
 import java.util.Calendar;
 
 public class RequestSpace extends AppCompatActivity {
 
     private BottomNavigationView mBottomNavigationView;
+    private Intent oIntent;
 
     private static final String zero="0";
 
@@ -42,6 +40,7 @@ public class RequestSpace extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.menuInferior);
+        mBottomNavigationView.setSelectedItemId(R.id.btn_request);
 
         edtEventDate   = (EditText) findViewById(R.id.edtEventDate);
         edtTimeStart   = (EditText) findViewById(R.id.edtTimeStart);
@@ -53,12 +52,17 @@ public class RequestSpace extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.btn_search:
-                        Intent oIntent = new Intent(RequestSpace.this, SearchResource.class);
+                    case R.id.btn_info:
+                        oIntent = new Intent(RequestSpace.this, InfoApplication.class);
                         startActivity(oIntent);
                         break;
                     case R.id.btn_request:
-                        Toast.makeText(getApplicationContext(), "Item 2", Toast.LENGTH_LONG).show();
+                        oIntent = new Intent(RequestSpace.this, MainActivity.class);
+                        startActivity(oIntent);
+                        break;
+                    case R.id.btn_authorization:
+                        oIntent = new Intent(RequestSpace.this, AllRequests.class);
+                        startActivity(oIntent);
                         break;
                 }
                 return true;

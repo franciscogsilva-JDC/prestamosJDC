@@ -25,10 +25,15 @@
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".SearchResource"
+            android:name=".InfoApplication"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".AllRequests"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Profile"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ItemList"></activity>
     </application>
 
 </manifest>
