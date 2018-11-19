@@ -27,8 +27,10 @@ public class RequestResource extends AppCompatActivity {
     int hour   = now.get(Calendar.HOUR_OF_DAY);
     int minute = now.get(Calendar.MINUTE);
 
-    private EditText edtDate;
-    private EditText edtHour;
+    private EditText edtEventStart;
+    private EditText edtEventEnd;
+    private EditText edtTimeStart;
+    private EditText edtTimeEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +42,10 @@ public class RequestResource extends AppCompatActivity {
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.menuInferior);
         mBottomNavigationView.setSelectedItemId(R.id.btn_request);
 
-        edtDate = (EditText) findViewById(R.id.edtDate);
-        edtHour = (EditText) findViewById(R.id.edtTime);
+        edtEventStart   = (EditText) findViewById(R.id.edtEventStart);
+        edtEventEnd     = (EditText) findViewById(R.id.edtEventEnd);
+        edtTimeStart   = (EditText) findViewById(R.id.edtTimeStart);
+        edtTimeEnd     = (EditText) findViewById(R.id.edtTimeEnd);
 
         //Opciones del menú
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -84,26 +88,52 @@ public class RequestResource extends AppCompatActivity {
     }
 
     public void getDateButton(View view) {
-        getDate();
+        switch (view.getId()){
+            case R.id.ibEventStart:
+                getDateStart();
+                break;
+            case R.id.ibEventEnd:
+                getDateEnd();
+                break;
+        }
     }
 
-    private void getDate(){
+    private void getDateStart(){
         DatePickerDialog getDateText = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String formatDay = (dayOfMonth < 10)? zero + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
                 String formatMonth = ((month+1) < 10)? zero + String.valueOf((month+1)):String.valueOf((month+1));
-                edtDate.setText(formatDay+"/"+formatMonth+"/"+year);
+                edtEventStart.setText(formatDay+"/"+formatMonth+"/"+year);
+            }
+        },year,month,day);
+        getDateText.show();
+    }
+
+    private void getDateEnd(){
+        DatePickerDialog getDateText = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String formatDay = (dayOfMonth < 10)? zero + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                String formatMonth = ((month+1) < 10)? zero + String.valueOf((month+1)):String.valueOf((month+1));
+                edtEventEnd.setText(formatDay+"/"+formatMonth+"/"+year);
             }
         },year,month,day);
         getDateText.show();
     }
 
     public void getTimeButton(View view){
-        getTime();
+        switch (view.getId()){
+            case R.id.ibTimeStart:
+                getTimeStart();
+                break;
+            case R.id.ibTimeEnd:
+                getTimeEnd();
+                break;
+        }
     }
 
-    private void getTime(){
+    private void getTimeStart(){
         TimePickerDialog getTimeText = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -117,7 +147,27 @@ public class RequestResource extends AppCompatActivity {
                     AM_PM = "p.m.";
                 }
 
-                edtHour.setText(formatHour + ":" + formatMinute + " " + AM_PM);
+                edtTimeStart.setText(formatHour + ":" + formatMinute + " " + AM_PM);
+            }
+        },hour,minute,false);
+        getTimeText.show();
+    }
+
+    private void getTimeEnd(){
+        TimePickerDialog getTimeText = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                String formatHour =  (hourOfDay < 10)? String.valueOf(zero + hourOfDay) : String.valueOf(hourOfDay);
+                String formatMinute = (minute < 10)? String.valueOf(zero + minute):String.valueOf(minute);
+
+                String AM_PM;
+                if(hourOfDay < 12) {
+                    AM_PM = "a.m.";
+                } else {
+                    AM_PM = "p.m.";
+                }
+
+                edtTimeEnd.setText(formatHour + ":" + formatMinute + " " + AM_PM);
             }
         },hour,minute,false);
         getTimeText.show();

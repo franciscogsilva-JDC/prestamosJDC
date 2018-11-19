@@ -6,32 +6,44 @@
     <string name="menu_info">Acerca de</string>
     <string name="menu_request">Solicitar</string>
     <string name="menu_authorizations">Mis Solicitudes</string>
+    <string name="menu_profile">Perfil</string>
 
     <string name="btn_spaces">Espacios Físicos</string>
     <string name="btn_resources">Recursos Físicos</string>
 
     <string name="form_space">SOLICITAR ESPACIO FÍSICO</string>
-    <string name="date_format">dd/mm/yyyy</string>
-    <string name="time_format">hh:mm</string>
-    <string name="event_date">Fecha Evento:</string>
-    <string name="time_start">Hora Inicio:</string>
-    <string name="time_end">Hora Fin:</string>
     <string name="headquarters">Sede:</string>
     <string name="building">Edificio:</string>
-    <string name="space">Espacio:</string>
+    <string name="space_type">Tipo Espacio:</string>
+    <string name="space_request">Espacio:</string>
+    <string name="description_event">Descripción y/o Propósito:</string>
+    <string name="event_start">Fecha Inicial</string>
+    <string name="time_start">Hora Inicial</string>
+    <string name="event_end">Fecha Final</string>
+    <string name="time_end">Hora Final</string>
+    <string name="type_participants">Tipo Participantes:</string>
+    <string name="total_participants">Total Participantes:</string>
+    <string name="internal_participants">N° Participantes Internos:</string>
+    <string name="external_participants">N° Participantes Externos:</string>
     <string name="resources">Recursos Adicionales:</string>
     <string name="create">CREAR</string>
 
     <string name="form_resource">SOLICITAR RECURSO FÍSICO</string>
     <string name="category">Categoría:</string>
+    <string name="dependency">Dependencia:</string>
     <string name="request_resource">Recurso:</string>
     <string name="quantity">Cantidad:</string>
-    <string name="date">Fecha:</string>
-    <string name="hour">Hora:</string>
-    <string name="profile">Perfil</string>
-    <string name="resources_search">Recursos Físicos</string>
-    <string name="searcher">Nombre de recurso físico</string>
-    <string name="info_tittle">Acerca de</string>
+
+    <string name="profile_tittle">PERFIL</string>
+
+    <string name="info_tittle">ACERCA DE</string>
+
+    <string name="sign_in_tittle">INICIAR SESIÓN</string>
+    <string name="sign_in_description">Para realizar esta acción, debe iniciar sesión</string>
+    <string name="email">Correo Electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="sign_in_button">INGRESAR</string>
+    <string name="sign_up_button">REGISTRARSE</string>
 
 
 </resources>

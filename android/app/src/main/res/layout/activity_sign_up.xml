@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RequestSpace">
+    android:orientation="vertical"
+    tools:context=".SignUp">
 
     <ScrollView
         android:id="@+id/scroll_space"
@@ -357,12 +358,4 @@
 
     </ScrollView>
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/menuInferior"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:itemBackground="@color/colorPrimaryLight"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_inferior"/>
-
-</RelativeLayout>
+</LinearLayout>

@@ -1,5 +1,8 @@
 package com.camila.prestamos_jdc;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -61,13 +64,65 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void requestSpace(View v){
-        Intent oIntent = new Intent(this, RequestSpace.class);
-        startActivity(oIntent);
+    public void makeRequest(View v) {
+        switch (v.getId()) {
+            case R.id.btn_spaces:
+                requestSpace();
+                break;
+            case R.id.btn_resources:
+                requestResource();
+                break;
+        }
     }
 
-    public void requestResource(View v){
-        Intent oIntent = new Intent(this, RequestResource.class);
-        startActivity(oIntent);
+    public void requestSpace(){
+
+        AlertDialog.Builder oAlertBuider = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        oAlertBuider.setView(inflater.inflate(R.layout.activity_sign_in, null));
+
+        oAlertBuider.setPositiveButton(R.string.sign_in_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                oIntent = new Intent(MainActivity.this, RequestSpace.class);
+                startActivity(oIntent);
+            }
+        });
+
+        oAlertBuider.setNegativeButton(R.string.sign_up_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                oIntent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(oIntent);
+            }
+        });
+
+        oAlertBuider.show();
+    }
+
+    public void requestResource(){
+        AlertDialog.Builder oAlertBuider = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        oAlertBuider.setView(inflater.inflate(R.layout.activity_sign_in, null));
+
+        oAlertBuider.setPositiveButton(R.string.sign_up_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                oIntent = new Intent(MainActivity.this, RequestResource.class);
+                startActivity(oIntent);
+            }
+        });
+
+        oAlertBuider.setNegativeButton(R.string.sign_up_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                oIntent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(oIntent);
+            }
+        });
+
+        oAlertBuider.show();
     }
 }

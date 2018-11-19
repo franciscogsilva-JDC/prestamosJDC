@@ -27,7 +27,8 @@ public class RequestSpace extends AppCompatActivity {
     int hour   = now.get(Calendar.HOUR_OF_DAY);
     int minute = now.get(Calendar.MINUTE);
 
-    private EditText edtEventDate;
+    private EditText edtEventStart;
+    private EditText edtEventEnd;
     private EditText edtTimeStart;
     private EditText edtTimeEnd;
     private Spinner  cbHeadquarters;
@@ -42,7 +43,8 @@ public class RequestSpace extends AppCompatActivity {
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.menuInferior);
         mBottomNavigationView.setSelectedItemId(R.id.btn_request);
 
-        edtEventDate   = (EditText) findViewById(R.id.edtEventDate);
+        edtEventStart   = (EditText) findViewById(R.id.edtEventStart);
+        edtEventEnd     = (EditText) findViewById(R.id.edtEventEnd);
         edtTimeStart   = (EditText) findViewById(R.id.edtTimeStart);
         edtTimeEnd     = (EditText) findViewById(R.id.edtTimeEnd);
         cbHeadquarters = (Spinner)  findViewById(R.id.cbHeadquarters);
@@ -77,16 +79,35 @@ public class RequestSpace extends AppCompatActivity {
     }
 
     public void getDateButton(View view) {
-        getDate();
+        switch (view.getId()){
+            case R.id.ibEventStart:
+                getDateStart();
+                break;
+            case R.id.ibEventEnd:
+                getDateEnd();
+                break;
+        }
     }
 
-    private void getDate(){
+    private void getDateStart(){
         DatePickerDialog getDateText = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String formatDay = (dayOfMonth < 10)? zero + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
                 String formatMonth = ((month+1) < 10)? zero + String.valueOf((month+1)):String.valueOf((month+1));
-                edtEventDate.setText(formatDay+"/"+formatMonth+"/"+year);
+                edtEventStart.setText(formatDay+"/"+formatMonth+"/"+year);
+            }
+        },year,month,day);
+        getDateText.show();
+    }
+
+    private void getDateEnd(){
+        DatePickerDialog getDateText = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String formatDay = (dayOfMonth < 10)? zero + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                String formatMonth = ((month+1) < 10)? zero + String.valueOf((month+1)):String.valueOf((month+1));
+                edtEventEnd.setText(formatDay+"/"+formatMonth+"/"+year);
             }
         },year,month,day);
         getDateText.show();

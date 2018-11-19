@@ -33,7 +33,9 @@
         <activity
             android:name=".Profile"
             android:parentActivityName=".MainActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".SignIn" />
+        <activity android:name=".SignUp"></activity>
     </application>
 
 </manifest>

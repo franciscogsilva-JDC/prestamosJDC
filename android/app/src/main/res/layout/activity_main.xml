@@ -33,7 +33,7 @@
             android:padding="10dp"
             android:text="@string/btn_spaces"
             android:textSize="18sp"
-            android:onClick="requestSpace"/>
+            android:onClick="makeRequest"/>
 
         <Button
             android:id="@+id/btn_resources"
@@ -45,7 +45,7 @@
             android:drawableLeft="@drawable/recursos"
             android:text="@string/btn_resources"
             android:textSize="18sp"
-            android:onClick="requestResource"/>
+            android:onClick="makeRequest"/>
 
     </LinearLayout>
 
