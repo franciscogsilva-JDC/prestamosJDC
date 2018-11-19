@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         oAlertBuider.setNegativeButton(R.string.sign_up_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                oIntent = new Intent(MainActivity.this, MainActivity.class);
+                oIntent = new Intent(MainActivity.this, SignUp.class);
                 startActivity(oIntent);
             }
         });
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
         oAlertBuider.setView(inflater.inflate(R.layout.activity_sign_in, null));
 
-        oAlertBuider.setPositiveButton(R.string.sign_up_button, new DialogInterface.OnClickListener() {
+        oAlertBuider.setPositiveButton(R.string.sign_in_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 oIntent = new Intent(MainActivity.this, RequestResource.class);
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         oAlertBuider.setNegativeButton(R.string.sign_up_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                oIntent = new Intent(MainActivity.this, MainActivity.class);
+                oIntent = new Intent(MainActivity.this, SignUp.class);
                 startActivity(oIntent);
             }
         });

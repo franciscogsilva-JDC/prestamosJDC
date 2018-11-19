@@ -9,22 +9,22 @@
     tools:context=".SignUp">
 
     <ScrollView
-        android:id="@+id/scroll_space"
+        android:id="@+id/scroll_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/menuInferior"
         android:layout_alignParentTop="true">
 
         <LinearLayout
-            android:id="@+id/main_container_space"
+            android:id="@+id/main_container_signUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_gravity="top|center"
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/form_space"
+                android:id="@+id/form_signUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="13dp"
@@ -32,328 +32,214 @@
                 android:layout_marginRight="13dp"
                 android:layout_marginBottom="9dp"
                 android:padding="10dp"
-                android:text="@string/form_space"
+                android:text="@string/sign_up"
                 android:textAlignment="center"
                 android:textColor="#000"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <TableLayout
-                android:id="@+id/form"
+            <TextView
+                android:id="@+id/description_signUp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="9dp"
+                android:padding="10dp"
+                android:text="@string/description_sign_up"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="16sp"/>
 
-                <TableRow
-                    android:id="@+id/row1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/txtHeadquarters"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:padding="8dp"
-                        android:text="@string/headquarters"
-                        android:textSize="16sp" />
-
-                    <Spinner
-                        android:id="@+id/cbHeadquarters"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"/>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/row2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/txtBuilding"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:padding="8dp"
-                        android:text="@string/building"
-                        android:textSize="16sp" />
-
-                    <Spinner
-                        android:id="@+id/cbBuildings"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"/>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/row3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/txtSpaceType"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:padding="8dp"
-                        android:text="@string/space_type"
-                        android:textSize="16sp" />
-
-                    <Spinner
-                        android:id="@+id/cbSpaceType"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"/>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/row4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/txtSpace"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:padding="8dp"
-                        android:text="@string/space_request"
-                        android:textSize="16sp" />
-
-                    <Spinner
-                        android:id="@+id/cbSpace"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"/>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/row5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/txtDescriptionEvent"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:padding="8dp"
-                        android:text="@string/description_event"
-                        android:textSize="16sp" />
-
-                    <EditText
-                        android:id="@+id/edtDescriptionEvent"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ems="6"
-                        android:inputType="textMultiLine"/>
-                </TableRow>
-
-                <LinearLayout
-                    android:id="@+id/row6"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_store_mall"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"/>
+                <EditText
+                    android:id="@+id/edtName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:padding="1dp">
+                    android:inputType="text"
+                    android:hint="@string/name"/>
+            </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/edtEventStart"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="6"
-                        android:focusable="false"
-                        android:hint="@string/event_start"
-                        android:inputType="date" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/ibEventStart"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:background="@color/colorPrimary"
-                        android:src="@drawable/ic_date"
-                        android:onClick="getDateButton"/>
-
-                    <EditText
-                        android:id="@+id/edtTimeStart"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="6"
-                        android:hint="@string/time_start"
-                        android:inputType="time" />
-
-                    <ImageButton
-                        android:id="@+id/ibTimeStart"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:background="@color/colorPrimary"
-                        android:src="@drawable/ic_time"
-                        android:onClick="getTimeButton"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/row7"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_email"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"/>
+                <EditText
+                    android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:padding="2dp">
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/email"/>
+            </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/edtEventEnd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="6"
-                        android:focusable="false"
-                        android:hint="@string/event_end"
-                        android:inputType="date" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/ibEventEnd"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:background="@color/colorPrimary"
-                        android:src="@drawable/ic_date"
-                        android:onClick="getDateButton"/>
-
-                    <EditText
-                        android:id="@+id/edtTimeEnd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="6"
-                        android:hint="@string/time_end"
-                        android:inputType="time" />
-
-                    <ImageButton
-                        android:id="@+id/ibTimeEnd"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:background="@color/colorPrimary"
-                        android:src="@drawable/ic_time"
-                        android:onClick="getTimeButton"/>
-                </LinearLayout>
-
-                <TableRow
-                    android:id="@+id/row8"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_lock"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"/>
+                <EditText
+                    android:id="@+id/edtPassword2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:hint="@string/password"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/txtTypeParticipants"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:padding="8dp"
-                        android:text="@string/type_participants"
-                        android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                    <Spinner
-                        android:id="@+id/cbTypeParticipants"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/row9"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_lock"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"/>
+                <EditText
+                    android:id="@+id/edtPasswordConfirm"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:hint="@string/confirm_password"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/txtTotalParticipants"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:padding="8dp"
-                        android:text="@string/total_participants"
-                        android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edtTotalParticipants"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="6"
-                        android:inputType="number"/>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/row10"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_layers"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"/>
+                <Spinner
+                    android:id="@+id/edtDocumentType"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="40dp"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/txtInternalParticipants"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:padding="8dp"
-                        android:text="@string/internal_participants"
-                        android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edtInternalParticipants"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="6"
-                        android:inputType="number"/>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/row11"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_payment"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"/>
+                <EditText
+                    android:id="@+id/edtDNI"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="@string/document_number"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/txtExternalParticipants"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:padding="8dp"
-                        android:text="@string/external_participants"
-                        android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edtExternalParticipants"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="6"
-                        android:inputType="number"/>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/row12"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_phone"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"/>
+                <EditText
+                    android:id="@+id/edtPhoneNumber"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="@string/phone_number"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/txtResources"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:gravity="end"
-                        android:padding="8dp"
-                        android:text="@string/resources"
-                        android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                    <Spinner
-                        android:id="@+id/cbResources"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp" />
-                </TableRow>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_account_balance"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"/>
+                <EditText
+                    android:id="@+id/edtCompanyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:hint="@string/company_name"/>
+            </LinearLayout>
 
-            </TableLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_wc"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"/>
+                <Spinner
+                    android:id="@+id/edtGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"/>
+            </LinearLayout>
 
             <Button
+                android:id="@+id/btn_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="18dp"
                 android:padding="3dp"
-                android:text="@string/create" />
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/sign_up_button" />
+
+            <Button
+                android:id="@+id/btn_sign_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="3dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="30dp"
+                android:text="@string/sign_in_button" />
         </LinearLayout>
 
     </ScrollView>
