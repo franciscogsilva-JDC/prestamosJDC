@@ -20,7 +20,7 @@ class Request extends Model
     ];
 
     public function authorizations(){
-        return $this->hasMany('App\Authorization');
+        return $this->hasMany('App\Authorization', 'request_id');
     }
 
     public function participantTypes(){

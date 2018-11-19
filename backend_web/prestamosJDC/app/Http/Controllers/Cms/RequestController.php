@@ -696,8 +696,7 @@ class RequestController extends Controller{
                             'id',
                             'authorization_status_id',
                             'request_id'
-                        ])
-                        ->first();
+                        ])->get();
                 }])
                 ->orderBy('start_date', 'ASC')
                 ->select([
@@ -710,14 +709,16 @@ class RequestController extends Controller{
 
         $events = array();
         foreach ($applications as $event) {
-            if($event->authorizations[0]->authorization_status_id == 2){
-                $e = array();
-                $e['id'] = $event->id.'';
-                $e['title'] = $event->description.'';
-                $e['start'] = $event->start_date->format('Y-m-d\TH:i:s').'';
-                $e['end'] = $event->end_date->format('Y-m-d\TH:i:s').'';
-                $e['url'] = route('requests.show', $event->id).'';
-                array_push($events, $e);
+            if($event->authorizations[0]){
+                if($event->authorizations[0]->authorization_status_id == 2){
+                    $e = array();
+                    $e['id'] = $event->id?$event->id:'';
+                    $e['title'] = $event->description?$event->description:'';
+                    $e['start'] = $event->start_date?$event->start_date->format('Y-m-d\TH:i:s'):'';
+                    $e['end'] = $event->end_date?$event->end_date->format('Y-m-d\TH:i:s'):'';
+                    $e['url'] = route('requests.show', $event->id).'';
+                    array_push($events, $e);
+                }
             }
         }
         

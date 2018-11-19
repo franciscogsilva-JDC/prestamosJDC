@@ -1,5 +1,8 @@
 <?php
 
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -47,7 +50,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     });
 });
 
-Route::group(['prefix'=>'admin', 'middleware' => ['role:1,6,7,8', 'web', 'auth']], function () {	
+Route::group(['prefix'=>'admin', 'middleware' => ['role:1,6,7,8', 'web', 'auth']], function () {
 	Route::namespace('Cms')->group(function(){
 		Route::get('/', 'HomeController@index')->name('admin.index');
 
@@ -70,5 +73,12 @@ Route::group(['prefix'=>'admin', 'middleware' => ['role:1,6,7,8', 'web', 'auth']
 		
 		include_once 'cms/requests.php';
     });
+
+	Route::get('test-email', function(){
+		Mail::to('javiergonzalezsilva@gmail.com')->send(new TestEmail('Mensaje de prueba'));
+		return redirect()->route('admin.index')
+            ->with('session_msg', '¡Correo enviado!');
+	});
+
 });
 
